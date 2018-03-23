@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		021F742AC2EABABDD5CA9DAE /* libPods-MiliCssAppUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B25DE32694D2C9F196EDD9FF /* libPods-MiliCssAppUITests.a */; };
+		5C47893C8EB981ACB0C39B0D /* libPods-MiliCssApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C84B0A55F076CE8B93DF27F /* libPods-MiliCssApp.a */; };
 		6219CA0220633A6400CE242C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6219CA0120633A6400CE242C /* AppDelegate.m */; };
 		6219CA0520633A6400CE242C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6219CA0420633A6400CE242C /* ViewController.m */; };
 		6219CA0820633A6400CE242C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6219CA0620633A6400CE242C /* Main.storyboard */; };
@@ -15,6 +17,11 @@
 		6219CA1020633A6400CE242C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6219CA0F20633A6400CE242C /* main.m */; };
 		6219CA1A20633A6500CE242C /* MiliCssAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6219CA1920633A6500CE242C /* MiliCssAppTests.m */; };
 		6219CA2520633A6500CE242C /* MiliCssAppUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6219CA2420633A6500CE242C /* MiliCssAppUITests.m */; };
+		6219CA3F2063548500CE242C /* CustomNavigation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6219CA3D2063548400CE242C /* CustomNavigation.m */; };
+		6219CA422063583600CE242C /* UIView+XY.m in Sources */ = {isa = PBXBuildFile; fileRef = 6219CA412063583600CE242C /* UIView+XY.m */; };
+		6235B5C3206383F000DEA932 /* MiliTabbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6235B5C2206383F000DEA932 /* MiliTabbarViewController.m */; };
+		6235B5C62063846D00DEA932 /* PublicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6235B5C42063846D00DEA932 /* PublicViewController.m */; };
+		720ABDA6BF6A06994557E2D3 /* libPods-MiliCssAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFE6619C0FC2F005FCFD2201 /* libPods-MiliCssAppTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +42,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1AC5717DBFF990EFF7CB2ED5 /* Pods-MiliCssApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MiliCssApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-MiliCssApp/Pods-MiliCssApp.release.xcconfig"; sourceTree = "<group>"; };
+		36C59D22FF48110F371C0387 /* Pods-MiliCssAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MiliCssAppUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MiliCssAppUITests/Pods-MiliCssAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		4AD0A1E176C21488A5F228EA /* Pods-MiliCssAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MiliCssAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MiliCssAppTests/Pods-MiliCssAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		6219C9FD20633A6400CE242C /* MiliCssApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MiliCssApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6219CA0020633A6400CE242C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6219CA0120633A6400CE242C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -51,6 +61,23 @@
 		6219CA2020633A6500CE242C /* MiliCssAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MiliCssAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6219CA2420633A6500CE242C /* MiliCssAppUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MiliCssAppUITests.m; sourceTree = "<group>"; };
 		6219CA2620633A6500CE242C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6219CA3A2063498F00CE242C /* MiliDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MiliDefine.h; sourceTree = "<group>"; };
+		6219CA3B206349AD00CE242C /* MiliConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MiliConfig.h; sourceTree = "<group>"; };
+		6219CA3C20634AED00CE242C /* Mili.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Mili.pch; sourceTree = "<group>"; };
+		6219CA3D2063548400CE242C /* CustomNavigation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavigation.m; sourceTree = "<group>"; };
+		6219CA3E2063548500CE242C /* CustomNavigation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavigation.h; sourceTree = "<group>"; };
+		6219CA402063583600CE242C /* UIView+XY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+XY.h"; sourceTree = "<group>"; };
+		6219CA412063583600CE242C /* UIView+XY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+XY.m"; sourceTree = "<group>"; };
+		6235B5C1206383F000DEA932 /* MiliTabbarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MiliTabbarViewController.h; sourceTree = "<group>"; };
+		6235B5C2206383F000DEA932 /* MiliTabbarViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MiliTabbarViewController.m; sourceTree = "<group>"; };
+		6235B5C42063846D00DEA932 /* PublicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublicViewController.m; sourceTree = "<group>"; };
+		6235B5C52063846D00DEA932 /* PublicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublicViewController.h; sourceTree = "<group>"; };
+		7C84B0A55F076CE8B93DF27F /* libPods-MiliCssApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MiliCssApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B4074C1C2EBCF837A77B6DA /* Pods-MiliCssApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MiliCssApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MiliCssApp/Pods-MiliCssApp.debug.xcconfig"; sourceTree = "<group>"; };
+		B25DE32694D2C9F196EDD9FF /* libPods-MiliCssAppUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MiliCssAppUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DFE6619C0FC2F005FCFD2201 /* libPods-MiliCssAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MiliCssAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E7767C54F43069D3D3554FFF /* Pods-MiliCssAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MiliCssAppUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MiliCssAppUITests/Pods-MiliCssAppUITests.release.xcconfig"; sourceTree = "<group>"; };
+		EABB8A0891BD05F4C033E956 /* Pods-MiliCssAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MiliCssAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MiliCssAppTests/Pods-MiliCssAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C47893C8EB981ACB0C39B0D /* libPods-MiliCssApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				720ABDA6BF6A06994557E2D3 /* libPods-MiliCssAppTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,12 +101,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				021F742AC2EABABDD5CA9DAE /* libPods-MiliCssAppUITests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5857089041C891A3CCFC2A6D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8B4074C1C2EBCF837A77B6DA /* Pods-MiliCssApp.debug.xcconfig */,
+				1AC5717DBFF990EFF7CB2ED5 /* Pods-MiliCssApp.release.xcconfig */,
+				EABB8A0891BD05F4C033E956 /* Pods-MiliCssAppTests.debug.xcconfig */,
+				4AD0A1E176C21488A5F228EA /* Pods-MiliCssAppTests.release.xcconfig */,
+				36C59D22FF48110F371C0387 /* Pods-MiliCssAppUITests.debug.xcconfig */,
+				E7767C54F43069D3D3554FFF /* Pods-MiliCssAppUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		6219C9F420633A6400CE242C = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +128,8 @@
 				6219CA1820633A6500CE242C /* MiliCssAppTests */,
 				6219CA2320633A6500CE242C /* MiliCssAppUITests */,
 				6219C9FE20633A6400CE242C /* Products */,
+				5857089041C891A3CCFC2A6D /* Pods */,
+				6CBBEBFD8BEA05764FD8F7BB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,6 +146,12 @@
 		6219C9FF20633A6400CE242C /* MiliCssApp */ = {
 			isa = PBXGroup;
 			children = (
+				6235B5AD206383CB00DEA932 /* Find */,
+				6235B5B2206383CB00DEA932 /* Home */,
+				6235B5A8206383CB00DEA932 /* Mycenter */,
+				6235B5B7206383CB00DEA932 /* Product */,
+				6235B5BC206383CB00DEA932 /* Tabbar */,
+				6219CA3220633BD100CE242C /* Public */,
 				6219CA0020633A6400CE242C /* AppDelegate.h */,
 				6219CA0120633A6400CE242C /* AppDelegate.m */,
 				6219CA0320633A6400CE242C /* ViewController.h */,
@@ -110,6 +161,7 @@
 				6219CA0B20633A6400CE242C /* LaunchScreen.storyboard */,
 				6219CA0E20633A6400CE242C /* Info.plist */,
 				6219CA0F20633A6400CE242C /* main.m */,
+				6219CA3C20634AED00CE242C /* Mili.pch */,
 			);
 			path = MiliCssApp;
 			sourceTree = "<group>";
@@ -132,6 +184,260 @@
 			path = MiliCssAppUITests;
 			sourceTree = "<group>";
 		};
+		6219CA3220633BD100CE242C /* Public */ = {
+			isa = PBXGroup;
+			children = (
+				6219CA392063497700CE242C /* Define */,
+				6219CA3320633BD100CE242C /* controller */,
+				6219CA3420633BD100CE242C /* tool */,
+				6219CA3520633BD100CE242C /* view */,
+			);
+			path = Public;
+			sourceTree = "<group>";
+		};
+		6219CA3320633BD100CE242C /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				6235B5C52063846D00DEA932 /* PublicViewController.h */,
+				6235B5C42063846D00DEA932 /* PublicViewController.m */,
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		6219CA3420633BD100CE242C /* tool */ = {
+			isa = PBXGroup;
+			children = (
+				6219CA402063583600CE242C /* UIView+XY.h */,
+				6219CA412063583600CE242C /* UIView+XY.m */,
+			);
+			path = tool;
+			sourceTree = "<group>";
+		};
+		6219CA3520633BD100CE242C /* view */ = {
+			isa = PBXGroup;
+			children = (
+				6219CA3E2063548500CE242C /* CustomNavigation.h */,
+				6219CA3D2063548400CE242C /* CustomNavigation.m */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		6219CA392063497700CE242C /* Define */ = {
+			isa = PBXGroup;
+			children = (
+				6219CA3A2063498F00CE242C /* MiliDefine.h */,
+				6219CA3B206349AD00CE242C /* MiliConfig.h */,
+			);
+			path = Define;
+			sourceTree = "<group>";
+		};
+		6235B5A8206383CB00DEA932 /* Mycenter */ = {
+			isa = PBXGroup;
+			children = (
+				6235B5A9206383CB00DEA932 /* controller */,
+				6235B5AA206383CB00DEA932 /* model */,
+				6235B5AB206383CB00DEA932 /* request */,
+				6235B5AC206383CB00DEA932 /* view */,
+			);
+			path = Mycenter;
+			sourceTree = "<group>";
+		};
+		6235B5A9206383CB00DEA932 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		6235B5AA206383CB00DEA932 /* model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		6235B5AB206383CB00DEA932 /* request */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = request;
+			sourceTree = "<group>";
+		};
+		6235B5AC206383CB00DEA932 /* view */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		6235B5AD206383CB00DEA932 /* Find */ = {
+			isa = PBXGroup;
+			children = (
+				6235B5AE206383CB00DEA932 /* controller */,
+				6235B5AF206383CB00DEA932 /* model */,
+				6235B5B0206383CB00DEA932 /* request */,
+				6235B5B1206383CB00DEA932 /* view */,
+			);
+			path = Find;
+			sourceTree = "<group>";
+		};
+		6235B5AE206383CB00DEA932 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		6235B5AF206383CB00DEA932 /* model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		6235B5B0206383CB00DEA932 /* request */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = request;
+			sourceTree = "<group>";
+		};
+		6235B5B1206383CB00DEA932 /* view */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		6235B5B2206383CB00DEA932 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				6235B5B3206383CB00DEA932 /* controller */,
+				6235B5B4206383CB00DEA932 /* model */,
+				6235B5B5206383CB00DEA932 /* request */,
+				6235B5B6206383CB00DEA932 /* view */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		6235B5B3206383CB00DEA932 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		6235B5B4206383CB00DEA932 /* model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		6235B5B5206383CB00DEA932 /* request */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = request;
+			sourceTree = "<group>";
+		};
+		6235B5B6206383CB00DEA932 /* view */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		6235B5B7206383CB00DEA932 /* Product */ = {
+			isa = PBXGroup;
+			children = (
+				6235B5B8206383CB00DEA932 /* controller */,
+				6235B5B9206383CB00DEA932 /* model */,
+				6235B5BA206383CB00DEA932 /* request */,
+				6235B5BB206383CB00DEA932 /* view */,
+			);
+			path = Product;
+			sourceTree = "<group>";
+		};
+		6235B5B8206383CB00DEA932 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		6235B5B9206383CB00DEA932 /* model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		6235B5BA206383CB00DEA932 /* request */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = request;
+			sourceTree = "<group>";
+		};
+		6235B5BB206383CB00DEA932 /* view */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		6235B5BC206383CB00DEA932 /* Tabbar */ = {
+			isa = PBXGroup;
+			children = (
+				6235B5BD206383CB00DEA932 /* controller */,
+				6235B5BE206383CB00DEA932 /* model */,
+				6235B5BF206383CB00DEA932 /* request */,
+				6235B5C0206383CB00DEA932 /* view */,
+			);
+			path = Tabbar;
+			sourceTree = "<group>";
+		};
+		6235B5BD206383CB00DEA932 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				6235B5C1206383F000DEA932 /* MiliTabbarViewController.h */,
+				6235B5C2206383F000DEA932 /* MiliTabbarViewController.m */,
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		6235B5BE206383CB00DEA932 /* model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		6235B5BF206383CB00DEA932 /* request */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = request;
+			sourceTree = "<group>";
+		};
+		6235B5C0206383CB00DEA932 /* view */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		6CBBEBFD8BEA05764FD8F7BB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7C84B0A55F076CE8B93DF27F /* libPods-MiliCssApp.a */,
+				DFE6619C0FC2F005FCFD2201 /* libPods-MiliCssAppTests.a */,
+				B25DE32694D2C9F196EDD9FF /* libPods-MiliCssAppUITests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -139,9 +445,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6219CA2920633A6500CE242C /* Build configuration list for PBXNativeTarget "MiliCssApp" */;
 			buildPhases = (
+				E7B9ADDBED99B3D9FCFFD440 /* [CP] Check Pods Manifest.lock */,
 				6219C9F920633A6400CE242C /* Sources */,
 				6219C9FA20633A6400CE242C /* Frameworks */,
 				6219C9FB20633A6400CE242C /* Resources */,
+				C1FEA2BC0F013B2A8C8A418D /* [CP] Embed Pods Frameworks */,
+				967A6B086BF8646C611FAF2D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -156,9 +465,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6219CA2C20633A6500CE242C /* Build configuration list for PBXNativeTarget "MiliCssAppTests" */;
 			buildPhases = (
+				A203FB9FA653BD6A348F3EA5 /* [CP] Check Pods Manifest.lock */,
 				6219CA1120633A6400CE242C /* Sources */,
 				6219CA1220633A6400CE242C /* Frameworks */,
 				6219CA1320633A6400CE242C /* Resources */,
+				DC1F261BDCB374A149FC9EBD /* [CP] Embed Pods Frameworks */,
+				84A27F07476F5BAC80089334 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -174,9 +486,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6219CA2F20633A6500CE242C /* Build configuration list for PBXNativeTarget "MiliCssAppUITests" */;
 			buildPhases = (
+				B61EA70D0A79F8DCC25ECD32 /* [CP] Check Pods Manifest.lock */,
 				6219CA1C20633A6500CE242C /* Sources */,
 				6219CA1D20633A6500CE242C /* Frameworks */,
 				6219CA1E20633A6500CE242C /* Resources */,
+				DE107B7C24B69FAD11268AB5 /* [CP] Embed Pods Frameworks */,
+				721616205E8EF81F49F6259D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -260,12 +575,168 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		721616205E8EF81F49F6259D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MiliCssAppUITests/Pods-MiliCssAppUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		84A27F07476F5BAC80089334 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MiliCssAppTests/Pods-MiliCssAppTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		967A6B086BF8646C611FAF2D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-MiliCssApp/Pods-MiliCssApp-resources.sh",
+				"${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle",
+				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/IQKeyboardManager.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MiliCssApp/Pods-MiliCssApp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A203FB9FA653BD6A348F3EA5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MiliCssAppTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B61EA70D0A79F8DCC25ECD32 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MiliCssAppUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C1FEA2BC0F013B2A8C8A418D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MiliCssApp/Pods-MiliCssApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DC1F261BDCB374A149FC9EBD /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MiliCssAppTests/Pods-MiliCssAppTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DE107B7C24B69FAD11268AB5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MiliCssAppUITests/Pods-MiliCssAppUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E7B9ADDBED99B3D9FCFFD440 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MiliCssApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		6219C9F920633A6400CE242C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6219CA3F2063548500CE242C /* CustomNavigation.m in Sources */,
 				6219CA0520633A6400CE242C /* ViewController.m in Sources */,
+				6219CA422063583600CE242C /* UIView+XY.m in Sources */,
+				6235B5C62063846D00DEA932 /* PublicViewController.m in Sources */,
+				6235B5C3206383F000DEA932 /* MiliTabbarViewController.m in Sources */,
 				6219CA1020633A6400CE242C /* main.m in Sources */,
 				6219CA0220633A6400CE242C /* AppDelegate.m in Sources */,
 			);
@@ -428,10 +899,13 @@
 		};
 		6219CA2A20633A6500CE242C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8B4074C1C2EBCF837A77B6DA /* Pods-MiliCssApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 94N82K9RBG;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = MiliCssApp/Mili.pch;
 				INFOPLIST_FILE = MiliCssApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.CLML.MiliCssApp;
@@ -442,10 +916,13 @@
 		};
 		6219CA2B20633A6500CE242C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1AC5717DBFF990EFF7CB2ED5 /* Pods-MiliCssApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 94N82K9RBG;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = MiliCssApp/Mili.pch;
 				INFOPLIST_FILE = MiliCssApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.CLML.MiliCssApp;
@@ -456,6 +933,7 @@
 		};
 		6219CA2D20633A6500CE242C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EABB8A0891BD05F4C033E956 /* Pods-MiliCssAppTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -471,6 +949,7 @@
 		};
 		6219CA2E20633A6500CE242C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4AD0A1E176C21488A5F228EA /* Pods-MiliCssAppTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -486,6 +965,7 @@
 		};
 		6219CA3020633A6500CE242C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 36C59D22FF48110F371C0387 /* Pods-MiliCssAppUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 94N82K9RBG;
@@ -500,6 +980,7 @@
 		};
 		6219CA3120633A6500CE242C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E7767C54F43069D3D3554FFF /* Pods-MiliCssAppUITests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 94N82K9RBG;
