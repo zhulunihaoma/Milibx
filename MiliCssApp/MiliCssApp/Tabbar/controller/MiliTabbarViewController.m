@@ -32,6 +32,16 @@
     [self addChildViewController:svc normalImage:@"un我的" selectedImage:@"我的" title:@"产品列表"];
     
     
+    
+    FindViewController *fvc = [[FindViewController alloc]init];
+    
+    [self addChildViewController:fvc normalImage:@"un我的" selectedImage:@"我的" title:@"发现"];
+    
+    
+    MycenterViewController *mvc = [[MycenterViewController alloc]init];
+    
+    [self addChildViewController:mvc normalImage:@"un我的" selectedImage:@"我的" title:@"我的"];
+    
     // Do any additional setup after loading the view.
 }
 
