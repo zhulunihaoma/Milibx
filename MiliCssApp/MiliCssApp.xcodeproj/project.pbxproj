@@ -21,11 +21,12 @@
 		6219CA422063583600CE242C /* UIView+XY.m in Sources */ = {isa = PBXBuildFile; fileRef = 6219CA412063583600CE242C /* UIView+XY.m */; };
 		6235B5C3206383F000DEA932 /* MiliTabbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6235B5C2206383F000DEA932 /* MiliTabbarViewController.m */; };
 		6235B5C62063846D00DEA932 /* PublicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6235B5C42063846D00DEA932 /* PublicViewController.m */; };
+		624C32702064A12700C68156 /* ProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 624C326F2064A12700C68156 /* ProductViewController.m */; };
+		624C32732064A15D00C68156 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 624C32722064A15D00C68156 /* HomeViewController.m */; };
+		624C32762064A16C00C68156 /* FindViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 624C32752064A16C00C68156 /* FindViewController.m */; };
+		624C32792064A17D00C68156 /* MycenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 624C32782064A17D00C68156 /* MycenterViewController.m */; };
+		624C32812064A1F300C68156 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 624C32802064A1F300C68156 /* LoginViewController.m */; };
 		6D4CC716206495F800EE0686 /* PublicTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CC714206495F800EE0686 /* PublicTableViewController.m */; };
-		6D4CC7192064965800EE0686 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CC7182064965800EE0686 /* HomeViewController.m */; };
-		6D4CC71C2064969000EE0686 /* ProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CC71B2064969000EE0686 /* ProductViewController.m */; };
-		6D4CC71F206496A200EE0686 /* FindViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CC71E206496A200EE0686 /* FindViewController.m */; };
-		6D4CC722206496B800EE0686 /* MycenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CC721206496B800EE0686 /* MycenterViewController.m */; };
 		6D4CC7252064981100EE0686 /* HLSPersonalInfoTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CC7242064981100EE0686 /* HLSPersonalInfoTool.m */; };
 		6D4CC73920649ABE00EE0686 /* NSDictionary+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CC72A20649ABC00EE0686 /* NSDictionary+Log.m */; };
 		6D4CC73B20649ABE00EE0686 /* UIView+Line.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CC72C20649ABC00EE0686 /* UIView+Line.m */; };
@@ -86,16 +87,18 @@
 		6235B5C2206383F000DEA932 /* MiliTabbarViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MiliTabbarViewController.m; sourceTree = "<group>"; };
 		6235B5C42063846D00DEA932 /* PublicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublicViewController.m; sourceTree = "<group>"; };
 		6235B5C52063846D00DEA932 /* PublicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublicViewController.h; sourceTree = "<group>"; };
+		624C326E2064A12700C68156 /* ProductViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProductViewController.h; sourceTree = "<group>"; };
+		624C326F2064A12700C68156 /* ProductViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProductViewController.m; sourceTree = "<group>"; };
+		624C32712064A15D00C68156 /* HomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		624C32722064A15D00C68156 /* HomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
+		624C32742064A16C00C68156 /* FindViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FindViewController.h; sourceTree = "<group>"; };
+		624C32752064A16C00C68156 /* FindViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FindViewController.m; sourceTree = "<group>"; };
+		624C32772064A17D00C68156 /* MycenterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MycenterViewController.h; sourceTree = "<group>"; };
+		624C32782064A17D00C68156 /* MycenterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MycenterViewController.m; sourceTree = "<group>"; };
+		624C327F2064A1F300C68156 /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		624C32802064A1F300C68156 /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		6D4CC714206495F800EE0686 /* PublicTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublicTableViewController.m; sourceTree = "<group>"; };
 		6D4CC715206495F800EE0686 /* PublicTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublicTableViewController.h; sourceTree = "<group>"; };
-		6D4CC7172064965800EE0686 /* HomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HomeViewController.h; path = ../../../../../../ZLSvn/ios/ShareKitchen/Kitchen/Home/HomePage/View/HomeViewController.h; sourceTree = "<group>"; };
-		6D4CC7182064965800EE0686 /* HomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HomeViewController.m; path = ../../../../../../ZLSvn/ios/ShareKitchen/Kitchen/Home/HomePage/View/HomeViewController.m; sourceTree = "<group>"; };
-		6D4CC71A2064969000EE0686 /* ProductViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ProductViewController.h; path = ../../../../../../ZLSvn/ios/ShareKitchen/Kitchen/Home/HomePage/View/ProductViewController.h; sourceTree = "<group>"; };
-		6D4CC71B2064969000EE0686 /* ProductViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ProductViewController.m; path = ../../../../../../ZLSvn/ios/ShareKitchen/Kitchen/Home/HomePage/View/ProductViewController.m; sourceTree = "<group>"; };
-		6D4CC71D206496A200EE0686 /* FindViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FindViewController.h; path = ../../../../../../ZLSvn/ios/ShareKitchen/Kitchen/Home/HomePage/View/FindViewController.h; sourceTree = "<group>"; };
-		6D4CC71E206496A200EE0686 /* FindViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = FindViewController.m; path = ../../../../../../ZLSvn/ios/ShareKitchen/Kitchen/Home/HomePage/View/FindViewController.m; sourceTree = "<group>"; };
-		6D4CC720206496B800EE0686 /* MycenterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MycenterViewController.h; path = ../../../../../../ZLSvn/ios/ShareKitchen/Kitchen/Home/HomePage/View/MycenterViewController.h; sourceTree = "<group>"; };
-		6D4CC721206496B800EE0686 /* MycenterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MycenterViewController.m; path = ../../../../../../ZLSvn/ios/ShareKitchen/Kitchen/Home/HomePage/View/MycenterViewController.m; sourceTree = "<group>"; };
 		6D4CC7232064981100EE0686 /* HLSPersonalInfoTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLSPersonalInfoTool.h; sourceTree = "<group>"; };
 		6D4CC7242064981100EE0686 /* HLSPersonalInfoTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLSPersonalInfoTool.m; sourceTree = "<group>"; };
 		6D4CC72720649ABC00EE0686 /* HLSLable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLSLable.h; sourceTree = "<group>"; };
@@ -188,6 +191,7 @@
 		6219C9FF20633A6400CE242C /* MiliCssApp */ = {
 			isa = PBXGroup;
 			children = (
+				624C327A2064A1E300C68156 /* Login */,
 				6235B5B2206383CB00DEA932 /* Home */,
 				6235B5B7206383CB00DEA932 /* Product */,
 				6235B5AD206383CB00DEA932 /* Find */,
@@ -292,8 +296,8 @@
 		6235B5A9206383CB00DEA932 /* controller */ = {
 			isa = PBXGroup;
 			children = (
-				6D4CC720206496B800EE0686 /* MycenterViewController.h */,
-				6D4CC721206496B800EE0686 /* MycenterViewController.m */,
+				624C32772064A17D00C68156 /* MycenterViewController.h */,
+				624C32782064A17D00C68156 /* MycenterViewController.m */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -333,8 +337,8 @@
 		6235B5AE206383CB00DEA932 /* controller */ = {
 			isa = PBXGroup;
 			children = (
-				6D4CC71D206496A200EE0686 /* FindViewController.h */,
-				6D4CC71E206496A200EE0686 /* FindViewController.m */,
+				624C32742064A16C00C68156 /* FindViewController.h */,
+				624C32752064A16C00C68156 /* FindViewController.m */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -374,8 +378,8 @@
 		6235B5B3206383CB00DEA932 /* controller */ = {
 			isa = PBXGroup;
 			children = (
-				6D4CC7172064965800EE0686 /* HomeViewController.h */,
-				6D4CC7182064965800EE0686 /* HomeViewController.m */,
+				624C32712064A15D00C68156 /* HomeViewController.h */,
+				624C32722064A15D00C68156 /* HomeViewController.m */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -415,8 +419,8 @@
 		6235B5B8206383CB00DEA932 /* controller */ = {
 			isa = PBXGroup;
 			children = (
-				6D4CC71A2064969000EE0686 /* ProductViewController.h */,
-				6D4CC71B2064969000EE0686 /* ProductViewController.m */,
+				624C326E2064A12700C68156 /* ProductViewController.h */,
+				624C326F2064A12700C68156 /* ProductViewController.m */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -477,6 +481,47 @@
 			sourceTree = "<group>";
 		};
 		6235B5C0206383CB00DEA932 /* view */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		624C327A2064A1E300C68156 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				624C327B2064A1E300C68156 /* controller */,
+				624C327C2064A1E300C68156 /* model */,
+				624C327D2064A1E300C68156 /* request */,
+				624C327E2064A1E300C68156 /* view */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		624C327B2064A1E300C68156 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				624C327F2064A1F300C68156 /* LoginViewController.h */,
+				624C32802064A1F300C68156 /* LoginViewController.m */,
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		624C327C2064A1E300C68156 /* model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		624C327D2064A1E300C68156 /* request */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = request;
+			sourceTree = "<group>";
+		};
+		624C327E2064A1E300C68156 /* view */ = {
 			isa = PBXGroup;
 			children = (
 			);
@@ -811,25 +856,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				6219CA3F2063548500CE242C /* CustomNavigation.m in Sources */,
-				6D4CC722206496B800EE0686 /* MycenterViewController.m in Sources */,
 				6D4CC73C20649ABE00EE0686 /* HLSLable.m in Sources */,
 				6D4CC73E20649ABE00EE0686 /* NSDictionary+HLS.m in Sources */,
 				6219CA0520633A6400CE242C /* ViewController.m in Sources */,
 				6D4CC73920649ABE00EE0686 /* NSDictionary+Log.m in Sources */,
+				624C32702064A12700C68156 /* ProductViewController.m in Sources */,
 				6D4CC73B20649ABE00EE0686 /* UIView+Line.m in Sources */,
+				624C32792064A17D00C68156 /* MycenterViewController.m in Sources */,
+				624C32762064A16C00C68156 /* FindViewController.m in Sources */,
 				6D4CC74020649ABE00EE0686 /* NSDate+XY.m in Sources */,
 				6D4CC7252064981100EE0686 /* HLSPersonalInfoTool.m in Sources */,
-				6D4CC71C2064969000EE0686 /* ProductViewController.m in Sources */,
-				6D4CC71F206496A200EE0686 /* FindViewController.m in Sources */,
 				6D4CC73D20649ABE00EE0686 /* NSArray+Log.m in Sources */,
 				6219CA422063583600CE242C /* UIView+XY.m in Sources */,
 				6D4CC73F20649ABE00EE0686 /* UILabel+HLSDefault.m in Sources */,
 				6235B5C62063846D00DEA932 /* PublicViewController.m in Sources */,
 				6D4CC716206495F800EE0686 /* PublicTableViewController.m in Sources */,
 				6D4CC74120649ABE00EE0686 /* UIView+XY.m in Sources */,
-				6D4CC7192064965800EE0686 /* HomeViewController.m in Sources */,
 				6235B5C3206383F000DEA932 /* MiliTabbarViewController.m in Sources */,
 				6219CA1020633A6400CE242C /* main.m in Sources */,
+				624C32732064A15D00C68156 /* HomeViewController.m in Sources */,
+				624C32812064A1F300C68156 /* LoginViewController.m in Sources */,
 				6219CA0220633A6400CE242C /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
