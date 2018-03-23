@@ -7,10 +7,6 @@
 //
 
 #import "PublicViewController.h"
-#import "HLSSingleTool.h"
-#import "YCOutputView.h"
-#import "ZHMsgNotifViewController.h"
-#import "YD_Search_KMainVC.h"
 
 @interface PublicViewController ()
 
@@ -24,8 +20,7 @@
     [super viewWillAppear:animated];
     
     
-    [HLSSingleTool setCurrentVCValue:self];
-    HLSLog(@"当前界面===%@",[HLSSingleTool getCurrentVCValue]);
+   
 
 }
 
@@ -41,7 +36,7 @@
 {
     [super viewDidLoad];
     
-    self.view.backgroundColor = HLSGlobalBG;
+    self.view.backgroundColor = MLBGColor;
     [self setupNaviView];
     self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
 
@@ -63,18 +58,7 @@
     [super setTitle:title];
     self.navigationView.titleLabel.text = title;
 }
--(void)setIsMore:(BOOL)isMore{
-    _isMore = isMore;
-    //自定rightbtn 防止和naviView.rightbtn冲突
-    if (_isMore) {
-        _moreBtn = [[UIButton alloc]init];
-        [self.navigationView addSubview:_moreBtn];
-        _moreBtn.frame = CGRectMake(ScreenWidth-40, 32, 20, 20);
-        [_moreBtn setImage:[UIImage imageNamed:@"more"] forState:UIControlStateNormal];
-        [_moreBtn addTarget:self action:@selector(more) forControlEvents:UIControlEventTouchUpInside];
-    }
 
-}
 - (void)back {
     [self.navigationController popViewControllerAnimated:YES];
     
@@ -128,48 +112,5 @@
     
     return nil;
 }
--(void)more{
-    YCOutputCellModel *cellModel = [[YCOutputCellModel alloc]initWithTitle:@"消息" imageName:@"navixiaoxi"];
-    YCOutputCellModel *cellModel2 = [[YCOutputCellModel alloc]initWithTitle:@"首页" imageName:@"navihome"];
-    YCOutputCellModel *cellModel3 = [[YCOutputCellModel alloc]initWithTitle:@"搜索" imageName:@"navisearch"];
-    
-    NSArray *arr = [NSArray arrayWithObjects:cellModel,cellModel2,cellModel3, nil];
-    YCOutputView *outPutView =[[YCOutputView alloc]initWithdataArray:arr origin:CGPointMake(ScreenWidth-18 , 64)];
-    [outPutView show];
-    __weak typeof(self)weakSelf=self;
-    
-    [outPutView setDidSelectedAtIndexPathBlock:^(NSInteger index) {
-        __strong typeof(weakSelf)strongSelf = weakSelf;
-        
-       NSInteger type = [[NSString stringWithFormat:@"%ld",(long)index] integerValue  ];
-        
-        switch (type) {
-            case 0:
-            {
-                HomeInfolistViewController *zvc = [[HomeInfolistViewController alloc]init];
-                [self.navigationController pushViewController:zvc animated:YES ];
-            }
-                break;
-            case 1:
-            {
-               
-                [self.navigationController popToRootViewControllerAnimated:YES];
-                self.tabBarController.selectedIndex = 0;
 
-            }
-                break;
-            case 2:
-            {
-                YD_Search_KMainVC *zvc = [[YD_Search_KMainVC alloc]init];
-                [self.navigationController pushViewController:zvc animated:YES ];
-            }
-                break;
-                
-            default:
-                break;
-        }
-        
-    }];
-
-}
 @end

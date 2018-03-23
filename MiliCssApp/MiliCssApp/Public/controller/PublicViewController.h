@@ -9,16 +9,12 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
-#import "HLSNoDataView.h"
 #import "CustomNavigation.h"
-#import "HomeInfolistViewController.h"
 @interface PublicViewController : UIViewController
 //设置自定义视图
 @property (nonatomic,strong) CustomNavigation *navigationView;
-@property (nonatomic, assign) BOOL isMore;
 
 @property (nonatomic, strong) MBProgressHUD *HUD;
-@property (nonatomic, strong) UIButton *moreBtn;
 
 - (void)back;
 - (void)clickRightBtn;

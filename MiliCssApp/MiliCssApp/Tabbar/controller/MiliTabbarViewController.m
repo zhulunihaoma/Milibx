@@ -7,8 +7,11 @@
 //
 
 #import "MiliTabbarViewController.h"
-
-@interface MiliTabbarViewController ()
+#import "HomeViewController.h"
+#import "ProductViewController.h"
+#import "FindViewController.h"
+#import "MycenterViewController.h"
+@interface MiliTabbarViewController ()<UITabBarControllerDelegate>
 
 @end
 
@@ -16,8 +19,61 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //主页
+    HomeViewController *hvc = [[HomeViewController alloc]init];
+    
+    [self addChildViewController:hvc normalImage:@"un主页" selectedImage:@"主页" title:@"主页"];
+    self.delegate = self;
+    
+    
+    ProductViewController *svc = [[ProductViewController alloc]init];
+    
+    [self addChildViewController:svc normalImage:@"un我的" selectedImage:@"我的" title:@"产品列表"];
+    
+    
     // Do any additional setup after loading the view.
 }
+
+- (void)addChildViewController:(UIViewController *)viewController normalImage:(NSString *)normalImage selectedImage:(NSString *)selectedImage title:(NSString *)title {
+    UIImage *normal = [UIImage imageNamed:normalImage];
+    viewController.tabBarItem.image = [normal imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    //    viewController.tabBarItem.image = [UIImage imageNamed:normalImage];
+    UIImage *select = [UIImage imageNamed:selectedImage];
+    viewController.tabBarItem.selectedImage = [select imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]; // 始终绘制图片原始状态，不使用Tint Color
+    
+    [viewController.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:HLSColor(136, 136, 136),NSFontAttributeName:[UIFont systemFontOfSize:10]} forState:UIControlStateNormal];
+    [viewController.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:MLNaviColor,NSFontAttributeName:[UIFont systemFontOfSize:10]} forState:UIControlStateSelected];
+    
+    viewController.tabBarItem.title = title;
+    [self addChildViewController:viewController];
+    
+}
+- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
+    if ([[viewController class] isSubclassOfClass:[MycenterViewController class]]) {
+        //        if (![[viewController class] isSubclassOfClass:[HLSSendCarViewController class]]) {
+        
+        HLSLog(@"111:%@",TOKEN);
+        
+        // 判断用户是否登陆
+        if (![HLSPersonalInfoTool isLogin]) {
+            
+            LoginViewController *lvc = [[LoginViewController alloc]init];
+            UINavigationController *nvc = [[UINavigationController alloc]initWithRootViewController:lvc];
+            nvc.navigationBarHidden = YES;
+            [self.viewControllers[0] presentViewController:nvc animated:YES completion:^{
+                self.tabBarController.selectedIndex = 0;
+            }];
+            return NO;
+        }
+        
+        
+        //        }
+        
+        
+    }
+    return YES;
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

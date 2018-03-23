@@ -18,6 +18,10 @@
  * HLSColor(250, 250, 250)导航灰
  */
 #define MLNaviColor HLSColor(250, 250, 250)
+/**
+ * HLSColor(250, 250, 250)导航灰
+ */
+#define MLBGColor HLSColor(250, 250, 250)
 
 //获取屏幕宽高
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
@@ -28,4 +32,49 @@
 #define iPhone6 kSCREENSIZE.width == 375
 #define iPhone6plus kSCREENSIZE.width == 414
 #define Fit6(a) a*(ScreenWidth/375)
+
+
+//token
+#define  TOKEN [NSString stringWithFormat:@"%@",DEF_PERSISTENT_GET_OBJECT(@"token")]/**<token*/
+
+//版本号
+#define kVersions @"versions"
+#define CurrentVersions [mUserDefaults objectForKey:kVersions]//版本号
+
+//获取用户信息
+#define mUserDefaults [NSUserDefaults standardUserDefaults]
+
+#define KUserInfoDic @"userInfoDic"
+/**
+ *    永久存储对象
+ *
+ *  NSUserDefaults保存的文件在tmp文件夹里
+ *
+ *    @param    object      需存储的对象
+ *    @param    key         对应的key
+ */
+#define DEF_PERSISTENT_SET_OBJECT(object, key)                                                                                                 \
+({                                                                                                                                             \
+NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];                                                                          \
+[defaults setObject:object forKey:key];                                                                                                    \
+[defaults synchronize];                                                                                                                    \
+})
+
+
+/**
+ *    取出永久存储的对象
+ *
+ *    @param    key     所需对象对应的key
+ *    @return    key     所对应的对象
+ */
+#define DEF_PERSISTENT_GET_OBJECT(key)  [[NSUserDefaults standardUserDefaults] objectForKey:key]
+
+//调试模式下输入NSLog，发布后不再输入。
+#ifndef __OPTIMIZE__
+#define HLSLog(...) NSLog(__VA_ARGS__)
+#else
+#define HLSLog(...)                                                             \
+{}
+#endif
+
 #endif /* MiliDefine_h */
