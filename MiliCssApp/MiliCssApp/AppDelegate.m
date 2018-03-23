@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-
+#import "MiliTabbarViewController.h"
 @interface AppDelegate ()
 
 @end
@@ -17,6 +17,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    MiliTabbarViewController *tvc = [[MiliTabbarViewController alloc]init];
+    UINavigationController *nvc = [[UINavigationController alloc]initWithRootViewController:tvc];
+    nvc.navigationBarHidden = YES;
+    self.window.rootViewController = nvc;
+    
+    
     return YES;
 }
 

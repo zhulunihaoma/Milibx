@@ -26,6 +26,7 @@
 		624C32762064A16C00C68156 /* FindViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 624C32752064A16C00C68156 /* FindViewController.m */; };
 		624C32792064A17D00C68156 /* MycenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 624C32782064A17D00C68156 /* MycenterViewController.m */; };
 		624C32812064A1F300C68156 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 624C32802064A1F300C68156 /* LoginViewController.m */; };
+		624C32842064A69B00C68156 /* HomeSwiftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624C32832064A69B00C68156 /* HomeSwiftView.swift */; };
 		6D4CC716206495F800EE0686 /* PublicTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CC714206495F800EE0686 /* PublicTableViewController.m */; };
 		6D4CC7252064981100EE0686 /* HLSPersonalInfoTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CC7242064981100EE0686 /* HLSPersonalInfoTool.m */; };
 		6D4CC73920649ABE00EE0686 /* NSDictionary+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CC72A20649ABC00EE0686 /* NSDictionary+Log.m */; };
@@ -97,6 +98,8 @@
 		624C32782064A17D00C68156 /* MycenterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MycenterViewController.m; sourceTree = "<group>"; };
 		624C327F2064A1F300C68156 /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		624C32802064A1F300C68156 /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		624C32822064A69B00C68156 /* MiliCssApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MiliCssApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		624C32832064A69B00C68156 /* HomeSwiftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSwiftView.swift; sourceTree = "<group>"; };
 		6D4CC714206495F800EE0686 /* PublicTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublicTableViewController.m; sourceTree = "<group>"; };
 		6D4CC715206495F800EE0686 /* PublicTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublicTableViewController.h; sourceTree = "<group>"; };
 		6D4CC7232064981100EE0686 /* HLSPersonalInfoTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLSPersonalInfoTool.h; sourceTree = "<group>"; };
@@ -260,6 +263,8 @@
 				6D4CC7242064981100EE0686 /* HLSPersonalInfoTool.m */,
 				6219CA402063583600CE242C /* UIView+XY.h */,
 				6219CA412063583600CE242C /* UIView+XY.m */,
+				624C32832064A69B00C68156 /* HomeSwiftView.swift */,
+				624C32822064A69B00C68156 /* MiliCssApp-Bridging-Header.h */,
 			);
 			path = tool;
 			sourceTree = "<group>";
@@ -637,6 +642,7 @@
 				TargetAttributes = {
 					6219C9FC20633A6400CE242C = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 					6219CA1420633A6400CE242C = {
@@ -856,6 +862,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6219CA3F2063548500CE242C /* CustomNavigation.m in Sources */,
+				624C32842064A69B00C68156 /* HomeSwiftView.swift in Sources */,
 				6D4CC73C20649ABE00EE0686 /* HLSLable.m in Sources */,
 				6D4CC73E20649ABE00EE0686 /* NSDictionary+HLS.m in Sources */,
 				6219CA0520633A6400CE242C /* ViewController.m in Sources */,
@@ -1040,7 +1047,9 @@
 			baseConfigurationReference = 8B4074C1C2EBCF837A77B6DA /* Pods-MiliCssApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 94N82K9RBG;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MiliCssApp/Mili.pch;
@@ -1048,6 +1057,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.CLML.MiliCssApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MiliCssApp/Public/tool/MiliCssApp-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1057,7 +1069,9 @@
 			baseConfigurationReference = 1AC5717DBFF990EFF7CB2ED5 /* Pods-MiliCssApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 94N82K9RBG;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MiliCssApp/Mili.pch;
@@ -1065,6 +1079,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.CLML.MiliCssApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MiliCssApp/Public/tool/MiliCssApp-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -1073,6 +1089,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = EABB8A0891BD05F4C033E956 /* Pods-MiliCssAppTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 94N82K9RBG;
@@ -1089,6 +1106,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4AD0A1E176C21488A5F228EA /* Pods-MiliCssAppTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 94N82K9RBG;
@@ -1105,6 +1123,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 36C59D22FF48110F371C0387 /* Pods-MiliCssAppUITests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 94N82K9RBG;
 				INFOPLIST_FILE = MiliCssAppUITests/Info.plist;
@@ -1120,6 +1139,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E7767C54F43069D3D3554FFF /* Pods-MiliCssAppUITests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 94N82K9RBG;
 				INFOPLIST_FILE = MiliCssAppUITests/Info.plist;

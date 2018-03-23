@@ -7,7 +7,8 @@
 //
 
 #import "HomeViewController.h"
-
+#import "MiliCssApp-Bridging-Header.h"
+#import "MiliTabbarViewController.h"
 @interface HomeViewController ()
 
 @end
@@ -16,6 +17,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+   
+    self.title = @"首页";
     // Do any additional setup after loading the view.
 }
 

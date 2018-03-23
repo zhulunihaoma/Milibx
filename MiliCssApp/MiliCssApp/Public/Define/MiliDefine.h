@@ -17,9 +17,9 @@
 /**
  * HLSColor(250, 250, 250)导航灰
  */
-#define MLNaviColor HLSColor(250, 250, 250)
+#define MLNaviColor HLSColor(0, 192, 78)
 /**
- * HLSColor(250, 250, 250)导航灰
+ * HLSColor(250, 250, 250)全局颜色
  */
 #define MLBGColor HLSColor(250, 250, 250)
 
