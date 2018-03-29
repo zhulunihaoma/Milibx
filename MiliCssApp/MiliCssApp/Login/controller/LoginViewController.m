@@ -34,7 +34,7 @@
     account.sd_layout
     .leftSpaceToView(self.view, 10)
     .rightSpaceToView(self.view, 10)
-    .topSpaceToView(self.view, 80)
+    .topSpaceToView(self.view, NaviHeight+10)
     .heightIs(50);
     //    用户名
     password = [[UITextField alloc]init];

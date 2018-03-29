@@ -9,7 +9,7 @@
 #import "CompmanaViewController.h"
 #import "ManaCell.h"
 #import "AddNewComViewController.h"
-
+#import "ComDetailViewController.h"
 @interface CompmanaViewController ()
 
 @end
@@ -28,11 +28,11 @@
     [self setupTableViewWithStyle:UITableViewStyleGrouped];
     
     self.tableView.x = 16;
-    self.tableView.y = 64;
+    self.tableView.y = NaviHeight;
     self.tableView.width = SCREEN_WIDTH-32;
     self.tableView.backgroundColor = MLBGColor;
     //[self.tableView registerClass:[RequestTextFieldCell class] forCellReuseIdentifier:@"cell"];
-    self.tableView.height = SCREEN_HEIGHT-64-56;
+    self.tableView.height = SCREEN_HEIGHT-NaviHeight-56;
     self.tableView.showsVerticalScrollIndicator = NO;
 //    底部按钮
     UIButton *AddBtn = [[UIButton alloc]init];
@@ -96,6 +96,10 @@
     
     return cell;
     
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    ComDetailViewController *cvc = [[ComDetailViewController alloc]init];
+    [self.navigationController pushViewController:cvc animated:YES];
 }
 #pragma mark -- 按钮方法
 -(void)AddCom{

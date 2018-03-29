@@ -1,17 +1,17 @@
 //
-//  AddNewComViewController.m
+//  AddNewPriViewController.m
 //  MiliCssApp
 //
-//  Created by Mili_zhu on 2018/3/28.
+//  Created by 朱璐 on 2018/3/29.
 //  Copyright © 2018年 zhu. All rights reserved.
 //
 
-#import "AddNewComViewController.h"
+#import "AddNewPriViewController.h"
 #import "BDInfoHeaderView.h"
 #import "AddCell.h"
 #import "ProductAuthorizeViewController.h"
 
-@interface AddNewComViewController ()<ZLCategoryViewDelegate>
+@interface AddNewPriViewController ()<ZLCategoryViewDelegate>
 {
     NSArray *infotittlearr;
     UITextField *choosefield;
@@ -19,13 +19,13 @@
 }
 @end
 
-@implementation AddNewComViewController
+@implementation AddNewPriViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"新增机构";
+    self.title = @"新增代理人";
     choosefield = nil;
-    infotittlearr = @[@"机构名称",@"营业执照号",@"联系人姓名",@"身份证号码",@"联系人手机",@"机构地址"];
+    infotittlearr = @[@"姓名",@"身份证号",@"手机号码"];
     [self setupSubViews];
     
     // Do any additional setup after loading the view.
@@ -78,7 +78,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     if (section == 0) {
-        return 6;
+        return 3;
     }else{
         return 1;
     }
@@ -90,7 +90,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if (section == 0) {
         return 50;
-
+        
     }else{
         return 10;
     }
@@ -108,9 +108,9 @@
     
     if (section == 0) {
         BDInfoHeaderView *view =[[BDInfoHeaderView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 51)];
-        view.Tittlename = @"机构信息";
+        view.Tittlename = @"代理人信息";
         return view;
-
+        
     }else{
         return nil;
     }
@@ -132,7 +132,7 @@
     
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-
+    
     // 定义唯一标识
     static NSString *CellIdentifier = @"Cell";
     // 通过唯一标识创建cell实例
@@ -142,11 +142,11 @@
     }
     cell.titlelab.text = infotittlearr[indexPath.row];
     cell.inputfield.placeholder = @"必填";
-
+    
     if (indexPath.section == 1) {
         cell.inputfield.placeholder = @"";
         cell.inputfield.userInteractionEnabled = NO;
-
+        
         cell.choosefild.userInteractionEnabled = NO;
         choosefield = cell.choosefild;
         cell.titlelab.text = @"推广城市";
@@ -179,6 +179,7 @@
     choosefield.text = Category;
     [self.tableView reloadData];
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

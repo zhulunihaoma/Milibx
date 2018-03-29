@@ -32,8 +32,8 @@
     MycenterView.sd_layout
     .leftSpaceToView(self.view, 0)
     .rightSpaceToView(self.view, 0)
-    .topSpaceToView(self.view, 64)
-    .bottomSpaceToView(self.view, 49);
+    .topSpaceToView(self.view, NaviHeight)
+    .bottomSpaceToView(self.view, TabBarHeight);
 }
 -(UIView *)MycenterView{
     if (!MycenterView) {

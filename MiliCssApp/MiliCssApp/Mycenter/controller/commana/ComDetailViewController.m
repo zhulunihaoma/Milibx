@@ -1,31 +1,32 @@
 //
-//  AddNewComViewController.m
+//  ComDetailViewController.m
 //  MiliCssApp
 //
-//  Created by Mili_zhu on 2018/3/28.
+//  Created by 朱璐 on 2018/3/29.
 //  Copyright © 2018年 zhu. All rights reserved.
 //
 
-#import "AddNewComViewController.h"
+#import "ComDetailViewController.h"
 #import "BDInfoHeaderView.h"
 #import "AddCell.h"
-#import "ProductAuthorizeViewController.h"
+#import "ComDetailCell.h"
+#import "ComMotifyViewController.h"
 
-@interface AddNewComViewController ()<ZLCategoryViewDelegate>
+@interface ComDetailViewController ()
 {
-    NSArray *infotittlearr;
-    UITextField *choosefield;
     UIView *NextView;
+    NSArray *infotittlearr;
+
 }
 @end
 
-@implementation AddNewComViewController
+@implementation ComDetailViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"新增机构";
-    choosefield = nil;
-    infotittlearr = @[@"机构名称",@"营业执照号",@"联系人姓名",@"身份证号码",@"联系人手机",@"机构地址"];
+    self.title = @"机构详情";
+    infotittlearr = @[@"用户名",@"机构名称",@"营业执照号",@"联系人姓名",@"身份证号码",@"联系人手机",@"机构地址"];
+
     [self setupSubViews];
     
     // Do any additional setup after loading the view.
@@ -38,31 +39,30 @@
     self.tableView.width = SCREEN_WIDTH;
     self.tableView.backgroundColor = MLBGColor;
     //[self.tableView registerClass:[RequestTextFieldCell class] forCellReuseIdentifier:@"cell"];
-    self.tableView.height = SCREEN_HEIGHT-NaviHeight;
+    self.tableView.height = SCREEN_HEIGHT-NaviHeight-TabBarHeight-56;
     self.tableView.showsVerticalScrollIndicator = NO;
     [self NextView];
 }
 -(UIView *)NextView{
     if (!NextView) {
         
-        
-        
         NextView  = [[UIView alloc]init];
-        NextView.size = CGSizeMake(SCREEN_WIDTH, 80);
+        NextView.size = CGSizeMake(SCREEN_WIDTH, 56);
         NextView.x = 0;
-        NextView.y = 0;
+        NextView.y = SCREEN_HEIGHT - 56;
         
+        [self.view addSubview:NextView];
         
         UIButton *NextBtn = [[UIButton alloc]init];
         [NextView addSubview:NextBtn];
         [NextBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.mas_equalTo(NextView.mas_centerX);
-            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH-66, 46));
-            make.top.mas_equalTo(@33);
+            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 56));
+            make.top.mas_equalTo(@0);
         }];
-        [NextBtn setTitle:@"下一步" forState:UIControlStateNormal];
+        [NextBtn setTitle:@"修改信息" forState:UIControlStateNormal];
         [NextBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [NextBtn addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];
+        [NextBtn addTarget:self action:@selector(modify) forControlEvents:UIControlEventTouchUpInside];
         NextBtn.titleLabel.font = [UIFont systemFontOfSize:16];
         NextBtn.backgroundColor = MLNaviColor;
         NextBtn.layer.cornerRadius = 3;
@@ -78,61 +78,65 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     if (section == 0) {
-        return 6;
-    }else{
+        return 7;
+    }else if (section == 1) {
         return 1;
+    }else{
+        return 2;
+
     }
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
-    return 2;
+    return 3;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    if (section == 0) {
-        return 50;
-
-    }else{
+    if (section == 1) {
         return 10;
+    }else{
+        return 50;
     }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    if (section == 1) {
-        return  80;
-        
-    }
+   
     return 0.001;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    
+     BDInfoHeaderView *view =[[BDInfoHeaderView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 51)];
     
     if (section == 0) {
-        BDInfoHeaderView *view =[[BDInfoHeaderView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 51)];
+       
         view.Tittlename = @"机构信息";
         return view;
-
-    }else{
-        return nil;
+        
     }
-    
+     if (section == 2) {
+        view.Tittlename = @"产品授权";
+
+        return view;
+    }
+    return nil;
+
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    if (section == 1) {
-        return  NextView;
-        
-    }
     
     return nil;
     
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 50;
+    if (indexPath.section == 2) {
+        return 100;
+    }else{
+        return 50;
+
+    }
     
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-
+    
     // 定义唯一标识
     static NSString *CellIdentifier = @"Cell";
     // 通过唯一标识创建cell实例
@@ -141,43 +145,31 @@
         cell = [[AddCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     cell.titlelab.text = infotittlearr[indexPath.row];
-    cell.inputfield.placeholder = @"必填";
-
+    cell.inputfield.placeholder = @"南京毕加索";
+    
     if (indexPath.section == 1) {
-        cell.inputfield.placeholder = @"";
-        cell.inputfield.userInteractionEnabled = NO;
-
-        cell.choosefild.userInteractionEnabled = NO;
-        choosefield = cell.choosefild;
-        cell.titlelab.text = @"推广城市";
-        cell.Ischoose = YES;
+        
     }
+    if (indexPath.section == 2) {
+        // 定义唯一标识
+        static NSString *CellIdentifier1 = @"Cell1";
+        // 通过唯一标识创建cell实例
+        ComDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
+        if (!cell) {
+            cell = [[ComDetailCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier1];
+        }
+        return cell;
+
+    }
+   
     return cell;
     
 }
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 1) {
-        ZLCategoryView *jview = [[ZLCategoryView alloc]init];
-        //   [self.view addSubview:jview];
-        NSArray *arr = [NSArray new];
-        arr = @[@"日本",@"美国",@"加拿大",@"宾夕法尼亚",@"夏威夷"];
-        
-        jview.dataArr = arr;
-        jview.delegate = self;
-        [jview setOn];
-    }
-    
-}
+
 #pragma mark -- 点击方法
--(void)next{
-    ProductAuthorizeViewController *pvc =[[ProductAuthorizeViewController alloc]init];
-    [self.navigationController pushViewController:pvc animated:YES];
-}
-#pragma mark -- HLSShipperCategoryViewDelegate
--(void)ChoosecategoryWithCategory:(NSString *)Category andIndex:(NSInteger)index{
-    HLSLog(@"输出：%@",Category);
-    choosefield.text = Category;
-    [self.tableView reloadData];
+-(void)modify{
+    ComMotifyViewController *cvc =[[ComMotifyViewController alloc]init];
+    [self.navigationController pushViewController:cvc animated:YES];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
