@@ -16,6 +16,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationView.leftBtn.hidden = YES;
+    self.title = @"发现";
+
     // Do any additional setup after loading the view.
 }
 

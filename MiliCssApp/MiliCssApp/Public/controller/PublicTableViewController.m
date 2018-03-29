@@ -29,18 +29,18 @@
     [self.view addSubview:self.tableView = tableView];
     
 }
-//- (void)setupHeaderRefresh {
-//    MJGIFHeader *header = [MJGIFHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefresh)];
-//    header.lastUpdatedTimeLabel.hidden = YES;
-//    header.stateLabel.hidden = YES;
-//    self.tableView.mj_header = header;
-//}
-//
-//- (void)setupFooterRefresh {
-//    MJGIFFooter *footer = [MJGIFFooter footerWithRefreshingTarget:self refreshingAction:@selector(footerRefresh)];
-//    footer.refreshingTitleHidden = YES;
-//    self.tableView.mj_footer = footer;
-//}
+- (void)setupHeaderRefresh {
+    MJRefreshGifHeader *header = [MJRefreshGifHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefresh)];
+    header.lastUpdatedTimeLabel.hidden = YES;
+    //    header.stateLabel.hidden = YES;
+    self.tableView.mj_header = header;
+}
+
+- (void)setupFooterRefresh {
+    MJRefreshFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(footerRefresh)];
+    //    footer.refreshingTitleHidden = YES;
+    self.tableView.mj_footer = footer;
+}
 /**
  *  下拉刷新
  */
@@ -52,5 +52,9 @@
  */
 - (void)footerRefresh {
     
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
 }
 @end

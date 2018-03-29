@@ -18,16 +18,7 @@
     }
     return self;
 }
-- (instancetype)initWithText:(NSString *)text font:(UIFont *)font textColor:(UIColor *)textColor {
-    self = [super init];
-    if (self) {
-        self.text = text;
-        self.font = font;
-        self.textColor = textColor;
-        [self sizeToFit];
-    }
-    return self;
-}
+
 + (void)lableWithText:(NSString *)text {
     
     //    CGRect rect = [text boundingRectWithSize:CGSizeMake(300, 20) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil];
@@ -146,5 +137,16 @@
     
 }
 
-
++(UILabel *)LabelWithFont:(NSInteger)font WithTextalignment:(NSTextAlignment)Alignment WithTextColor:(UIColor *)textColor WithFatherView:(UIView*)fview{
+    UILabel *lab = [[UILabel alloc]init];
+    lab.textAlignment = Alignment;
+    lab.font = [UIFont systemFontOfSize:font];
+    lab.textColor = textColor;
+    
+    if (fview != nil) {
+        [fview addSubview:lab];
+    }
+    
+    return lab;
+}
 @end

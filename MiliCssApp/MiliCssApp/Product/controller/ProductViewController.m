@@ -16,7 +16,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"首页";
+    self.navigationView.leftBtn.hidden = YES;
+
+    self.title = @"产品列表";
 
     // Do any additional setup after loading the view.
 }

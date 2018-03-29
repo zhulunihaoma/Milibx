@@ -7,18 +7,41 @@
 //
 
 #import "MycenterViewController.h"
+#import "CityBDCenterView.h"
 
 @interface MycenterViewController ()
-
+{
+    CityBDCenterView *MycenterView;
+}
 @end
 
 @implementation MycenterViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationView.leftBtn.hidden = YES;
+    self.navigationView.lineImageView.hidden = YES;
+
+    self.title = @"我的";
+    [self setupSubviews];
     // Do any additional setup after loading the view.
 }
+-(void)setupSubviews{
+    [self MycenterView];
+    [self.view addSubview:MycenterView];
+    MycenterView.sd_layout
+    .leftSpaceToView(self.view, 0)
+    .rightSpaceToView(self.view, 0)
+    .topSpaceToView(self.view, 64)
+    .bottomSpaceToView(self.view, 49);
+}
+-(UIView *)MycenterView{
+    if (!MycenterView) {
+        MycenterView = [[CityBDCenterView alloc]init];
+    }
 
+    return MycenterView;
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

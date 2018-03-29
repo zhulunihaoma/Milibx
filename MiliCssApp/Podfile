@@ -13,6 +13,8 @@ target 'MiliCssApp' do
 	pod 'AFNetworking'
 	pod 'SDWebImage'
 	pod 'IQKeyboardManager'
+	pod 'SDCycleScrollView'
+ 	pod 'SDAutoLayout'
   target 'MiliCssAppTests' do
     inherit! :search_paths
     # Pods for testing

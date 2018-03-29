@@ -8,7 +8,15 @@
 
 #ifndef MiliDefine_h
 #define MiliDefine_h
+//字体
+#define TextFontSize(a) [UIFont systemFontOfSize:(a)]
+
+
+
 //获得RGB颜色
+//RGB
+#define COLORWithRGB(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
+
 #define HLSColor(r, g, b)\
 [UIColor colorWithRed:r / 255.0 green:g / 255.0 blue:b / 255.0 alpha:1.0]
 
@@ -21,7 +29,11 @@
 /**
  * HLSColor(250, 250, 250)全局颜色
  */
-#define MLBGColor HLSColor(250, 250, 250)
+#define MLBGColor HLSColor(241, 241, 241)
+//标题颜色
+#define MLTittleColor HLSColor(34, 34, 34)
+//详情颜色
+#define MLDetailColor HLSColor(156, 156, 156)
 
 //获取屏幕宽高
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
@@ -76,5 +88,19 @@ NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];               
 #define HLSLog(...)                                                             \
 {}
 #endif
+
+//简单的以AlertView显示提示信息
+#define mAlertView(msg)                                                        \
+UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"      \
+message:msg                  \
+delegate:nil                  \
+cancelButtonTitle:@"确定"            \
+otherButtonTitles:nil];                \
+[alert show];
+
+//CurrentWindow
+#define CurrentWindow [[[[UIApplication sharedApplication] keyWindow] subviews] lastObject]
+//
+#define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
 
 #endif /* MiliDefine_h */
