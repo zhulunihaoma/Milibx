@@ -1,31 +1,28 @@
 //
-//  AddNewComViewController.m
+//  ProductAuthorizeViewController.m
 //  MiliCssApp
 //
-//  Created by Mili_zhu on 2018/3/28.
+//  Created by 朱璐 on 2018/3/29.
 //  Copyright © 2018年 zhu. All rights reserved.
 //
 
-#import "AddNewComViewController.h"
-#import "BDInfoHeaderView.h"
-#import "AddCell.h"
 #import "ProductAuthorizeViewController.h"
+#import "BDInfoHeaderView.h"
+#import "AuthorizeTableViewCell.h"
+#import "ComDetailViewController.h"
 
-@interface AddNewComViewController ()<ZLCategoryViewDelegate>
+@interface ProductAuthorizeViewController ()
 {
-    NSArray *infotittlearr;
-    UITextField *choosefield;
     UIView *NextView;
+
 }
 @end
 
-@implementation AddNewComViewController
+@implementation ProductAuthorizeViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"新增机构";
-    choosefield = nil;
-    infotittlearr = @[@"机构名称",@"营业执照号",@"联系人姓名",@"身份证号码",@"联系人手机",@"机构地址"];
+    self.title = @"产品授权";
     [self setupSubViews];
     
     // Do any additional setup after loading the view.
@@ -48,21 +45,22 @@
         
         
         NextView  = [[UIView alloc]init];
-        NextView.size = CGSizeMake(SCREEN_WIDTH, 80);
+        NextView.size = CGSizeMake(SCREEN_WIDTH, 56);
         NextView.x = 0;
-        NextView.y = 0;
+        NextView.y = SCREEN_HEIGHT - 56;
         
+        [self.view addSubview:NextView];
         
         UIButton *NextBtn = [[UIButton alloc]init];
         [NextView addSubview:NextBtn];
         [NextBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.mas_equalTo(NextView.mas_centerX);
-            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH-66, 46));
-            make.top.mas_equalTo(@33);
+            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 56));
+            make.top.mas_equalTo(@0);
         }];
-        [NextBtn setTitle:@"下一步" forState:UIControlStateNormal];
+        [NextBtn setTitle:@"保存" forState:UIControlStateNormal];
         [NextBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [NextBtn addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];
+        [NextBtn addTarget:self action:@selector(save) forControlEvents:UIControlEventTouchUpInside];
         NextBtn.titleLabel.font = [UIFont systemFontOfSize:16];
         NextBtn.backgroundColor = MLNaviColor;
         NextBtn.layer.cornerRadius = 3;
@@ -77,30 +75,19 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    if (section == 0) {
-        return 6;
-    }else{
-        return 1;
-    }
+    return 6;
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
-    return 2;
+    return 1;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    if (section == 0) {
-        return 50;
+    return 50;
 
-    }else{
-        return 10;
-    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    if (section == 1) {
-        return  80;
-        
-    }
+   
     return 0.001;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -108,9 +95,9 @@
     
     if (section == 0) {
         BDInfoHeaderView *view =[[BDInfoHeaderView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 51)];
-        view.Tittlename = @"机构信息";
+        view.Tittlename = @"产品授权";
         return view;
-
+        
     }else{
         return nil;
     }
@@ -128,56 +115,25 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 50;
+    return 100;
     
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-
+    
     // 定义唯一标识
     static NSString *CellIdentifier = @"Cell";
     // 通过唯一标识创建cell实例
-    AddCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    AuthorizeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (!cell) {
-        cell = [[AddCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        cell = [[AuthorizeTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
-    cell.titlelab.text = infotittlearr[indexPath.row];
-    cell.inputfield.placeholder = @"必填";
-
-    if (indexPath.section == 1) {
-        cell.inputfield.placeholder = @"";
-        cell.inputfield.userInteractionEnabled = NO;
-
-        cell.choosefild.userInteractionEnabled = NO;
-        choosefield = cell.choosefild;
-        cell.titlelab.text = @"推广城市";
-        cell.Ischoose = YES;
-    }
+   
     return cell;
     
 }
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 1) {
-        ZLCategoryView *jview = [[ZLCategoryView alloc]init];
-        //   [self.view addSubview:jview];
-        NSArray *arr = [NSArray new];
-        arr = @[@"日本",@"美国",@"加拿大",@"宾夕法尼亚",@"夏威夷"];
-        
-        jview.dataArr = arr;
-        jview.delegate = self;
-        [jview setOn];
-    }
-    
-}
-#pragma mark -- 点击方法
--(void)next{
-    ProductAuthorizeViewController *pvc =[[ProductAuthorizeViewController alloc]init];
-    [self.navigationController pushViewController:pvc animated:YES];
-}
-#pragma mark -- HLSShipperCategoryViewDelegate
--(void)ChoosecategoryWithCategory:(NSString *)Category andIndex:(NSInteger)index{
-    HLSLog(@"输出：%@",Category);
-    choosefield.text = Category;
-    [self.tableView reloadData];
+-(void)save{
+    ComDetailViewController *cvc = [[ComDetailViewController alloc]init];
+    [self.navigationController pushViewController:cvc animated:YES];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

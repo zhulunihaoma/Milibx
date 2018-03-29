@@ -8,9 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#define StatueBarHeight 20
-#define NaviHeight 64
-#define NaviLeftPadding 10
+
 @interface CustomNavigation : UIView
 
 /**

@@ -38,6 +38,14 @@
 		6D4CC73F20649ABE00EE0686 /* UILabel+HLSDefault.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CC73520649ABD00EE0686 /* UILabel+HLSDefault.m */; };
 		6D4CC74020649ABE00EE0686 /* NSDate+XY.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CC73620649ABD00EE0686 /* NSDate+XY.m */; };
 		6D4CC74120649ABE00EE0686 /* UIView+XY.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CC73720649ABE00EE0686 /* UIView+XY.m */; };
+		6DB00D84206C99A90027B7E6 /* ZLJumpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB00D83206C99A90027B7E6 /* ZLJumpView.m */; };
+		6DB00D87206C99C40027B7E6 /* ZLCategoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB00D86206C99C40027B7E6 /* ZLCategoryView.m */; };
+		6DB00D8A206CBC0B0027B7E6 /* ProductAuthorizeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB00D89206CBC0B0027B7E6 /* ProductAuthorizeViewController.m */; };
+		6DB00D8D206CBC440027B7E6 /* ComDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB00D8C206CBC440027B7E6 /* ComDetailViewController.m */; };
+		6DB00D90206CBFA90027B7E6 /* AuthorizeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB00D8F206CBFA90027B7E6 /* AuthorizeTableViewCell.m */; };
+		6DB00D93206CD5CB0027B7E6 /* ComDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB00D92206CD5CB0027B7E6 /* ComDetailCell.m */; };
+		6DB00D96206CDDE70027B7E6 /* ComMotifyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB00D95206CDDE70027B7E6 /* ComMotifyViewController.m */; };
+		6DB00D99206CE11A0027B7E6 /* AddNewPriViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB00D98206CE11A0027B7E6 /* AddNewPriViewController.m */; };
 		720ABDA6BF6A06994557E2D3 /* libPods-MiliCssAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFE6619C0FC2F005FCFD2201 /* libPods-MiliCssAppTests.a */; };
 		875FA494206B49EE00ECE334 /* BDInfo_TopTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 875FA493206B49EE00ECE334 /* BDInfo_TopTableViewCell.m */; };
 		875FA497206B4A1100ECE334 /* BDInfo_bottomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 875FA496206B4A1100ECE334 /* BDInfo_bottomTableViewCell.m */; };
@@ -144,6 +152,22 @@
 		6D4CC73520649ABD00EE0686 /* UILabel+HLSDefault.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+HLSDefault.m"; sourceTree = "<group>"; };
 		6D4CC73620649ABD00EE0686 /* NSDate+XY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+XY.m"; sourceTree = "<group>"; };
 		6D4CC73720649ABE00EE0686 /* UIView+XY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+XY.m"; sourceTree = "<group>"; };
+		6DB00D82206C99A90027B7E6 /* ZLJumpView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZLJumpView.h; sourceTree = "<group>"; };
+		6DB00D83206C99A90027B7E6 /* ZLJumpView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZLJumpView.m; sourceTree = "<group>"; };
+		6DB00D85206C99C40027B7E6 /* ZLCategoryView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZLCategoryView.h; sourceTree = "<group>"; };
+		6DB00D86206C99C40027B7E6 /* ZLCategoryView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZLCategoryView.m; sourceTree = "<group>"; };
+		6DB00D88206CBC0B0027B7E6 /* ProductAuthorizeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProductAuthorizeViewController.h; sourceTree = "<group>"; };
+		6DB00D89206CBC0B0027B7E6 /* ProductAuthorizeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProductAuthorizeViewController.m; sourceTree = "<group>"; };
+		6DB00D8B206CBC440027B7E6 /* ComDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ComDetailViewController.h; sourceTree = "<group>"; };
+		6DB00D8C206CBC440027B7E6 /* ComDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ComDetailViewController.m; sourceTree = "<group>"; };
+		6DB00D8E206CBFA90027B7E6 /* AuthorizeTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AuthorizeTableViewCell.h; sourceTree = "<group>"; };
+		6DB00D8F206CBFA90027B7E6 /* AuthorizeTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AuthorizeTableViewCell.m; sourceTree = "<group>"; };
+		6DB00D91206CD5CB0027B7E6 /* ComDetailCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ComDetailCell.h; sourceTree = "<group>"; };
+		6DB00D92206CD5CB0027B7E6 /* ComDetailCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ComDetailCell.m; sourceTree = "<group>"; };
+		6DB00D94206CDDE70027B7E6 /* ComMotifyViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ComMotifyViewController.h; sourceTree = "<group>"; };
+		6DB00D95206CDDE70027B7E6 /* ComMotifyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ComMotifyViewController.m; sourceTree = "<group>"; };
+		6DB00D97206CE11A0027B7E6 /* AddNewPriViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddNewPriViewController.h; sourceTree = "<group>"; };
+		6DB00D98206CE11A0027B7E6 /* AddNewPriViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddNewPriViewController.m; sourceTree = "<group>"; };
 		7C84B0A55F076CE8B93DF27F /* libPods-MiliCssApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MiliCssApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		875FA492206B49EE00ECE334 /* BDInfo_TopTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BDInfo_TopTableViewCell.h; sourceTree = "<group>"; };
 		875FA493206B49EE00ECE334 /* BDInfo_TopTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BDInfo_TopTableViewCell.m; sourceTree = "<group>"; };
@@ -348,6 +372,10 @@
 				878FE409206A268800729729 /* HLSBaseCell.m */,
 				6219CA3E2063548500CE242C /* CustomNavigation.h */,
 				6219CA3D2063548400CE242C /* CustomNavigation.m */,
+				6DB00D82206C99A90027B7E6 /* ZLJumpView.h */,
+				6DB00D83206C99A90027B7E6 /* ZLJumpView.m */,
+				6DB00D85206C99C40027B7E6 /* ZLCategoryView.h */,
+				6DB00D86206C99C40027B7E6 /* ZLCategoryView.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -426,6 +454,10 @@
 				87CAAFEE206B8F2600C0D42D /* ManaCell.m */,
 				87CAB00D206B9BE900C0D42D /* AddCell.h */,
 				87CAB00E206B9BE900C0D42D /* AddCell.m */,
+				6DB00D8E206CBFA90027B7E6 /* AuthorizeTableViewCell.h */,
+				6DB00D8F206CBFA90027B7E6 /* AuthorizeTableViewCell.m */,
+				6DB00D91206CD5CB0027B7E6 /* ComDetailCell.h */,
+				6DB00D92206CD5CB0027B7E6 /* ComDetailCell.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -677,6 +709,8 @@
 			children = (
 				87CAAFF9206B99BA00C0D42D /* PrimanaViewController.h */,
 				87CAAFFA206B99BA00C0D42D /* PrimanaViewController.m */,
+				6DB00D97206CE11A0027B7E6 /* AddNewPriViewController.h */,
+				6DB00D98206CE11A0027B7E6 /* AddNewPriViewController.m */,
 			);
 			path = primana;
 			sourceTree = "<group>";
@@ -688,6 +722,12 @@
 				87CAAFFF206B99BA00C0D42D /* CompmanaViewController.m */,
 				87CAAFFC206B99BA00C0D42D /* AddNewComViewController.h */,
 				87CAAFFD206B99BA00C0D42D /* AddNewComViewController.m */,
+				6DB00D88206CBC0B0027B7E6 /* ProductAuthorizeViewController.h */,
+				6DB00D89206CBC0B0027B7E6 /* ProductAuthorizeViewController.m */,
+				6DB00D8B206CBC440027B7E6 /* ComDetailViewController.h */,
+				6DB00D8C206CBC440027B7E6 /* ComDetailViewController.m */,
+				6DB00D94206CDDE70027B7E6 /* ComMotifyViewController.h */,
+				6DB00D95206CDDE70027B7E6 /* ComMotifyViewController.m */,
 			);
 			path = commana;
 			sourceTree = "<group>";
@@ -995,19 +1035,25 @@
 				6D4CC73E20649ABE00EE0686 /* NSDictionary+HLS.m in Sources */,
 				6219CA0520633A6400CE242C /* ViewController.m in Sources */,
 				878FE4042068F92C00729729 /* Translatecode.m in Sources */,
+				6DB00D8D206CBC440027B7E6 /* ComDetailViewController.m in Sources */,
 				6D4CC73920649ABE00EE0686 /* NSDictionary+Log.m in Sources */,
 				878FE41F206B39BD00729729 /* GetUnderController.m in Sources */,
 				624C32702064A12700C68156 /* ProductViewController.m in Sources */,
 				6D4CC73B20649ABE00EE0686 /* UIView+Line.m in Sources */,
+				6DB00D8A206CBC0B0027B7E6 /* ProductAuthorizeViewController.m in Sources */,
 				878FE419206A3EFC00729729 /* BDInfoModel.m in Sources */,
 				878FE40A206A268900729729 /* HLSBaseCell.m in Sources */,
+				6DB00D99206CE11A0027B7E6 /* AddNewPriViewController.m in Sources */,
 				624C32762064A16C00C68156 /* FindViewController.m in Sources */,
 				6D4CC74020649ABE00EE0686 /* NSDate+XY.m in Sources */,
+				6DB00D93206CD5CB0027B7E6 /* ComDetailCell.m in Sources */,
 				6D4CC7252064981100EE0686 /* HLSPersonalInfoTool.m in Sources */,
 				6D4CC73D20649ABE00EE0686 /* NSArray+Log.m in Sources */,
 				624C328A2068A31700C68156 /* MLloginRequest.m in Sources */,
 				875FA494206B49EE00ECE334 /* BDInfo_TopTableViewCell.m in Sources */,
 				87CAB007206B99BA00C0D42D /* PrimanaViewController.m in Sources */,
+				6DB00D90206CBFA90027B7E6 /* AuthorizeTableViewCell.m in Sources */,
+				6DB00D87206C99C40027B7E6 /* ZLCategoryView.m in Sources */,
 				6219CA422063583600CE242C /* UIView+XY.m in Sources */,
 				878FE40D206A26C300729729 /* BDCenterTopTableViewCell.m in Sources */,
 				87CAAFEF206B8F2600C0D42D /* ManaCell.m in Sources */,
@@ -1016,6 +1062,7 @@
 				6D4CC716206495F800EE0686 /* PublicTableViewController.m in Sources */,
 				6D4CC74120649ABE00EE0686 /* UIView+XY.m in Sources */,
 				878FE410206A26DC00729729 /* BDCenterTableViewCell.m in Sources */,
+				6DB00D96206CDDE70027B7E6 /* ComMotifyViewController.m in Sources */,
 				624C32872068A05100C68156 /* MLHttpTools.m in Sources */,
 				87CAAFE0206B7A7900C0D42D /* BDInfoHeaderView.m in Sources */,
 				6235B5C3206383F000DEA932 /* MiliTabbarViewController.m in Sources */,
@@ -1031,6 +1078,7 @@
 				624C32812064A1F300C68156 /* LoginViewController.m in Sources */,
 				87CAB009206B99BA00C0D42D /* CompmanaViewController.m in Sources */,
 				6219CA0220633A6400CE242C /* AppDelegate.m in Sources */,
+				6DB00D84206C99A90027B7E6 /* ZLJumpView.m in Sources */,
 				87CAB00B206B99BA00C0D42D /* UsercenterViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

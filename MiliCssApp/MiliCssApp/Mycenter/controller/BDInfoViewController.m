@@ -35,12 +35,20 @@
         [self setupTableViewWithStyle:UITableViewStyleGrouped];
 
         self.tableView.x = 0;
-        self.tableView.y = 64;
+        self.tableView.y = NaviHeight;
         self.tableView.width = SCREEN_WIDTH;
         self.tableView.backgroundColor = MLBGColor;
         //[self.tableView registerClass:[RequestTextFieldCell class] forCellReuseIdentifier:@"cell"];
         self.tableView.height = SCREEN_HEIGHT-64-50;
         self.tableView.showsVerticalScrollIndicator = NO;
+    
+    
+    self.tableView.estimatedRowHeight = 0;
+    self.tableView.estimatedSectionHeaderHeight = 0;
+    self.tableView.estimatedSectionFooterHeight = 0;
+ 
+
+
 }
 #pragma -mark UITableVIew
 

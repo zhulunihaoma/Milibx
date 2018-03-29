@@ -8,11 +8,14 @@
 
 #ifndef MiliDefine_h
 #define MiliDefine_h
+
+#define StatueBarHeight [[UIApplication sharedApplication] statusBarFrame].size.height
+#define NaviHeight StatueBarHeight+44
+#define NaviLeftPadding 10
+#define TabBarHeight ([[UIApplication sharedApplication] statusBarFrame].size.height>20?83:49)
+
 //字体
 #define TextFontSize(a) [UIFont systemFontOfSize:(a)]
-
-
-
 //获得RGB颜色
 //RGB
 #define COLORWithRGB(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]

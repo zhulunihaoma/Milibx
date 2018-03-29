@@ -29,7 +29,7 @@
 //初始化界面
 -(void)initView{
     BannerView = [[SDCycleScrollView alloc]init];
-    BannerView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 64,SCREEN_WIDTH,SCREEN_WIDTH*9.0/16) delegate:self placeholderImage:[UIImage imageNamed:@""]];
+    BannerView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, NaviHeight,SCREEN_WIDTH,SCREEN_WIDTH*9.0/16) delegate:self placeholderImage:[UIImage imageNamed:@""]];
     BannerView.pageControlAliment =  SDCycleScrollViewPageContolAlimentCenter;
     BannerView.imageURLStringsGroup = @[
                                                   @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488778259390&di=5fad64ae38d46c6bb2d47032a37a20a2&imgtype=0&src=http%3A%2F%2Fzx123cn.img-cn-hangzhou.aliyuncs.com%2Fuploadfile%2F2016%2F0905%2F20160905152053_62461.jpg",
