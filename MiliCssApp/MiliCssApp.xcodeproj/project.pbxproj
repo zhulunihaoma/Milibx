@@ -57,6 +57,9 @@
 		878FE413206A294600729729 /* UIImage+HLS.m in Sources */ = {isa = PBXBuildFile; fileRef = 878FE412206A294600729729 /* UIImage+HLS.m */; };
 		878FE419206A3EFC00729729 /* BDInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 878FE418206A3EFC00729729 /* BDInfoModel.m */; };
 		878FE41F206B39BD00729729 /* GetUnderController.m in Sources */ = {isa = PBXBuildFile; fileRef = 878FE41E206B39BD00729729 /* GetUnderController.m */; };
+		87A707D3206DE8B200C3B972 /* WalletCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87A707D2206DE8B200C3B972 /* WalletCenterViewController.m */; };
+		87A707D6206DEC2B00C3B972 /* Wallet_Image_TittleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87A707D5206DEC2B00C3B972 /* Wallet_Image_TittleCell.m */; };
+		87A707D9206DED2100C3B972 /* Wallet_TopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87A707D8206DED2100C3B972 /* Wallet_TopCell.m */; };
 		87CAAFE0206B7A7900C0D42D /* BDInfoHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CAAFDF206B7A7900C0D42D /* BDInfoHeaderView.m */; };
 		87CAAFEF206B8F2600C0D42D /* ManaCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CAAFEE206B8F2600C0D42D /* ManaCell.m */; };
 		87CAAFF2206B906700C0D42D /* ManaModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CAAFF1206B906700C0D42D /* ManaModel.m */; };
@@ -189,6 +192,12 @@
 		878FE418206A3EFC00729729 /* BDInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BDInfoModel.m; sourceTree = "<group>"; };
 		878FE41D206B39BD00729729 /* GetUnderController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetUnderController.h; sourceTree = "<group>"; };
 		878FE41E206B39BD00729729 /* GetUnderController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetUnderController.m; sourceTree = "<group>"; };
+		87A707D1206DE8B200C3B972 /* WalletCenterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WalletCenterViewController.h; sourceTree = "<group>"; };
+		87A707D2206DE8B200C3B972 /* WalletCenterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WalletCenterViewController.m; sourceTree = "<group>"; };
+		87A707D4206DEC2B00C3B972 /* Wallet_Image_TittleCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Wallet_Image_TittleCell.h; sourceTree = "<group>"; };
+		87A707D5206DEC2B00C3B972 /* Wallet_Image_TittleCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Wallet_Image_TittleCell.m; sourceTree = "<group>"; };
+		87A707D7206DED2100C3B972 /* Wallet_TopCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Wallet_TopCell.h; sourceTree = "<group>"; };
+		87A707D8206DED2100C3B972 /* Wallet_TopCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Wallet_TopCell.m; sourceTree = "<group>"; };
 		87CAAFDE206B7A7900C0D42D /* BDInfoHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BDInfoHeaderView.h; sourceTree = "<group>"; };
 		87CAAFDF206B7A7900C0D42D /* BDInfoHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BDInfoHeaderView.m; sourceTree = "<group>"; };
 		87CAAFED206B8F2600C0D42D /* ManaCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ManaCell.h; sourceTree = "<group>"; };
@@ -403,6 +412,7 @@
 		6235B5A9206383CB00DEA932 /* controller */ = {
 			isa = PBXGroup;
 			children = (
+				87A707D0206DE6B400C3B972 /* wallet */,
 				87CAAFFB206B99BA00C0D42D /* commana */,
 				87CAAFF8206B99BA00C0D42D /* primana */,
 				87CAAFF6206B99BA00C0D42D /* AchievementViewController.h */,
@@ -458,6 +468,10 @@
 				6DB00D8F206CBFA90027B7E6 /* AuthorizeTableViewCell.m */,
 				6DB00D91206CD5CB0027B7E6 /* ComDetailCell.h */,
 				6DB00D92206CD5CB0027B7E6 /* ComDetailCell.m */,
+				87A707D4206DEC2B00C3B972 /* Wallet_Image_TittleCell.h */,
+				87A707D5206DEC2B00C3B972 /* Wallet_Image_TittleCell.m */,
+				87A707D7206DED2100C3B972 /* Wallet_TopCell.h */,
+				87A707D8206DED2100C3B972 /* Wallet_TopCell.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -702,6 +716,15 @@
 				6D4CC73720649ABE00EE0686 /* UIView+XY.m */,
 			);
 			path = category;
+			sourceTree = "<group>";
+		};
+		87A707D0206DE6B400C3B972 /* wallet */ = {
+			isa = PBXGroup;
+			children = (
+				87A707D1206DE8B200C3B972 /* WalletCenterViewController.h */,
+				87A707D2206DE8B200C3B972 /* WalletCenterViewController.m */,
+			);
+			path = wallet;
 			sourceTree = "<group>";
 		};
 		87CAAFF8206B99BA00C0D42D /* primana */ = {
@@ -1049,11 +1072,13 @@
 				6DB00D93206CD5CB0027B7E6 /* ComDetailCell.m in Sources */,
 				6D4CC7252064981100EE0686 /* HLSPersonalInfoTool.m in Sources */,
 				6D4CC73D20649ABE00EE0686 /* NSArray+Log.m in Sources */,
+				87A707D9206DED2100C3B972 /* Wallet_TopCell.m in Sources */,
 				624C328A2068A31700C68156 /* MLloginRequest.m in Sources */,
 				875FA494206B49EE00ECE334 /* BDInfo_TopTableViewCell.m in Sources */,
 				87CAB007206B99BA00C0D42D /* PrimanaViewController.m in Sources */,
 				6DB00D90206CBFA90027B7E6 /* AuthorizeTableViewCell.m in Sources */,
 				6DB00D87206C99C40027B7E6 /* ZLCategoryView.m in Sources */,
+				87A707D6206DEC2B00C3B972 /* Wallet_Image_TittleCell.m in Sources */,
 				6219CA422063583600CE242C /* UIView+XY.m in Sources */,
 				878FE40D206A26C300729729 /* BDCenterTopTableViewCell.m in Sources */,
 				87CAAFEF206B8F2600C0D42D /* ManaCell.m in Sources */,
@@ -1065,6 +1090,7 @@
 				6DB00D96206CDDE70027B7E6 /* ComMotifyViewController.m in Sources */,
 				624C32872068A05100C68156 /* MLHttpTools.m in Sources */,
 				87CAAFE0206B7A7900C0D42D /* BDInfoHeaderView.m in Sources */,
+				87A707D3206DE8B200C3B972 /* WalletCenterViewController.m in Sources */,
 				6235B5C3206383F000DEA932 /* MiliTabbarViewController.m in Sources */,
 				6219CA1020633A6400CE242C /* main.m in Sources */,
 				878FE4072069D51100729729 /* CityBDCenterView.m in Sources */,
