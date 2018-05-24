@@ -38,6 +38,8 @@
 		6D4CC73F20649ABE00EE0686 /* UILabel+HLSDefault.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CC73520649ABD00EE0686 /* UILabel+HLSDefault.m */; };
 		6D4CC74020649ABE00EE0686 /* NSDate+XY.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CC73620649ABD00EE0686 /* NSDate+XY.m */; };
 		6D4CC74120649ABE00EE0686 /* UIView+XY.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CC73720649ABE00EE0686 /* UIView+XY.m */; };
+		6D6EBF3C20B53CE100C0D906 /* MD5Tool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6EBF3B20B53CE100C0D906 /* MD5Tool.m */; };
+		6D6EBF3F20B54CE800C0D906 /* JSONTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6EBF3E20B54CE800C0D906 /* JSONTool.m */; };
 		6DB00D84206C99A90027B7E6 /* ZLJumpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB00D83206C99A90027B7E6 /* ZLJumpView.m */; };
 		6DB00D87206C99C40027B7E6 /* ZLCategoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB00D86206C99C40027B7E6 /* ZLCategoryView.m */; };
 		6DB00D8A206CBC0B0027B7E6 /* ProductAuthorizeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB00D89206CBC0B0027B7E6 /* ProductAuthorizeViewController.m */; };
@@ -155,6 +157,10 @@
 		6D4CC73520649ABD00EE0686 /* UILabel+HLSDefault.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+HLSDefault.m"; sourceTree = "<group>"; };
 		6D4CC73620649ABD00EE0686 /* NSDate+XY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+XY.m"; sourceTree = "<group>"; };
 		6D4CC73720649ABE00EE0686 /* UIView+XY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+XY.m"; sourceTree = "<group>"; };
+		6D6EBF3A20B53CE100C0D906 /* MD5Tool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MD5Tool.h; sourceTree = "<group>"; };
+		6D6EBF3B20B53CE100C0D906 /* MD5Tool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MD5Tool.m; sourceTree = "<group>"; };
+		6D6EBF3D20B54CE800C0D906 /* JSONTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSONTool.h; sourceTree = "<group>"; };
+		6D6EBF3E20B54CE800C0D906 /* JSONTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSONTool.m; sourceTree = "<group>"; };
 		6DB00D82206C99A90027B7E6 /* ZLJumpView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZLJumpView.h; sourceTree = "<group>"; };
 		6DB00D83206C99A90027B7E6 /* ZLJumpView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZLJumpView.m; sourceTree = "<group>"; };
 		6DB00D85206C99C40027B7E6 /* ZLCategoryView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZLCategoryView.h; sourceTree = "<group>"; };
@@ -370,6 +376,10 @@
 				878FE4032068F92C00729729 /* Translatecode.m */,
 				878FE41D206B39BD00729729 /* GetUnderController.h */,
 				878FE41E206B39BD00729729 /* GetUnderController.m */,
+				6D6EBF3A20B53CE100C0D906 /* MD5Tool.h */,
+				6D6EBF3B20B53CE100C0D906 /* MD5Tool.m */,
+				6D6EBF3D20B54CE800C0D906 /* JSONTool.h */,
+				6D6EBF3E20B54CE800C0D906 /* JSONTool.m */,
 			);
 			path = tool;
 			sourceTree = "<group>";
@@ -1073,9 +1083,11 @@
 				6D4CC7252064981100EE0686 /* HLSPersonalInfoTool.m in Sources */,
 				6D4CC73D20649ABE00EE0686 /* NSArray+Log.m in Sources */,
 				87A707D9206DED2100C3B972 /* Wallet_TopCell.m in Sources */,
+				6D6EBF3F20B54CE800C0D906 /* JSONTool.m in Sources */,
 				624C328A2068A31700C68156 /* MLloginRequest.m in Sources */,
 				875FA494206B49EE00ECE334 /* BDInfo_TopTableViewCell.m in Sources */,
 				87CAB007206B99BA00C0D42D /* PrimanaViewController.m in Sources */,
+				6D6EBF3C20B53CE100C0D906 /* MD5Tool.m in Sources */,
 				6DB00D90206CBFA90027B7E6 /* AuthorizeTableViewCell.m in Sources */,
 				6DB00D87206C99C40027B7E6 /* ZLCategoryView.m in Sources */,
 				87A707D6206DEC2B00C3B972 /* Wallet_Image_TittleCell.m in Sources */,

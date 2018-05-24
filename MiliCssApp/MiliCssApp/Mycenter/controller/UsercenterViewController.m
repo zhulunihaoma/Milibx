@@ -8,7 +8,7 @@
 
 #import "UsercenterViewController.h"
 #import "WalletCenterViewController.h"
-
+#import "LoginViewController.h"
 @interface UsercenterViewController ()
 {
     UIView *MycenterView;
@@ -159,7 +159,44 @@
     [self.navigationController pushViewController:wvc animated:YES];
     
 }
+-(void)exit{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"确定退出？" preferredStyle:UIAlertControllerStyleAlert];
+    __weak typeof(self) weakself = self;
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定退出" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        DEF_PERSISTENT_SET_OBJECT(@"", @"token");
 
+        [mUserDefaults removeObjectForKey:KUserInfoDic];
+        [mUserDefaults setObject:@"1" forKey:@"isTag"];
+        [mUserDefaults synchronize];
+        
+//        [APServiceTool setTag];
+        //刷新个人中心
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadperson" object:self];
+        
+        
+        LoginViewController *lvc = [[LoginViewController alloc]init];
+        UINavigationController *navi = [[UINavigationController alloc]initWithRootViewController:lvc];
+        navi.navigationBarHidden = YES;
+//        [self.delegate relogin];
+        [self presentViewController:navi animated:YES completion:^{
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            self.tabBarController.selectedIndex = 0;
+            
+        }];
+        
+        
+        
+        
+    }];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    [alert addAction:cancel];
+    [alert addAction:action];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+    
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

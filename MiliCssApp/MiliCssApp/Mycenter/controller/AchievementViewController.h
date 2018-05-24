@@ -7,7 +7,11 @@
 //
 
 #import "PublicTableViewController.h"
+#import <JavaScriptCore/JavaScriptCore.h>
+@protocol JsbridgeProtocol <JSExport>
+-(NSString *)getCookie;
+@end
 
-@interface AchievementViewController : PublicTableViewController
-
+@interface AchievementViewController : PublicTableViewController<JsbridgeProtocol>
+@property(nonatomic,weak)id<JsbridgeProtocol>delegate;
 @end
