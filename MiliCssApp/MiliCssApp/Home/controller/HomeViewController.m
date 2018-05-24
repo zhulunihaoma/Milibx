@@ -24,6 +24,8 @@
     self.navigationView.leftBtn.hidden = YES;
     self.title = @"首页";
     [self initView];
+    HLSLog(@"--本地%@",[DEF_PERSISTENT_GET_OBJECT(@"userinfo") xyValueForKey:@"user"] );
+
     // Do any additional setup after loading the view.
 }
 //初始化界面

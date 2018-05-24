@@ -12,7 +12,7 @@
 
 //接口请求地址
 
-#define RequestUrl @"http://172.17.101.211:8080"//开发环境
+#define RequestUrl @"https://openapi.milibx.com"//开发环境
 
 
 
@@ -20,6 +20,10 @@
 //#define RequestUrl @"https://app.shenzhoubanche.com.cn"//生产环境
 
 
+
+//web请求地址
+#define RequestWebUrl @"http://192.168.170.27:17150"//27环境
+//#define RequestWebUrl @"http://app.milibx.com:17150"//俊逸环境
 
 
 

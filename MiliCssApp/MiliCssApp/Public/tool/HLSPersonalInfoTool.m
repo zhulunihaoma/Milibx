@@ -14,7 +14,7 @@
 
 + (BOOL)isLogin
 {
-    if ([self getToken].length >0) {
+    if ([self getWAPSESSIONID].length >0) {
         return YES;
 
     }else{
@@ -22,33 +22,15 @@
     }
 }
 
-+ (NSString *)getToken{
-    return DEF_PERSISTENT_GET_OBJECT(@"token");
++ (NSString *)getCookies{
+    return [DEF_PERSISTENT_GET_OBJECT(@"userinfo") xyValueForKey:@"cookies"];
 }
-+ (NSString *)getUid
++ (NSString *)getWAPSESSIONID{
+    return [[DEF_PERSISTENT_GET_OBJECT(@"userinfo") xyValueForKey:@"cookies"] xyValueForKey:@"WAPSESSIONID"];
+}
++ (NSString *)getUserinfo
 {
-    return [[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"uid"];
-}
-+ (NSString *)getPhoneNum{
-    return [[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"mobile"];
-
-
-}
-
-+ (NSString *)getUserType
-{
-    return [[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"userType"];
-}
-+ (NSString *)getCompanyId {
-    return [[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"companyId"];
-}
-+ (NSInteger )getLevel{//获取用户等级
-    return [[[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"level"] integerValue];
-}
-+ (NSString *)getqid{
-    return [[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"qid"];
-
-
+    return [DEF_PERSISTENT_GET_OBJECT(@"userinfo") xyValueForKey:@"user"];
 }
 
 /**

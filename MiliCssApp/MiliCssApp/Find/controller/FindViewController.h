@@ -7,6 +7,8 @@
 //
 
 #import "PublicTableViewController.h"
+#import <WebKit/WebKit.h>
+#import <JavaScriptCore/JavaScriptCore.h>
 
 @interface FindViewController : PublicTableViewController
 
