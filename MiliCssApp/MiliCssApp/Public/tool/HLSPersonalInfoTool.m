@@ -14,23 +14,21 @@
 
 + (BOOL)isLogin
 {
-    if ([self getWAPSESSIONID].length >0) {
-        return YES;
+    return YES;
 
-    }else{
-        return NO;
-    }
 }
 
 + (NSString *)getCookies{
-    return [DEF_PERSISTENT_GET_OBJECT(@"userinfo") xyValueForKey:@"cookies"];
+    return [[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"cookies"];
 }
 + (NSString *)getWAPSESSIONID{
-    return [[DEF_PERSISTENT_GET_OBJECT(@"userinfo") xyValueForKey:@"cookies"] xyValueForKey:@"WAPSESSIONID"];
+    return [[[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"cookies"] xyValueForKey:@"WAPSESSIONID"];
+
+//    return [[DEF_PERSISTENT_GET_OBJECT(@"userinfo") xyValueForKey:@"cookies"] xyValueForKey:@"WAPSESSIONID"];
 }
 + (NSString *)getUserinfo
 {
-    return [DEF_PERSISTENT_GET_OBJECT(@"userinfo") xyValueForKey:@"user"];
+    return [[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"user"];
 }
 
 /**

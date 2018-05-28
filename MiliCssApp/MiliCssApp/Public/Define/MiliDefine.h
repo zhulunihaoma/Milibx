@@ -32,7 +32,7 @@
 /**
  * HLSColor(250, 250, 250)全局颜色
  */
-#define MLBGColor HLSColor(241, 241, 241)
+#define MLBGColor HLSColor(255, 255, 255)
 //标题颜色
 #define MLTittleColor HLSColor(34, 34, 34)
 //详情颜色

@@ -10,7 +10,7 @@
 #import "JSONTool.h"
 #import <WebKit/WebKit.h>
 #import <JavaScriptCore/JavaScriptCore.h>
-@interface ProductViewController ()<WKNavigationDelegate,WKScriptMessageHandler>
+@interface ProductViewController ()<WKNavigationDelegate,WKScriptMessageHandler,WKUIDelegate>
 @property(nonatomic,strong)WKWebView *webView;
 
 @end
@@ -26,39 +26,42 @@
     HLSLog(@"--%@",sesionstr);
 //    NSString *cookiestr = [NSString stringWithFormat:@"document.cookie ='WAPSESSIONID=%@';",sesionstr];
     
-//     NSString *cookiestr = [NSString stringWithFormat:@"document.cookie ='WAPSESSIONID=%@';'domain=.milibx.com';'path=/';",sesionstr];
+     NSString *cookiestr = [NSString stringWithFormat:@"document.cookie ='WAPSESSIONID=%@;domain=.milibx.com;path=/';",sesionstr];
+//    NSString *sesionstr = [HLSPersonalInfoTool getWAPSESSIONID];
+//    NSString *cookiestr = [NSString stringWithFormat:@"document.cookie ='WAPSESSIONID=%@';",sesionstr];
+    WKUserContentController* userContentController = WKUserContentController.new;
+    WKUserScript * cookieScript = [[WKUserScript alloc] initWithSource: cookiestr injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:NO];
     
-    
-    
-    
-//    WKUserContentController* userContentController = WKUserContentController.new;
-//    WKUserScript * cookieScript = [[WKUserScript alloc] initWithSource: cookiestr injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:NO];
-    
-//    [userContentController addUserScript:cookieScript];
-//    WKWebViewConfiguration * config = [[WKWebViewConfiguration alloc] init];
-//    config.userContentController = userContentController;
+    [userContentController addUserScript:cookieScript];
+    WKWebViewConfiguration * config = [[WKWebViewConfiguration alloc] init];
+    config.userContentController = userContentController;
     //    WKCookiesManager * cookieManager = [WKCookiesManager shareCookies];
     //    config.processPool = cookieManager.processPool;
-//    WKPreferences * prefer = [[WKPreferences alloc] init];
-//    prefer.javaScriptEnabled = YES;
-//    prefer.javaScriptCanOpenWindowsAutomatically = YES;
-//    config.preferences = prefer;
+    WKPreferences * prefer = [[WKPreferences alloc] init];
+    prefer.javaScriptEnabled = YES;
+    prefer.javaScriptCanOpenWindowsAutomatically = YES;
+    config.preferences = prefer;
+    self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 400, SCREEN_WIDTH, SCREEN_HEIGHT) configuration:config];
+    self.webView.allowsBackForwardNavigationGestures = YES;
+    [self.view addSubview:self.webView];
+    self.webView.UIDelegate = self;
+    self.webView.navigationDelegate = self;
     self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     self.webView.allowsBackForwardNavigationGestures = YES;
     [self.view addSubview:self.webView];
     self.webView.UIDelegate = self;
     self.webView.navigationDelegate = self;
-//    NSString *tempUrl = [NSString stringWithFormat:@"%@/opena/list",@"css.milibx.com"];
+    NSString *tempUrl = [NSString stringWithFormat:@"%@webapp/opena/list",RequestWebUrl];
     
-        NSString *tempUrl = @"css.milibx.com/user/login";
 
     
     
     
     
     NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:tempUrl] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
-//    NSString *strcookie =  [JSONTool dictionaryToJson:[HLSPersonalInfoTool getCookies]];
-//    [request addValue:[JSONTool dictionaryToJson:[HLSPersonalInfoTool getCookies]] forHTTPHeaderField:@"Cookie"];
+    NSString *strcookie =  [NSString stringWithFormat:@"WAPSESSIONID=%@",[HLSPersonalInfoTool getWAPSESSIONID]];
+    [request addValue:strcookie forHTTPHeaderField:@"Cookie"];
+//    [request addValue:cookieValue forHTTPHeaderField:@"Cookie"];
 
     [self.webView loadRequest:request];
     
@@ -72,47 +75,28 @@
         NSLog(@"value: %@ error: %@", response, error);
     }];
 }
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+- (void)loadRequestWithUrlString:(NSString *)urlString {
     
+    // 在此处获取返回的cookie
+    NSMutableDictionary *cookieDic = [NSMutableDictionary dictionary];
     
+    NSMutableString *cookieValue = [NSMutableString stringWithFormat:@""];
+    NSHTTPCookieStorage *cookieJar = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     
-    NSString *urlString = [[request URL]  absoluteString];
-    
-    NSLog(@"==> %@",urlString);
-    
-    
-    
-    NSMutableURLRequest *mutableRequest = [request mutableCopy];
-    
-    NSDictionary *requestHeaders = request.allHTTPHeaderFields;
-    
-    
-    
-    // 判断请求头是否已包含，如果不判断该字段会导致webview加载时死循环
-    
-    if (requestHeaders[@"Cookie"]) {
-        
-        return YES;
-        
-    } else {
-        
-        
-        [mutableRequest setValue:@"ios" forHTTPHeaderField:@"Cookie"];
-        
-        
-        
-        request = [mutableRequest copy];
-        
-        [webView loadRequest:request];
-        
-        
-        
-        return NO;
-        
+    for (NSHTTPCookie *cookie in [cookieJar cookies]) {
+        [cookieDic setObject:cookie.value forKey:cookie.name];
     }
     
-    return YES;
+    // cookie重复，先放到字典进行去重，再进行拼接
+    for (NSString *key in cookieDic) {
+        NSString *appendString = [NSString stringWithFormat:@"%@=%@;", key, [cookieDic valueForKey:key]];
+        [cookieValue appendString:appendString];
+    }
     
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+    [request addValue:cookieValue forHTTPHeaderField:@"Cookie"];
+    
+    [self.webView loadRequest:request];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

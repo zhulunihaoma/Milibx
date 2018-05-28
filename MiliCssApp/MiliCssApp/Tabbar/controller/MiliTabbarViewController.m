@@ -26,10 +26,10 @@
     [self addChildViewController:hvc normalImage:@"un主页" selectedImage:@"主页" title:@"主页"];
     self.delegate = self;
     
-    
-    ProductViewController *svc = [[ProductViewController alloc]init];
-    
-    [self addChildViewController:svc normalImage:@"un我的" selectedImage:@"我的" title:@"产品列表"];
+//
+//    ProductViewController *svc = [[ProductViewController alloc]init];
+//
+//    [self addChildViewController:svc normalImage:@"un我的" selectedImage:@"我的" title:@"产品列表"];
     
     
     
@@ -66,7 +66,7 @@
         HLSLog(@"111:%@",TOKEN);
         
         // 判断用户是否登陆
-        if (![HLSPersonalInfoTool isLogin]) {
+        if (![HLSPersonalInfoTool getWAPSESSIONID]) {
             
             LoginViewController *lvc = [[LoginViewController alloc]init];
             UINavigationController *nvc = [[UINavigationController alloc]initWithRootViewController:lvc];

@@ -29,4 +29,5 @@
 #import "GetUnderController.h"
 //zlpiker
 #import "ZLCategoryView.h"
+#import "UIImageView+WebCache.h"
 #endif /* Mili_pch */

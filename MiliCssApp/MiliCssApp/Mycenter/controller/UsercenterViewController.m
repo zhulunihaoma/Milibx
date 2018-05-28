@@ -163,7 +163,7 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"确定退出？" preferredStyle:UIAlertControllerStyleAlert];
     __weak typeof(self) weakself = self;
     UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定退出" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        DEF_PERSISTENT_SET_OBJECT(@"", @"token");
+        DEF_PERSISTENT_SET_OBJECT(@"", @"userinfo");
 
         [mUserDefaults removeObjectForKey:KUserInfoDic];
         [mUserDefaults setObject:@"1" forKey:@"isTag"];
