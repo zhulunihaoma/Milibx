@@ -7,8 +7,9 @@
 //
 
 #import "PublicTableViewController.h"
-
 @interface PublicTableViewController ()<UITableViewDataSource,UITableViewDelegate>
+{
+}
 
 @end
 
@@ -26,7 +27,9 @@
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     tableView.tableFooterView = [[UIView alloc]init];
     tableView.backgroundColor = MLBGColor ;
+    tableView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:self.tableView = tableView];
+    
     
 }
 - (void)setupHeaderRefresh {

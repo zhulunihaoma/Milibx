@@ -9,10 +9,14 @@
 #import "HomeViewController.h"
 #import "MiliCssApp-Bridging-Header.h"
 #import "MiliTabbarViewController.h"
-#import <SDCycleScrollView.h>"
-@interface HomeViewController ()<SDCycleScrollViewDelegate>
+#import "Home_TopTableViewCell.h"
+#import "Home_ToolsTableViewCell.h"
+#import "Home_PromoteTableViewCell.h"
+#import "Home_NewsTableViewCell.h"
+#import "Home_AdvantageTableViewCell.h"
+
+@interface HomeViewController ()
 {
-    SDCycleScrollView *BannerView;
     
 }
 @end
@@ -22,25 +26,165 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationView.leftBtn.hidden = YES;
-    self.title = @"首页";
-    [self initView];
-//    HLSLog(@"--本地%@",[DEF_PERSISTENT_GET_OBJECT(@"userinfo") xyValueForKey:@"user"] );
+    self.navigationView.lineImageView.hidden = YES;
 
+    self.title = @"首页";
+    [self setupSubViews];
+    HLSLog(@"---StatueBarHeight%f",NaviHeight);
     // Do any additional setup after loading the view.
 }
-//初始化界面
--(void)initView{
-    BannerView = [[SDCycleScrollView alloc]init];
-    BannerView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, NaviHeight,SCREEN_WIDTH,SCREEN_WIDTH*9.0/16) delegate:self placeholderImage:[UIImage imageNamed:@""]];
-    BannerView.pageControlAliment =  SDCycleScrollViewPageContolAlimentCenter;
-    BannerView.imageURLStringsGroup = @[
-                                                  @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488778259390&di=5fad64ae38d46c6bb2d47032a37a20a2&imgtype=0&src=http%3A%2F%2Fzx123cn.img-cn-hangzhou.aliyuncs.com%2Fuploadfile%2F2016%2F0905%2F20160905152053_62461.jpg",
-                                                  @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488778259388&di=bc10a126d396402565395c63baf27196&imgtype=0&src=http%3A%2F%2Fpic.qiantucdn.com%2F58pic%2F17%2F89%2F07%2F55a5c86a77176_1024.jpg",@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488778259386&di=a3ac242a1ccf2276dad35ccb286cc8ed&imgtype=0&src=http%3A%2F%2Fwww.sc.cc%2FPublic%2FUploads%2F55139112c813a.jpg",
-                                                  @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488778259383&di=c5ccc270675a567e1d70c52886b95f24&imgtype=0&src=http%3A%2F%2Fpic.58pic.com%2F58pic%2F16%2F50%2F51%2F50Y58PICp4P_1024.jpg"];
-   
+
+
+-(void)setupSubViews{
+    [self setupTableViewWithStyle:UITableViewStyleGrouped];
     
-    [self.view addSubview:BannerView];
+    self.tableView.x = 0;
+    self.tableView.y = -StatueBarHeight;
+    self.tableView.width = SCREEN_WIDTH;
+    self.tableView.backgroundColor = MLBGColor;
+    //[self.tableView registerClass:[RequestTextFieldCell class] forCellReuseIdentifier:@"cell"];
+    self.tableView.height = SCREEN_HEIGHT-29;
+    self.tableView.showsVerticalScrollIndicator = NO;
+    
+    
 }
+#pragma -mark UITableVIew
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
+    return 1;
+}
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    
+    return 5;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 0.001;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    if (section == 4) {
+        return 0.01;
+
+    }
+    return 8;
+
+
+}
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    
+    return nil;
+    
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    
+    return nil;
+    
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    switch (indexPath.section) {
+        case 0:
+            return  302+NaviHeight;
+            break;
+        case 1:
+            return  160;
+            break;
+        case 2:
+            return  315;
+            break;
+        case 3:
+            return  75;
+            break;
+        case 4:
+            return  105;
+            break;
+        default:
+            return  0;
+
+            break;
+    }
+    
+    
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    
+    if (indexPath.section == 0) {
+        // 定义唯一标识
+        static NSString *CellIdentifier = @"Cell0";
+        // 通过唯一标识创建cell实例
+        Home_TopTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (!cell) {
+            cell = [[Home_TopTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        }
+        
+        return cell;
+    }
+    if (indexPath.section == 1) {
+        // 定义唯一标识
+        static NSString *CellIdentifier = @"Cell1";
+        // 通过唯一标识创建cell实例
+        Home_ToolsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (!cell) {
+            cell = [[Home_ToolsTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        }
+        
+        return cell;
+    }
+    if (indexPath.section == 2) {
+        // 定义唯一标识
+        static NSString *CellIdentifier = @"Cell2";
+        // 通过唯一标识创建cell实例
+        Home_PromoteTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (!cell) {
+            cell = [[Home_PromoteTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        }
+        
+        return cell;
+    }
+    if (indexPath.section == 3) {
+        // 定义唯一标识
+        static NSString *CellIdentifier = @"Cell3";
+        // 通过唯一标识创建cell实例
+        Home_NewsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (!cell) {
+            cell = [[Home_NewsTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        }
+        
+        return cell;
+    }
+    if (indexPath.section == 4) {
+        // 定义唯一标识
+        static NSString *CellIdentifier = @"Cell4";
+        // 通过唯一标识创建cell实例
+        Home_AdvantageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (!cell) {
+            cell = [[Home_AdvantageTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        }
+        
+        return cell;
+    }
+    
+    
+    // 定义唯一标识
+    static NSString *CellIdentifier = @"Cellall";
+    // 通过唯一标识创建cell实例
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (!cell) {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    }
+    
+    return cell;
+    
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+//    ComDetailViewController *cvc = [[ComDetailViewController alloc]init];
+//    [self.navigationController pushViewController:cvc animated:YES];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

@@ -13,6 +13,7 @@
 #import "CompmanaViewController.h"
 #import "PrimanaViewController.h"
 #import "UsercenterViewController.h"
+#import "CommitAdviceViewController.h"
 
 @interface CityBDCenterView()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView *listTableView;/**个人中心列表*/
@@ -27,7 +28,7 @@
         [self initSubviews];
         _DataArr = [NSMutableArray new];
         NSArray *imagearr = @[@"icon_personal_1",@"icon_personal_2",@"icon_personal_3",@"icon_personal_4",];
-        NSArray *tittleearr = @[@"业绩中心",@"机构管理",@"代理人管理",@"个人中心",];
+        NSArray *tittleearr = @[@"常见问题",@"联系我们",@"意见反馈",@"平台资质",];
 
         for(int i = 0;i <imagearr.count;i++){
             NSMutableDictionary *dic = [NSMutableDictionary dictionary];
@@ -48,7 +49,8 @@
     self.listTableView.x = 0;
     self.listTableView.y = 0;
     self.listTableView.width = SCREEN_WIDTH;
-    self.listTableView.height = SCREEN_HEIGHT-64-49;
+    self.listTableView.height = SCREEN_HEIGHT-49+20;
+    self.listTableView.backgroundColor = MLBGColor;
 }
 
 -(UITableView *)listTableView{
@@ -72,28 +74,21 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    if (section == 0) {
-        return 1;
-    }else{
-        return 4;
-    }
+    return 1;
+
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
-    return 2;
+    return 5;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    if (section == 1) {
-        return 16;
-    }else{
-        return 0.001;
-
-    }
+    
+    return 0.01;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     
-    return 0.001;
+    return 8;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     
@@ -109,9 +104,9 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
-        return 315;
+        return 382+NaviHeight;
     }else{
-     return 56;
+     return 50;
     }
     
 }
@@ -135,17 +130,19 @@
         if (!cell) {
             cell = [[BDCenterTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         }
-        cell.Model = _DataArr[indexPath.row];
+        cell.Model = _DataArr[indexPath.section-1];
         cell.Isdeseled = YES;
-        if (indexPath.row ==_DataArr.count-1) {
-            cell.separatorImageView.hidden = YES;;
-        }
+     
         return cell;
     }
    
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 3) {
+        CommitAdviceViewController *avc = [[CommitAdviceViewController alloc]init];
+        [[GetUnderController getvcwithtarget:self].navigationController pushViewController:avc animated:YES];
+    }
     if (indexPath.section == 1) {
         if (indexPath.row == 0) {
             AchievementViewController *avc = [[AchievementViewController alloc]init];
@@ -166,5 +163,6 @@
     }
    
 }
+
 
 @end

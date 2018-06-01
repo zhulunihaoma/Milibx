@@ -20,10 +20,24 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 49)];
+//    backView.backgroundColor = [UIColor greenColor];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"img_home_shadow"]];
+    imageView.contentMode = UIViewContentModeScaleToFill;
+    imageView.x = 0;
+    imageView.y = 0;
+    [imageView sizeToFit];
+    [backView addSubview:imageView];
+    // 去除顶部横线
+    [self.tabBar setClipsToBounds:YES];
+    [self.tabBar insertSubview:backView atIndex:0];
+    self.tabBar.opaque = YES;
+    
     //主页
     HomeViewController *hvc = [[HomeViewController alloc]init];
     
-    [self addChildViewController:hvc normalImage:@"un主页" selectedImage:@"主页" title:@"主页"];
+    [self addChildViewController:hvc normalImage:@"tab_down_1_default" selectedImage:@"tab_down_1" title:@"主页"];
     self.delegate = self;
     
 //
@@ -35,12 +49,12 @@
     
     FindViewController *fvc = [[FindViewController alloc]init];
     
-    [self addChildViewController:fvc normalImage:@"un我的" selectedImage:@"我的" title:@"发现"];
+    [self addChildViewController:fvc normalImage:@"tab_down_2_default" selectedImage:@"tab_down_2" title:@"发现"];
     
     
     MycenterViewController *mvc = [[MycenterViewController alloc]init];
     
-    [self addChildViewController:mvc normalImage:@"un我的" selectedImage:@"我的" title:@"我的"];
+    [self addChildViewController:mvc normalImage:@"tab_down_3_default" selectedImage:@"tab_down_3" title:@"我的"];
     
     // Do any additional setup after loading the view.
 }

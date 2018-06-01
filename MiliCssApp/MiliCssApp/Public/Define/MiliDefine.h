@@ -28,11 +28,11 @@
 /**
  * HLSColor(250, 250, 250)导航灰
  */
-#define MLNaviColor HLSColor(0, 192, 78)
+#define MLNaviColor HLSColor(75, 220, 69)
 /**
  * HLSColor(250, 250, 250)全局颜色
  */
-#define MLBGColor HLSColor(255, 255, 255)
+#define MLBGColor HLSColor(237, 242, 238)
 //标题颜色
 #define MLTittleColor HLSColor(34, 34, 34)
 //详情颜色
@@ -91,6 +91,8 @@ NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];               
 #define HLSLog(...)                                                             \
 {}
 #endif
+
+#define MLDebugLog       NSLog(@"%s,%d",__func__,__LINE__);
 
 //简单的以AlertView显示提示信息
 #define mAlertView(msg)                                                        \

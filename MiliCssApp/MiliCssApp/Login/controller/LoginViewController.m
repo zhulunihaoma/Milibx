@@ -38,7 +38,7 @@
     self.navigationView.lineImageView.hidden = YES;
     selectField = [UITextField new];
 
-
+    self.view.backgroundColor = [UIColor whiteColor];
     // Do any additional setup after loading the view.
 }
 -(void)pauseLayer:(CALayer*)layer
@@ -104,7 +104,6 @@
     
     
     [self.view addSubview:logo_gif];
-    logo_gif.backgroundColor = [UIColor redColor];
     player = logo_gif.layer;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.4 * NSEC_PER_SEC)),dispatch_get_main_queue(), ^{
         

@@ -22,7 +22,7 @@
     return [[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"cookies"];
 }
 + (NSString *)getWAPSESSIONID{
-    return [[[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"cookies"] xyValueForKey:@"WAPSESSIONID"];
+    return [[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"WAPSESSIONID"] ;
 
 //    return [[DEF_PERSISTENT_GET_OBJECT(@"userinfo") xyValueForKey:@"cookies"] xyValueForKey:@"WAPSESSIONID"];
 }

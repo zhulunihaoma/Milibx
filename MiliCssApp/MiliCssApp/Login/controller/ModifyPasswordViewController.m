@@ -30,6 +30,8 @@
     [self.navigationView.leftBtn setImage:[UIImage imageNamed:@"back-btn"] forState:UIControlStateNormal];
     [self.navigationView.leftBtn setImage:[UIImage imageNamed:@"back-btn"] forState:UIControlStateHighlighted];
     self.navigationView.lineImageView.hidden = YES;
+    self.view.backgroundColor = [UIColor whiteColor];
+
     [self setupviews];
     
     //    back-btn

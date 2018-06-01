@@ -12,6 +12,7 @@
 @interface UsercenterViewController ()
 {
     UIView *MycenterView;
+    UILabel *QingChuNum;
 }
 @end
 
@@ -19,7 +20,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"个人中心";
+    self.title = @"设置";
 
     [self setupSubviews];
     // Do any additional setup after loading the view.
@@ -33,11 +34,14 @@
         MycenterView = [[UIView alloc]init];
         MycenterView.backgroundColor = [UIColor whiteColor];
         [self.view addSubview:MycenterView];
+        MycenterView.layer.cornerRadius = 8;
+        MycenterView.layer.masksToBounds = YES;
+        
         MycenterView.sd_layout
-        .leftSpaceToView(self.view, 0)
-        .rightSpaceToView(self.view, 0)
-        .topSpaceToView(self.view, NaviHeight)
-        .heightIs(102);
+        .leftSpaceToView(self.view, 9)
+        .rightSpaceToView(self.view, 9)
+        .topSpaceToView(self.view, NaviHeight+12)
+        .heightIs(204);
         
         
 //     修改密码cell
@@ -50,7 +54,7 @@
         .rightSpaceToView(MycenterView, 0)
         .heightIs(50);
         //    跳转到钱包
-        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gopassword:)];
+        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(goAgreement:)];
         [passwordview addGestureRecognizer:tap];
         passwordview.userInteractionEnabled = YES;
         
@@ -58,7 +62,7 @@
         
         
         UILabel *motifypassword = [HLSLable LabelWithFont:17 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLTittleColor WithFatherView:passwordview];
-        motifypassword.text = @"修改密码";
+        motifypassword.text = @"用户协议";
         motifypassword.sd_layout
         .centerYIs(25)
         .leftSpaceToView(passwordview, 30)
@@ -66,15 +70,15 @@
         [motifypassword setSingleLineAutoResizeWithMaxWidth:(120)];
 //        箭头
         UIImageView *arrow1 = [[UIImageView alloc]init];
-        arrow1.image = [UIImage imageNamed:@"img_achievement_arrow"];
+        arrow1.image = [UIImage imageNamed:@"btn_arrow"];
         [passwordview addSubview:arrow1];
         [arrow1 sizeToFit];
         arrow1.centerY = 25;
-        arrow1.x = SCREEN_WIDTH - 10- arrow1.width;
+        arrow1.x = SCREEN_WIDTH - 28- arrow1.width;
         
         
         UIView *hline1 = [UIView new];
-        hline1.backgroundColor = HLSOneColor(215);
+        hline1.backgroundColor = MLBGColor;
         [MycenterView addSubview:hline1];
         hline1.sd_layout
         .topSpaceToView(MycenterView, 50)
@@ -84,27 +88,129 @@
         
         
         
-        
-        
-        
-//        我的钱包cell
-        UIView *walletview = [UIView new];
-        walletview.backgroundColor = [UIColor whiteColor];
-        [MycenterView addSubview:walletview];
-        walletview.sd_layout
+#pragma mark -- 消息通知
+        //     修改密码cell
+        UIView *messageview = [UIView new];
+        messageview.backgroundColor = [UIColor whiteColor];
+        [MycenterView addSubview:messageview];
+        messageview.sd_layout
         .topSpaceToView(MycenterView, 51)
         .leftSpaceToView(MycenterView, 0)
         .rightSpaceToView(MycenterView, 0)
         .heightIs(50);
-        
         //    跳转到钱包
+        UITapGestureRecognizer * messageviewtap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gopassword:)];
+        [messageview addGestureRecognizer:messageviewtap];
+        messageview.userInteractionEnabled = YES;
+        
+        
+        
+        
+        UILabel *messagelab = [HLSLable LabelWithFont:17 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLTittleColor WithFatherView:messageview];
+        messagelab.text = @"消息通知提醒";
+        messagelab.sd_layout
+        .centerYIs(25)
+        .leftSpaceToView(messageview, 30)
+        .heightIs(17);
+        [messagelab setSingleLineAutoResizeWithMaxWidth:(120)];
+        //  switch开关
+        UISwitch *messageSwitch = [[UISwitch alloc]init];
+        [messageview addSubview:messageSwitch];
+        [messageSwitch sizeToFit];
+        messageSwitch.centerY = 25;
+        messageSwitch.x = SCREEN_WIDTH - 28- messageSwitch.width;
+        
+        
+        UIView *hlinemessage = [UIView new];
+        hlinemessage.backgroundColor = MLBGColor;
+        [MycenterView addSubview:hlinemessage];
+        hlinemessage.sd_layout
+        .topSpaceToView(MycenterView, 100)
+        .leftSpaceToView(MycenterView, 30)
+        .rightSpaceToView(MycenterView, 0)
+        .heightIs(1);
+        
+        
+        
+        
+        // 清除缓存
+        UIView *QingChuview = [UIView new];
+        QingChuview.backgroundColor = [UIColor whiteColor];
+        [MycenterView addSubview:QingChuview];
+        QingChuview.sd_layout
+        .topSpaceToView(MycenterView, 101)
+        .leftSpaceToView(MycenterView, 0)
+        .rightSpaceToView(MycenterView, 0)
+        .heightIs(50);
+        
+        UITapGestureRecognizer * tapQingChuview = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(clear:)];
+        [QingChuview addGestureRecognizer:tapQingChuview];
+        
+        
+        
+        UILabel *QingChulab = [HLSLable LabelWithFont:17 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLTittleColor WithFatherView:QingChuview];
+        QingChulab.text = @"清除缓存";
+        QingChulab.sd_layout
+        .centerYIs(25)
+        .leftSpaceToView(QingChuview, 30)
+        .heightIs(17);
+        [QingChulab setSingleLineAutoResizeWithMaxWidth:(120)];
+        //        箭头2
+        UIImageView *arrowQingChu = [[UIImageView alloc]init];
+        arrowQingChu.image = [UIImage imageNamed:@"btn_arrow"];
+        [QingChuview addSubview:arrowQingChu];
+        [arrowQingChu sizeToFit];
+        arrowQingChu.centerY = 25;
+        arrowQingChu.x = SCREEN_WIDTH - 28- arrowQingChu.width;
+        
+        // 10.2MB
+        QingChuNum= [HLSLable LabelWithFont:12 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLDetailColor WithFatherView:QingChuview];
+        QingChuNum.text = [NSString stringWithFormat:@"%.2fM",[[SDImageCache sharedImageCache] getSize]/1024/1024.00];//@"10.2MB";
+        QingChuNum.sd_layout
+        .centerYIs(25)
+        .rightSpaceToView(arrowQingChu, 10)
+        .heightIs(17);
+        [QingChuNum setSingleLineAutoResizeWithMaxWidth:(120)];
+        
+        
+        
+        UIView *hline2 = [UIView new];
+        hline2.backgroundColor = MLBGColor;
+        [MycenterView addSubview:hline2];
+        hline2.sd_layout
+        .topSpaceToView(MycenterView, 151)
+        .leftSpaceToView(MycenterView, 30)
+        .rightSpaceToView(MycenterView, 0)
+        .heightIs(1);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+// 修改密码
+        UIView *walletview = [UIView new];
+        walletview.backgroundColor = [UIColor whiteColor];
+        [MycenterView addSubview:walletview];
+        walletview.sd_layout
+        .topSpaceToView(MycenterView, 152)
+        .leftSpaceToView(MycenterView, 0)
+        .rightSpaceToView(MycenterView, 0)
+        .heightIs(50);
+        
+        //    跳转到修改密码
         UITapGestureRecognizer * tapwallet = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gowallet:)];
         [walletview addGestureRecognizer:tapwallet];
         
         
         
         UILabel *wallet = [HLSLable LabelWithFont:17 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLTittleColor WithFatherView:walletview];
-        wallet.text = @"我的钱包";
+        wallet.text = @"修改密码";
         wallet.sd_layout
         .centerYIs(25)
         .leftSpaceToView(walletview, 30)
@@ -112,33 +218,68 @@
         [wallet setSingleLineAutoResizeWithMaxWidth:(120)];
         //        箭头2
         UIImageView *arrow2 = [[UIImageView alloc]init];
-        arrow2.image = [UIImage imageNamed:@"img_achievement_arrow"];
+        arrow2.image = [UIImage imageNamed:@"btn_arrow"];
         [walletview addSubview:arrow2];
         [arrow2 sizeToFit];
         arrow2.centerY = 25;
-        arrow2.x = SCREEN_WIDTH - 10- arrow2.width;
-        UIView *hline2 = [UIView new];
-        hline2.backgroundColor = HLSOneColor(215);
-        [MycenterView addSubview:hline2];
-        hline2.sd_layout
-        .topSpaceToView(MycenterView, 101)
-        .leftSpaceToView(MycenterView, 0)
-        .rightSpaceToView(MycenterView, 0)
-        .heightIs(1);
+        arrow2.x = SCREEN_WIDTH - 28- arrow2.width;
+//        UIView *hline3 = [UIView new];
+//        hline3.backgroundColor = HLSOneColor(215);
+//        [MycenterView addSubview:hline3];
+//        hline3.sd_layout
+//        .topSpaceToView(MycenterView, 152)
+//        .leftSpaceToView(MycenterView, 0)
+//        .rightSpaceToView(MycenterView, 0)
+//        .heightIs(1);
         
         UIButton *ExitBtn = [[UIButton alloc]init];
         [self.view addSubview:ExitBtn];
         [ExitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.mas_equalTo(self.view.mas_centerX);
             make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH-66, 46));
-            make.top.mas_equalTo(@(131+NaviHeight));
+            make.top.mas_equalTo(@(241+NaviHeight));
         }];
         [ExitBtn setTitle:@"退出登录" forState:UIControlStateNormal];
         [ExitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [ExitBtn addTarget:self action:@selector(exit) forControlEvents:UIControlEventTouchUpInside];
         ExitBtn.titleLabel.font = [UIFont systemFontOfSize:16];
         ExitBtn.backgroundColor = HLSColor(255,85,85);
-        ExitBtn.layer.cornerRadius = 3;
+        ExitBtn.layer.cornerRadius = 8;
+        
+        
+//        底部信息
+        UILabel *bottom3 = [HLSLable LabelWithFont:12 WithTextalignment:NSTextAlignmentCenter WithTextColor:MLNaviColor WithFatherView:self.view];
+        NSDictionary * dict = [NSBundle mainBundle].infoDictionary;
+        NSString * version = [dict valueForKey:@"CFBundleShortVersionString"];
+        bottom3.text = [NSString stringWithFormat:@"当前版本号：%@",version] ;
+        bottom3.sd_layout
+        .centerYIs(SCREEN_HEIGHT - 85)
+        .centerXEqualToView(self.view)
+        .heightIs(12);
+        [bottom3 setSingleLineAutoResizeWithMaxWidth:(120)];
+        
+        
+        
+        UILabel *bottom2 = [HLSLable LabelWithFont:11 WithTextalignment:NSTextAlignmentCenter WithTextColor:MLDetailColor WithFatherView:self.view];
+        
+        bottom2.text = [NSString stringWithFormat:@"Copyright ©2018 南京一滴泉信息科技有限公司"] ;
+        bottom2.sd_layout
+        .topSpaceToView(bottom3, 20)
+        .centerXEqualToView(self.view)
+        .heightIs(12);
+        [bottom2 setSingleLineAutoResizeWithMaxWidth:(260)];
+        
+        UILabel *bottom1 = [HLSLable LabelWithFont:11 WithTextalignment:NSTextAlignmentCenter WithTextColor:MLDetailColor WithFatherView:self.view];
+        
+        bottom1.text = [NSString stringWithFormat:@"all Rights Reserved"] ;
+        bottom1.sd_layout
+        .topSpaceToView(bottom2, 10)
+        .centerXEqualToView(self.view)
+        .heightIs(12);
+        [bottom1 setSingleLineAutoResizeWithMaxWidth:(160)];
+        
+        
+        
         
         
     }
@@ -146,11 +287,42 @@
     return MycenterView;
 }
 
--(void)gopassword:(UITapGestureRecognizer *)tap{
+
+-(void)goAgreement:(UITapGestureRecognizer *)tap{
     
+    MLNormalWebViewController *WebVc = [[MLNormalWebViewController alloc]init];
+    WebVc.TittleStr = @"用户协议";
+    WebVc.UrlStr = @"";
+
+    [self.navigationController pushViewController:WebVc animated:YES];
+    
+}
+
+-(void)clear:(UITapGestureRecognizer *)tap{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"确定删除缓存？" preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[SDImageCache sharedImageCache] clearDiskOnCompletion:nil];
+        QingChuNum.text = [NSString stringWithFormat:@"%.2fM",[[SDImageCache sharedImageCache] getSize]/1024/1024.00];
+
+    }];
+    
+    UIAlertAction *cancelaction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    
+    
+    [alert addAction:cancelaction];
+    [alert addAction:action];
+    
+    [self presentViewController:alert animated:YES completion:nil];
   
     
 }
+-(void)gopassword:(UITapGestureRecognizer *)tap{
+    
+    
+    
+}
+
 -(void)gowallet:(UITapGestureRecognizer *)tap{
     WalletCenterViewController *wvc = [[WalletCenterViewController alloc]init];
     

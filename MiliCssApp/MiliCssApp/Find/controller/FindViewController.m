@@ -7,12 +7,17 @@
 //
 
 #import "FindViewController.h"
-#import "JSONTool.h"
-#import <WebKit/WebKit.h>
-#import <JavaScriptCore/JavaScriptCore.h>
-@interface FindViewController ()<WKNavigationDelegate,WKScriptMessageHandler,WKUIDelegate>
-@property(nonatomic,strong)WKWebView *webView;
+#import "FSScrollContentView.h"
+#import "FindMainViewController.h"
 
+@interface FindViewController ()<FSPageContentViewDelegate,FSSegmentTitleViewDelegate>
+{
+    NSMutableArray *categoryArr;//百科类目标题列表
+    CAShapeLayer *shapeLayer;
+    UIBezierPath *bezierPath;
+}
+@property (nonatomic, strong) FSPageContentView *pageContentView;
+@property (nonatomic, strong) FSSegmentTitleView *titleView;
 @end
 
 @implementation FindViewController
@@ -20,85 +25,100 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationView.leftBtn.hidden = YES;
-    self.title = @"产品列表";
+    self.navigationView.lineImageView.hidden = YES;
+    self.navigationView.height = NaviHeight+43;
+    self.title = @"发现";
+    categoryArr = [NSMutableArray new];
+    [self setsetgement];
+   self.navigationView.backimg.size = CGSizeMake(SCREEN_WIDTH, NaviHeight+43);
+
+    [self drawRect:64];
     
-    NSString *sesionstr = [HLSPersonalInfoTool getWAPSESSIONID];
-    HLSLog(@"--%@",sesionstr);
-    //    NSString *cookiestr = [NSString stringWithFormat:@"document.cookie ='WAPSESSIONID=%@';",sesionstr];
-    
-    NSString *cookiestr = [NSString stringWithFormat:@"document.cookie ='WAPSESSIONID=%@;domain=.milibx.com;path=/';",sesionstr];
-    //    NSString *sesionstr = [HLSPersonalInfoTool getWAPSESSIONID];
-    //    NSString *cookiestr = [NSString stringWithFormat:@"document.cookie ='WAPSESSIONID=%@';",sesionstr];
-    WKUserContentController* userContentController = WKUserContentController.new;
-    WKUserScript * cookieScript = [[WKUserScript alloc] initWithSource: cookiestr injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:NO];
-    
-    [userContentController addUserScript:cookieScript];
-    WKWebViewConfiguration * config = [[WKWebViewConfiguration alloc] init];
-    config.userContentController = userContentController;
-    //    WKCookiesManager * cookieManager = [WKCookiesManager shareCookies];
-    //    config.processPool = cookieManager.processPool;
-    WKPreferences * prefer = [[WKPreferences alloc] init];
-    prefer.javaScriptEnabled = YES;
-    prefer.javaScriptCanOpenWindowsAutomatically = YES;
-    config.preferences = prefer;
-    self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 400, SCREEN_WIDTH, SCREEN_HEIGHT) configuration:config];
-    self.webView.allowsBackForwardNavigationGestures = YES;
-    [self.view addSubview:self.webView];
-    self.webView.UIDelegate = self;
-    self.webView.navigationDelegate = self;
-    self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-    self.webView.allowsBackForwardNavigationGestures = YES;
-    [self.view addSubview:self.webView];
-    self.webView.UIDelegate = self;
-    self.webView.navigationDelegate = self;
-    NSString *tempUrl = [NSString stringWithFormat:@"%@webapp/opena/list",RequestWebUrl];
-    
-    
-    
-    
-    
-    
-    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:tempUrl] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
-    NSString *strcookie =  [NSString stringWithFormat:@"WAPSESSIONID=%@",[HLSPersonalInfoTool getWAPSESSIONID]];
-    [request addValue:strcookie forHTTPHeaderField:@"Cookie"];
-    //    [request addValue:cookieValue forHTTPHeaderField:@"Cookie"];
-    
-    [self.webView loadRequest:request];
-    
-    // Do any additional setup after loading the view.
+   
+
 }
-- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-    //设置JS
-    NSString *inputValueJS = @"backsys()";
-    //执行JS
-    [webView evaluateJavaScript:inputValueJS completionHandler:^(id _Nullable response, NSError * _Nullable error) {
-        NSLog(@"value: %@ error: %@", response, error);
-    }];
-}
-- (void)loadRequestWithUrlString:(NSString *)urlString {
+- (void)drawRect:(int)rect {
     
-    // 在此处获取返回的cookie
-    NSMutableDictionary *cookieDic = [NSMutableDictionary dictionary];
+    [shapeLayer removeFromSuperlayer];
     
-    NSMutableString *cookieValue = [NSMutableString stringWithFormat:@""];
-    NSHTTPCookieStorage *cookieJar = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    shapeLayer = [CAShapeLayer new];
+    shapeLayer.fillColor = MLBGColor.CGColor; //填充颜色
+    [self.view.layer addSublayer:shapeLayer];
     
-    for (NSHTTPCookie *cookie in [cookieJar cookies]) {
-        [cookieDic setObject:cookie.value forKey:cookie.name];
-    }
-    
-    // cookie重复，先放到字典进行去重，再进行拼接
-    for (NSString *key in cookieDic) {
-        NSString *appendString = [NSString stringWithFormat:@"%@=%@;", key, [cookieDic valueForKey:key]];
-        [cookieValue appendString:appendString];
-    }
-    
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
-    [request addValue:cookieValue forHTTPHeaderField:@"Cookie"];
-    
-    [self.webView loadRequest:request];
+    bezierPath = [UIBezierPath new];
+    [bezierPath moveToPoint:CGPointMake(rect, NaviHeight+33+3)];
+    [bezierPath addLineToPoint:CGPointMake(rect-10, NaviHeight+40+3)];
+    [bezierPath addLineToPoint:CGPointMake(rect+10, NaviHeight+40+3)];
+    [bezierPath closePath];//将起点与结束点相连接
+    shapeLayer.path = bezierPath.CGPath;
+  
 }
 
+-(void)setsetgement{
+    if (self.titleView) {
+        [self.titleView removeFromSuperview];
+        self.titleView = nil;
+    }
+    self.titleView = [[FSSegmentTitleView alloc]initWithFrame:CGRectMake(0, NaviHeight, CGRectGetWidth(self.view.bounds), 40) delegate:self indicatorType:FSIndicatorTypeNone];
+    self.titleView.titleFont = TextFontSize(15);
+    self.titleView.titleNormalColor = COLORWithRGB(255, 255, 255, .7);
+    self.titleView.titleSelectColor = [UIColor whiteColor];
+    self.titleView.indicatorColor = [UIColor whiteColor];
+    self.titleView.indicatorExtension = 0;
+//    self.titleView.backgroundColor = [UIColor redColor];
+
+    self.titleView.itemMargin = 34;
+    [self.navigationView addSubview:_titleView];
+    [self.navigationView bringSubviewToFront:self.titleView];
+
+    if ([categoryArr count]==0) {
+        categoryArr = [NSMutableArray arrayWithArray:DEF_PERSISTENT_GET_OBJECT(@"LastTitle")];
+        if ([categoryArr count]==0) {
+            categoryArr = [NSMutableArray arrayWithArray:@[@"全部",@"懂产品",@"米粒说"]];
+        }
+    }
+    
+    self.titleView.titlesArr = categoryArr;
+    NSMutableArray *childVCs = [[NSMutableArray alloc]init];
+    int i = 0;
+    
+    for (NSString *title in self.titleView.titlesArr) {
+        FindMainViewController *vc = [[FindMainViewController alloc]init];
+        vc.title = title;
+        
+        //        [vc.navigationController.navigationBar removeFromSuperview] ;
+        //        vc.navigationView.hidden = YES;
+        
+        i++;
+        [childVCs addObject:vc];
+    }
+    self.pageContentView = [[FSPageContentView alloc]initWithFrame:CGRectMake(0, NaviHeight+50, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds) - 90) childVCs:childVCs parentVC:self delegate:self];
+    [self.view addSubview:_pageContentView];
+//    if (titlearr.count == 0) {
+//        [self showUnNetWorkView];
+//        
+//    }
+    
+}
+#pragma mark --
+- (void)FSSegmentTitleView:(FSSegmentTitleView *)titleView startIndex:(NSInteger)startIndex endIndex:(NSInteger)endIndex
+{
+    self.pageContentView.contentViewCurrentIndex = endIndex;
+    //    self.title = self.titleView.titlesArr[endIndex];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"dismiss" object:nil];
+    
+    [self drawRect:60+124*endIndex];
+
+
+}
+- (void)FSContentViewDidScroll:(FSPageContentView *)contentView startIndex:(NSInteger)startIndex endIndex:(NSInteger)endIndex progress:(CGFloat)progress{
+    self.titleView.selectIndex = endIndex;
+    
+    
+    [self drawRect:60+125*endIndex];
+
+    
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
