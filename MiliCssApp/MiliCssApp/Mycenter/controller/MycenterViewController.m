@@ -19,10 +19,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationView.leftBtn.hidden = YES;
-    self.navigationView.lineImageView.hidden = YES;
+    self.navigationView.hidden = YES;
 
-    self.title = @"我的";
+ 
     [self setupSubviews];
     // Do any additional setup after loading the view.
 }
@@ -32,7 +31,7 @@
     MycenterView.sd_layout
     .leftSpaceToView(self.view, 0)
     .rightSpaceToView(self.view, 0)
-    .topSpaceToView(self.view, NaviHeight)
+    .topSpaceToView(self.view, -StatueBarHeight)
     .bottomSpaceToView(self.view, TabBarHeight);
 }
 -(UIView *)MycenterView{

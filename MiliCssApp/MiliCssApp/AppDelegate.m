@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 #import "MiliTabbarViewController.h"
+#import "TBCityIconFont.h"
+
 @interface AppDelegate ()
 
 @end
@@ -17,12 +19,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [TBCityIconFont setFontName:@"iconfont"];
+
     MiliTabbarViewController *tvc = [[MiliTabbarViewController alloc]init];
     UINavigationController *nvc = [[UINavigationController alloc]initWithRootViewController:tvc];
     nvc.navigationBarHidden = YES;
     self.window.rootViewController = nvc;
     
-    
+
     return YES;
 }
 

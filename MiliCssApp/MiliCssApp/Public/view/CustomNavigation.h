@@ -27,5 +27,7 @@
  *  最下面的线
  */
 @property (nonatomic,strong) UIImageView * lineImageView;
+@property (nonatomic,strong) UIImageView *backimg;
+
 
 @end

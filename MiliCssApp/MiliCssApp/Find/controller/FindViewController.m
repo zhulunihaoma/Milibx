@@ -7,10 +7,17 @@
 //
 
 #import "FindViewController.h"
+#import "FSScrollContentView.h"
+#import "FindMainViewController.h"
 
-@interface FindViewController ()<WKNavigationDelegate,WKScriptMessageHandler>
-@property(nonatomic,strong)WKWebView *detailWebView;
-
+@interface FindViewController ()<FSPageContentViewDelegate,FSSegmentTitleViewDelegate>
+{
+    NSMutableArray *categoryArr;//标题列表
+    CAShapeLayer *shapeLayer;
+    UIBezierPath *bezierPath;
+}
+@property (nonatomic, strong) FSPageContentView *pageContentView;
+@property (nonatomic, strong) FSSegmentTitleView *titleView;
 @end
 
 @implementation FindViewController
@@ -18,78 +25,100 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationView.leftBtn.hidden = YES;
+    self.navigationView.lineImageView.hidden = YES;
+    self.navigationView.height = NaviHeight+43;
     self.title = @"发现";
-    
-    
-    // 设置偏好设置
-    WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
-    // 默认为0
-//    config.preferences.minimumFontSize = 10;
-    //是否支持JavaScript
-    config.preferences.javaScriptEnabled = YES;
-    //不通过用户交互，是否可以打开窗口
-    config.preferences.javaScriptCanOpenWindowsAutomatically = YES;
-    
-    self.detailWebView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH,SCREEN_HEIGHT)];
-    self.detailWebView.navigationDelegate = self;
-    //    [self.view addSubview:_detailWebView];
-    // _tempScrollview2.bounces = YES;
-    _detailWebView.scrollView.scrollEnabled = NO;
-    [self.view addSubview:self.detailWebView];
-    NSString *tempUrl = @"http://127.0.0.1:8020/%E5%90%90%E6%A7%BD%E5%A4%A7%E4%BC%9A%E7%AE%A1%E7%90%86%E5%8F%B0/add.html?__hbt=1526968117736";//[self generateUrlWithSystemParam:self.linkUrl];
-    
-    [_detailWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:tempUrl]]];
-    
-    WKUserContentController *userCC = config.userContentController;
-    //JS调用OC 添加处理脚本
-    [userCC addScriptMessageHandler:self name:@"showMobile"];
-    [userCC addScriptMessageHandler:self name:@"showName"];
-    [userCC addScriptMessageHandler:self name:@"showSendMsg"];
-    _detailWebView.UIDelegate = self;
-    _detailWebView.navigationDelegate =self;
+    categoryArr = [NSMutableArray new];
+    [self setsetgement];
+   self.navigationView.backimg.size = CGSizeMake(SCREEN_WIDTH, NaviHeight+43);
 
-    // Do any additional setup after loading the view.
-}
-- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-    //设置JS
-    NSString *inputValueJS = @"backsys()";
-    //执行JS
-    [webView evaluateJavaScript:inputValueJS completionHandler:^(id _Nullable response, NSError * _Nullable error) {
-        NSLog(@"value: %@ error: %@", response, error);
-    }];
-}
-//-(void)removeAllScriptMsgHandle{
-//    WKUserContentController *controller = self.detailWebView.configuration.userContentController;
-//    [controller removeScriptMessageHandlerForName:@"showMobile"];
-//    [controller removeScriptMessageHandlerForName:@"showName"];
-//    [controller removeScriptMessageHandlerForName:@"showSendMsg"];
-//}
-#pragma mark - WKScriptMessageHandler
-
-- (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message {
-    NSLog(@"%@",NSStringFromSelector(_cmd));
-    NSLog(@"----%@",message.body);
+//    [self drawRect:64];
     
-    if ([message.name isEqualToString:@"showMobile"]) {
-        [self showMsg:@"没有参数"];
+   
+
+}
+- (void)drawRect:(int)rect {
+    
+    [shapeLayer removeFromSuperlayer];
+    
+    shapeLayer = [CAShapeLayer new];
+    shapeLayer.fillColor = MLBGColor.CGColor; //填充颜色
+    [self.view.layer addSublayer:shapeLayer];
+    
+    bezierPath = [UIBezierPath new];
+    [bezierPath moveToPoint:CGPointMake(rect, NaviHeight+33+3)];
+    [bezierPath addLineToPoint:CGPointMake(rect-10, NaviHeight+40+3)];
+    [bezierPath addLineToPoint:CGPointMake(rect+10, NaviHeight+40+3)];
+    [bezierPath closePath];//将起点与结束点相连接
+    shapeLayer.path = bezierPath.CGPath;
+  
+}
+
+-(void)setsetgement{
+    if (self.titleView) {
+        [self.titleView removeFromSuperview];
+        self.titleView = nil;
+    }
+    self.titleView = [[FSSegmentTitleView alloc]initWithFrame:CGRectMake(0, NaviHeight, CGRectGetWidth(self.view.bounds), 43) delegate:self indicatorType:FSIndicatorTypeDefault];
+    self.titleView.titleFont = TextFontSize(15);
+    self.titleView.titleNormalColor = COLORWithRGB(255, 255, 255, .7);
+    self.titleView.titleSelectColor = [UIColor whiteColor];
+    self.titleView.indicatorColor = [UIColor whiteColor];
+    self.titleView.indicatorExtension = 0;
+//    self.titleView.backgroundColor = [UIColor redColor];
+
+    self.titleView.itemMargin = 34;
+    [self.navigationView addSubview:_titleView];
+    [self.navigationView bringSubviewToFront:self.titleView];
+
+    if ([categoryArr count]==0) {
+        categoryArr = [NSMutableArray arrayWithArray:DEF_PERSISTENT_GET_OBJECT(@"LastTitle")];
+        if ([categoryArr count]==0) {
+            categoryArr = [NSMutableArray arrayWithArray:@[@"全部",@"懂产品",@"米粒说",@"米粒说",@"米粒说",@"米粒说",@"米粒说"]];
+        }
     }
     
-    if ([message.name isEqualToString:@"showName"]) {
-        NSString *info = [NSString stringWithFormat:@"%@",message.body];
-        [self showMsg:info];
-    }
+    self.titleView.titlesArr = categoryArr;
+    NSMutableArray *childVCs = [[NSMutableArray alloc]init];
+    int i = 0;
     
-    if ([message.name isEqualToString:@"showSendMsg"]) {
-        NSArray *array = message.body;
-        NSString *info = [NSString stringWithFormat:@"有两个参数: %@, %@ !!",array.firstObject,array.lastObject];
-        [self showMsg:info];
+    for (NSString *title in self.titleView.titlesArr) {
+        FindMainViewController *vc = [[FindMainViewController alloc]init];
+        vc.title = title;
+        
+        //        [vc.navigationController.navigationBar removeFromSuperview] ;
+        //        vc.navigationView.hidden = YES;
+        
+        i++;
+        [childVCs addObject:vc];
     }
+    self.pageContentView = [[FSPageContentView alloc]initWithFrame:CGRectMake(0, NaviHeight+50, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds) - 90) childVCs:childVCs parentVC:self delegate:self];
+    [self.view addSubview:_pageContentView];
+//    if (titlearr.count == 0) {
+//        [self showUnNetWorkView];
+//        
+//    }
+    
 }
+#pragma mark --
+- (void)FSSegmentTitleView:(FSSegmentTitleView *)titleView startIndex:(NSInteger)startIndex endIndex:(NSInteger)endIndex
+{
+    self.pageContentView.contentViewCurrentIndex = endIndex;
+    //    self.title = self.titleView.titlesArr[endIndex];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"dismiss" object:nil];
+    
+//    [self drawRect:60+124*endIndex];
 
--(void)showMsg:(NSString *)info{
-    NSLog(@"111",info);
+
 }
+- (void)FSContentViewDidScroll:(FSPageContentView *)contentView startIndex:(NSInteger)startIndex endIndex:(NSInteger)endIndex progress:(CGFloat)progress{
+    self.titleView.selectIndex = endIndex;
+    
+    
+//    [self drawRect:60+125*endIndex];
 
+    
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

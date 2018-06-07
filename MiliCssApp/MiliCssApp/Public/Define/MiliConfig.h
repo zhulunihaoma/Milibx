@@ -22,8 +22,9 @@
 
 
 //web请求地址
-#define RequestWebUrl @"http://192.168.170.27:17150"//27环境
+//#define RequestWebUrl @"me.milibx.com:17140"//朱璐环境
 //#define RequestWebUrl @"http://app.milibx.com:17150"//俊逸环境
+#define RequestWebUrl @"http://192.168.64.93:17140/"//朱璐环境
 
 
 
