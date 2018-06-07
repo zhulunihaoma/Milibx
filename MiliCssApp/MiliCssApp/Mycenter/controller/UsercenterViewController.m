@@ -9,6 +9,8 @@
 #import "UsercenterViewController.h"
 #import "WalletCenterViewController.h"
 #import "LoginViewController.h"
+#import "ChangeMyPSWViewController.h"
+
 @interface UsercenterViewController ()
 {
     UIView *MycenterView;
@@ -204,7 +206,7 @@
         .heightIs(50);
         
         //    跳转到修改密码
-        UITapGestureRecognizer * tapwallet = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gowallet:)];
+        UITapGestureRecognizer * tapwallet = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ChangePsw:)];
         [walletview addGestureRecognizer:tapwallet];
         
         
@@ -243,7 +245,8 @@
         [ExitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [ExitBtn addTarget:self action:@selector(exit) forControlEvents:UIControlEventTouchUpInside];
         ExitBtn.titleLabel.font = [UIFont systemFontOfSize:16];
-        ExitBtn.backgroundColor = HLSColor(255,85,85);
+//        ExitBtn.backgroundColor = HLSColor(255,85,85);
+        [ExitBtn setBackgroundImage:[UIImage imageNamed:@"btn_set"] forState:UIControlStateNormal];
         ExitBtn.layer.cornerRadius = 8;
         
         
@@ -317,8 +320,10 @@
   
     
 }
--(void)gopassword:(UITapGestureRecognizer *)tap{
-    
+//修改密码
+-(void)ChangePsw:(UITapGestureRecognizer *)tap{
+    ChangeMyPSWViewController *cvc = [[ChangeMyPSWViewController alloc]init];
+    [self.navigationController pushViewController:cvc animated:YES];
     
     
 }

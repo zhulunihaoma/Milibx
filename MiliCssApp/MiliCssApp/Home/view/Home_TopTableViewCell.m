@@ -29,7 +29,7 @@
         [self initView];
 
         
-        self.separatorImageView.x = 0;
+        self.separatorImageView.hidden = YES;
     }
     return self;
 }
@@ -37,7 +37,7 @@
     NSArray *titles = @[@"业绩报表",@"下级管理",@"海报"];
     NSArray *pics = @[@"ico_home_1",@"ico_home_2",@"ico_home_3"];
 
-    [self makeEqualWidthBtnNum:3 Names:titles Imgs:pics inView:self LRpadding:40 viewPadding:57 y:208+NaviHeight titlefont:13  titleColor:MLTittleColor withtag:5];
+    [self makeEqualWidthBtnNum:3 Names:titles Imgs:pics inView:self LRpadding:40 viewPadding:57 y:203+NaviHeight titlefont:13  titleColor:MLTittleColor withtag:5];
     
     
     

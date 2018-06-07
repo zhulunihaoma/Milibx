@@ -30,7 +30,10 @@
     self.tableView.width = SCREEN_WIDTH-16;
     self.tableView.backgroundColor = MLBGColor;
     //[self.tableView registerClass:[RequestTextFieldCell class] forCellReuseIdentifier:@"cell"];
-    self.tableView.height = SCREEN_HEIGHT-NaviHeight-49 -56-110;
+    CGFloat tabBarHeight = self.tabBarController.tabBar.frame.size.height;
+    int naheight = (int)NaviHeight;
+    self.tableView.height = SCREEN_HEIGHT-naheight-tabBarHeight -43;
+    HLSLog(@"222：%d",naheight);
     self.tableView.showsVerticalScrollIndicator = NO;
     
     

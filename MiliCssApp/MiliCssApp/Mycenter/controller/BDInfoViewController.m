@@ -24,9 +24,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"个人资料";
-    tittlearr = @[@"个人信息",@"推广地区"];
-    infotittlearr = @[@"姓名",@"手机号",@"签约机构数",@"签约代理人"];
-    infoarr = @[@"朱璐",@"186529356462",@"100",@"121"];
+    tittlearr = @[@"推广城市",@"推广费"];
+    infotittlearr = @[@"江苏省",@"安徽省"];
+    infoarr = @[@"南京市、无锡市、常州市、徐州市、盐城市",@"合肥市、安庆市"];
 
     [self setupSubViews];
     // Do any additional setup after loading the view.
@@ -35,7 +35,7 @@
         [self setupTableViewWithStyle:UITableViewStyleGrouped];
 
         self.tableView.x = 0;
-        self.tableView.y = NaviHeight;
+        self.tableView.y = 0;
         self.tableView.width = SCREEN_WIDTH;
         self.tableView.backgroundColor = MLBGColor;
         //[self.tableView registerClass:[RequestTextFieldCell class] forCellReuseIdentifier:@"cell"];
@@ -55,7 +55,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     if (section == 0) {
-        return 4;
+        return infotittlearr.count;
     }else{
         return 2;
     }
@@ -107,7 +107,7 @@
         }
         cell.titlelab.text = infotittlearr[indexPath.row];
         cell.Name = infoarr[indexPath.row];
-        if (indexPath.row == 3) {
+        if (indexPath.row == infotittlearr.count-1) {
             cell.separatorImageView.hidden = YES;
         }
         

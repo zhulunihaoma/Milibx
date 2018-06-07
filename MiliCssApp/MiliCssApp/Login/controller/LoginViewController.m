@@ -36,6 +36,10 @@
     self.navigationView.backgroundColor = [UIColor whiteColor];
     [self setupviews];
     self.navigationView.lineImageView.hidden = YES;
+    self.navigationView.backimg.hidden = YES;
+    [self.navigationView addSubview:self.navigationView.titleLabel];
+    [self.navigationView bringSubviewToFront:self.navigationView.titleLabel];
+    self.navigationView.titleLabel.textColor = MLTittleColor;
     selectField = [UITextField new];
 
     self.view.backgroundColor = [UIColor whiteColor];

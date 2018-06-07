@@ -48,6 +48,7 @@
     [self addSubview:self.addPhotoBtn = addPhotoBtn];
     
     UILabel *label = [[UILabel alloc]init];
+    label.textColor = MLDetailColor;
     [self addSubview:self.lable = label];
     
     
@@ -85,8 +86,8 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.addPhotoBtn.width = self.height;
-    self.addPhotoBtn.height = self.height;
+    self.addPhotoBtn.width = 90;
+    self.addPhotoBtn.height = 90;
     
       for (int i = 0; i < self.photoBtnArr.count; i++) {
         UIButton *btn = self.photoBtnArr[i];
@@ -95,12 +96,12 @@
         btn.x = i * (10 + btn.width);
     }
     [UIView animateWithDuration:0.3 animations:^{
-        self.addPhotoBtn.x = self.photoBtnArr.count * (self.addPhotoBtn.width + 10);
-        self.lable.x = self.addPhotoBtn.right + 5;
+        self.addPhotoBtn.x =0;
+        self.lable.x = 0;
     }];
     self.lable.height = 30;
 
-    self.lable.y = self.height - self.lable.height;
+    self.lable.y = self.addPhotoBtn.height + 10;
     self.lable.width = self.width-self.addPhotoBtn.width-10;
     self.lable.numberOfLines = 0;
     

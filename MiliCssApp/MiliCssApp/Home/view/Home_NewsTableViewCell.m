@@ -17,7 +17,7 @@
         [self makeBroadcasts];
         self.backgroundColor = [UIColor lightGrayColor];
         
-        self.separatorImageView.x = 0;
+        self.separatorImageView.hidden = YES;
     }
     return self;
 }

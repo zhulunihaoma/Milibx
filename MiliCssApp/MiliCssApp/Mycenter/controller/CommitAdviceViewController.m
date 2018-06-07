@@ -8,11 +8,12 @@
 
 #import "CommitAdviceViewController.h"
 #import "HLSPhotoView.h"
+#import "CollectActionSheet.h"
 
 //详情颜色
 #define MLHolderColor HLSColor(193, 193, 193)
 
-@interface CommitAdviceViewController ()<UITextViewDelegate,HLSPhotoViewDelegate>
+@interface CommitAdviceViewController ()<UITextViewDelegate,HLSPhotoViewDelegate,UIActionSheetDelegate>
 {
     HLSPhotoView *AddPhotoView;
 }
@@ -97,18 +98,29 @@
     
     
     HLSPhotoView *photoView = [[HLSPhotoView alloc]init];
-    //        photoView.backgroundColor = HLSGlobalBG;
+//            photoView.backgroundColor = MLBGColor;
     photoView.delegate = self;
     photoView.x = 30;
     photoView.y = 195+NaviHeight;
     photoView.width = SCREEN_WIDTH-20;
-    photoView.height = 62+5;
+    photoView.height = 62+5+80;
     photoView.lable.text = @"最多添加三张图片";
-    photoView.lable.textColor = HLSColor(102, 102, 102);
+//    photoView.lable.textColor = HLSColor(102, 102, 102);
     //        photoView.lable.backgroundColor = HLSGreenColor;
     photoView.lable.font = [UIFont systemFontOfSize:12.5];
     [bgimg addSubview:AddPhotoView = photoView];
     self.photoArr = [NSMutableArray array];
+    
+    UIButton *CommitBtn = [[UIButton alloc]init];
+
+    [bgimg addSubview:CommitBtn];
+    [CommitBtn setBackgroundImage:[UIImage imageNamed:@"btn_login"] forState:UIControlStateNormal];
+    [CommitBtn setTitle:@"提交" forState:UIControlStateNormal];
+    [CommitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [CommitBtn sizeToFit];
+    
+    CommitBtn.centerX = SCREEN_WIDTH/2;
+    CommitBtn.y = photoView.bottom + 12;
     
 }
 - (void)back {
@@ -178,6 +190,81 @@
     }
     
     
+}
+#pragma mark - HLSPhotoViewDelegate
+- (void)photoView:(HLSPhotoView *)photoView clickIndex:(NSInteger)index {
+    NSArray *titlesArr = nil;
+    self.currentTag = index;
+    if (index == 0) {
+        titlesArr = @[@"从手机相册中选择",@"拍照"];
+    }else {
+        titlesArr = @[@"从手机相册中选择",@"拍照"];
+        
+    }
+    CollectActionSheet *actionSheet = [[CollectActionSheet alloc]initWithTitle:nil cancelTitle:@"取消"otherTitles:titlesArr];
+    actionSheet.delegate = self;
+    //    [self.view addSubview:actionSheet];
+    [actionSheet showInView:self.view];
+    
+    
+}
+#pragma mark - UIActionSheetDelegate
+- (void)collectActionSheet:(CollectActionSheet *)collectActionSheet selectedIndex:(NSInteger)index {
+    UIImagePickerController *ipc=[[UIImagePickerController alloc]init];
+    ipc.delegate=self;
+    ipc.allowsEditing = YES;
+    if (index == 1) {//从手机相册中选则
+        self.photoArr = AddPhotoView.photoArr;
+        [ipc setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+        [self presentViewController:ipc animated:YES completion:nil];
+    }else if (index == 2){//拍照
+        [ipc setSourceType:UIImagePickerControllerSourceTypeCamera];
+        self.photoArr = AddPhotoView.photoArr;
+        
+        [self presentViewController:ipc animated:YES completion:nil];
+    }else if (index == 3) {//删除
+        [self.photoArr removeObjectAtIndex:self.currentTag - 1];
+        AddPhotoView.photoArr = self.photoArr;
+    }
+}
+#pragma mark - UIImagePickerControllerDelegate
+//选完图片后调用
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+    UIImage *image= [info objectForKey:@"UIImagePickerControllerEditedImage"];
+//    NSData *imageData = [HLSSelectImageTool selectImageWithImage:image];
+    
+//    self.HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    
+//    [HLSPCTHttpTools PostUploadPictureWithfile:imageData WithimgBelong:@"others" Success:^(NSDictionary *dic) {
+//        self.HUD.hidden = YES;
+//        if ([[dic xyValueForKey:@"ok"] boolValue]) {
+//
+//
+//            NSString *url = [dic xyValueForKey:@"res"];
+//            if (self.currentTag == 0) {
+//                [self.photoArr addObject:url];
+//            }else {
+//                [self.photoArr removeObjectAtIndex:self.currentTag-1 ];
+//                [self.photoArr insertObject:url atIndex:self.currentTag -1];
+//            }
+//
+//            AddPhotoView.photoArr = self.photoArr;
+//        }else{
+//            [HLSLable lableWithText:[dic xyValueForKey:@"message"] inView:self.view];
+//
+//        }
+//    } failure:^(NSError *error) {
+//        [self.HUD hide:YES];
+//    }];
+    
+    //
+    //    [HLSPostRequest postUploadimgforgoodsWithFile:imageData success:^(NSDictionary *dict) {
+    //           } failure:^(NSError *error) {
+    //
+    //    }];
+    
+    
+    [self dismissViewControllerAnimated:YES completion:Nil];
 }
 
 -(void)dealloc{

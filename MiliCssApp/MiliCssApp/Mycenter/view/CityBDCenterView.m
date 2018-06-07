@@ -14,6 +14,7 @@
 #import "PrimanaViewController.h"
 #import "UsercenterViewController.h"
 #import "CommitAdviceViewController.h"
+#import "GotoPayViewController.h"
 
 @interface CityBDCenterView()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView *listTableView;/**个人中心列表*/
@@ -143,24 +144,31 @@
         CommitAdviceViewController *avc = [[CommitAdviceViewController alloc]init];
         [[GetUnderController getvcwithtarget:self].navigationController pushViewController:avc animated:YES];
     }
-    if (indexPath.section == 1) {
-        if (indexPath.row == 0) {
-            AchievementViewController *avc = [[AchievementViewController alloc]init];
-            [[GetUnderController getvcwithtarget:self].navigationController pushViewController:avc animated:YES];
-        }
-        if (indexPath.row == 1) {
-            CompmanaViewController *cvc = [[CompmanaViewController alloc]init];
-            [[GetUnderController getvcwithtarget:self].navigationController pushViewController:cvc animated:YES];
-        }
-        if (indexPath.row == 2) {
-            PrimanaViewController *pvc = [[PrimanaViewController alloc]init];
-            [[GetUnderController getvcwithtarget:self].navigationController pushViewController:pvc animated:YES];
-        }
-        if (indexPath.row == 3) {
-            UsercenterViewController *uvc = [[UsercenterViewController alloc]init];
-            [[GetUnderController getvcwithtarget:self].navigationController pushViewController:uvc animated:YES];
-        }
+    
+    if (indexPath.section == 4) {//测试支付界面
+        GotoPayViewController *avc = [[GotoPayViewController alloc]init];
+        [[GetUnderController getvcwithtarget:self].navigationController pushViewController:avc animated:YES];
+        
+        
+//        if (indexPath.row == 0) {
+//            AchievementViewController *avc = [[AchievementViewController alloc]init];
+//            [[GetUnderController getvcwithtarget:self].navigationController pushViewController:avc animated:YES];
+//        }
+//        if (indexPath.row == 1) {
+//            CompmanaViewController *cvc = [[CompmanaViewController alloc]init];
+//            [[GetUnderController getvcwithtarget:self].navigationController pushViewController:cvc animated:YES];
+//        }
+//        if (indexPath.row == 2) {
+//            PrimanaViewController *pvc = [[PrimanaViewController alloc]init];
+//            [[GetUnderController getvcwithtarget:self].navigationController pushViewController:pvc animated:YES];
+//        }
+//        if (indexPath.row == 3) {
+//            UsercenterViewController *uvc = [[UsercenterViewController alloc]init];
+//            [[GetUnderController getvcwithtarget:self].navigationController pushViewController:uvc animated:YES];
+//        }
     }
+    
+    
    
 }
 

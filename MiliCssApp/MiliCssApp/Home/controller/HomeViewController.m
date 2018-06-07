@@ -25,9 +25,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationView.leftBtn.hidden = YES;
-    self.navigationView.lineImageView.hidden = YES;
-
+    
+    self.navigationView.hidden = YES;
     self.title = @"首页";
     [self setupSubViews];
     HLSLog(@"---StatueBarHeight%f",NaviHeight);
@@ -43,7 +42,7 @@
     self.tableView.width = SCREEN_WIDTH;
     self.tableView.backgroundColor = MLBGColor;
     //[self.tableView registerClass:[RequestTextFieldCell class] forCellReuseIdentifier:@"cell"];
-    self.tableView.height = SCREEN_HEIGHT-29;
+    self.tableView.height = SCREEN_HEIGHT-49+StatueBarHeight;
     self.tableView.showsVerticalScrollIndicator = NO;
     
     

@@ -16,7 +16,7 @@
 
 @property (nonatomic, strong) NSMutableArray<UIButton *> *itemBtnArr;
 
-@property (nonatomic, strong) UIView *indicatorView;
+@property (nonatomic, strong) UIImageView *indicatorView;
 
 @property (nonatomic, assign) FSIndicatorType indicatorType;
 
@@ -86,7 +86,17 @@
     [UIView animateWithDuration:(animated?0.05:0) animations:^{
         switch (_indicatorType) {
             case FSIndicatorTypeDefault:
-                self.indicatorView.frame = CGRectMake(selectBtn.frame.origin.x , CGRectGetHeight(self.scrollView.bounds) - 2, CGRectGetWidth(selectBtn.bounds), 2);
+//                self.indicatorView.frame = CGRectMake(selectBtn.frame.origin.x , CGRectGetHeight(self.scrollView.bounds) - 2, CGRectGetWidth(selectBtn.bounds), 2);
+            {
+                self.indicatorView.x =selectBtn.x+selectBtn.width/2-10;
+                self.indicatorView.y = CGRectGetHeight(self.scrollView.bounds) - 5;
+                _indicatorView.height = 5;
+                _indicatorView.width = 13;
+                _indicatorView.backgroundColor = [UIColor clearColor];
+//                _indicatorView.backgroundColor = [UIColor redColor];
+                [self.scrollView bringSubviewToFront:_indicatorView];
+            }
+                
                 break;
             case FSIndicatorTypeEqualTitle:
                 self.indicatorView.center = CGPointMake(selectBtn.center.x, CGRectGetHeight(self.scrollView.bounds) - 1);
@@ -144,7 +154,10 @@
 - (UIView *)indicatorView
 {
     if (!_indicatorView) {
-        _indicatorView = [[UIView alloc]init];
+        _indicatorView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"img_find_arrorup"]];
+//        [_indicatorView sizeToFit];
+       
+//
         [self.scrollView addSubview:_indicatorView];
     }
     return _indicatorView;

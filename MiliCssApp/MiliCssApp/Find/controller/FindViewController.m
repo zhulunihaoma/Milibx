@@ -12,7 +12,7 @@
 
 @interface FindViewController ()<FSPageContentViewDelegate,FSSegmentTitleViewDelegate>
 {
-    NSMutableArray *categoryArr;//百科类目标题列表
+    NSMutableArray *categoryArr;//标题列表
     CAShapeLayer *shapeLayer;
     UIBezierPath *bezierPath;
 }
@@ -32,7 +32,7 @@
     [self setsetgement];
    self.navigationView.backimg.size = CGSizeMake(SCREEN_WIDTH, NaviHeight+43);
 
-    [self drawRect:64];
+//    [self drawRect:64];
     
    
 
@@ -59,7 +59,7 @@
         [self.titleView removeFromSuperview];
         self.titleView = nil;
     }
-    self.titleView = [[FSSegmentTitleView alloc]initWithFrame:CGRectMake(0, NaviHeight, CGRectGetWidth(self.view.bounds), 40) delegate:self indicatorType:FSIndicatorTypeNone];
+    self.titleView = [[FSSegmentTitleView alloc]initWithFrame:CGRectMake(0, NaviHeight, CGRectGetWidth(self.view.bounds), 43) delegate:self indicatorType:FSIndicatorTypeDefault];
     self.titleView.titleFont = TextFontSize(15);
     self.titleView.titleNormalColor = COLORWithRGB(255, 255, 255, .7);
     self.titleView.titleSelectColor = [UIColor whiteColor];
@@ -74,7 +74,7 @@
     if ([categoryArr count]==0) {
         categoryArr = [NSMutableArray arrayWithArray:DEF_PERSISTENT_GET_OBJECT(@"LastTitle")];
         if ([categoryArr count]==0) {
-            categoryArr = [NSMutableArray arrayWithArray:@[@"全部",@"懂产品",@"米粒说"]];
+            categoryArr = [NSMutableArray arrayWithArray:@[@"全部",@"懂产品",@"米粒说",@"米粒说",@"米粒说",@"米粒说",@"米粒说"]];
         }
     }
     
@@ -107,7 +107,7 @@
     //    self.title = self.titleView.titlesArr[endIndex];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"dismiss" object:nil];
     
-    [self drawRect:60+124*endIndex];
+//    [self drawRect:60+124*endIndex];
 
 
 }
@@ -115,7 +115,7 @@
     self.titleView.selectIndex = endIndex;
     
     
-    [self drawRect:60+125*endIndex];
+//    [self drawRect:60+125*endIndex];
 
     
 }

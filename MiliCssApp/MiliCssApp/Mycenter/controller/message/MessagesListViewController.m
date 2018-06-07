@@ -9,6 +9,7 @@
 #import "MessagesListViewController.h"
 #import "MessageListTableViewCell.h"
 #import "MessageDetailVC.h"
+#import "UIImage+GIF.h"
 
 @interface MessagesListViewController ()
 {
@@ -32,7 +33,24 @@
 // Do any additional setup after loading the view.
 
 -(void)RequestData{
-//    self.HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+   
+    
+    self.HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    self.HUD.label.text = @"加载中…";
+    self.HUD.mode = MBProgressHUDModeCustomView;
+    
+    UIImageView *logo_gif = [[UIImageView alloc]init];
+    
+    NSString  *filePath = [[NSBundle bundleWithPath:[[NSBundle mainBundle] bundlePath]]pathForResource:@"login" ofType:@"gif"];
+    NSData  *imageData = [NSData dataWithContentsOfFile:filePath];
+    logo_gif.backgroundColor = [UIColor clearColor];
+    logo_gif.image = [UIImage sd_animatedGIFWithData:imageData];
+    
+    
+//    UIImage *image = [[UIImage imageNamed:@"login"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+//    UIImageView *imgView = [[UIImageView alloc] initWithImage:image];
+    self.HUD.customView = logo_gif;
+
 //    [TQDHttpTools PostMoneyRecordWithuid:[HLSPersonalInfoTool getUid] type:self.Type page:page rows:10 Success:^(NSDictionary *dic) {
 //
 //        [self.HUD hide:YES];

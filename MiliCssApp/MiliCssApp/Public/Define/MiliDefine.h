@@ -36,7 +36,7 @@
 //标题颜色
 #define MLTittleColor HLSColor(34, 34, 34)
 //详情颜色
-#define MLDetailColor HLSColor(156, 156, 156)
+#define MLDetailColor HLSColor(158, 158, 158)
 
 //获取屏幕宽高
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width

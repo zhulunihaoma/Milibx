@@ -11,6 +11,8 @@
 #import "UsercenterViewController.h"
 #import "MessagesListViewController.h"
 #import "UserInfoViewController.h"
+#import "MLNormalWebViewController.h"
+#import "PosterViewController.h"
 
 @implementation BDCenterTopTableViewCell
 
@@ -197,11 +199,11 @@
     NSArray *titles = @[@"业绩报表",@"下级管理",@"海报"];
     NSArray *pics = @[@"btn_me_function_1",@"btn_me_function_2",@"btn_me_function_3"];
     
-    [self makeEqualWidthBtnNum:3 Names:titles Imgs:pics inView:topview LRpadding:40 viewPadding:57 y:25 titlefont:12  titleColor:MLTittleColor withtag:5];
+    [self makeEqualWidthBtnNum:3 Names:titles Imgs:pics inView:topview LRpadding:40 viewPadding:57 y:25 titlefont:12  titleColor:MLTittleColor withtag:0];
     NSArray *TitlesBttom = @[@"我的订单",@"轻松理赔",@""];
     NSArray *PicsBttom = @[@"btn_me_function_3",@"btn_me_function_4",@""];
     
-    [self makeEqualWidthBtnNum:3 Names:TitlesBttom Imgs:PicsBttom inView:topview LRpadding:40 viewPadding:57 y:120 titlefont:12  titleColor:MLTittleColor withtag:5];
+    [self makeEqualWidthBtnNum:3 Names:TitlesBttom Imgs:PicsBttom inView:topview LRpadding:40 viewPadding:57 y:120 titlefont:12  titleColor:MLTittleColor withtag:3];
 }
 -(void)makeEqualWidthBtnNum:(NSInteger)num Names:(NSArray *)names Imgs:(NSArray *)imgs inView:(UIView *)containerView LRpadding:(CGFloat)LRpadding viewPadding :(CGFloat)viewPadding y:(CGFloat)y titlefont:(NSInteger)font titleColor:(UIColor *)color withtag:(NSInteger)tag
 {
@@ -293,7 +295,42 @@
     UsercenterViewController *uvc = [[UsercenterViewController alloc]init];
     [[GetUnderController getvcwithtarget:self].navigationController pushViewController:uvc animated:YES];
 }
+#pragma mark -- 中间入口点击方法
+-(void)btnClick:(UIButton *)sender{
+    HLSLog(@"--%ld",sender.tag);
+    if(sender.tag==0){//业绩报表
+        MLNormalWebViewController *vc = [MLNormalWebViewController new];
+        vc.TittleStr = @"业绩报表";
+        [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
 
+    }
+    
+    if(sender.tag==1){//下级管理
+        MLNormalWebViewController *vc = [MLNormalWebViewController new];
+        vc.TittleStr = @"下级管理";
+        [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
+    }
+    if (sender.tag == 2) {//海报
+        PosterViewController *vc = [PosterViewController new];
+
+        [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
+
+    }
+    if(sender.tag==3){//我的订单
+        MLNormalWebViewController *vc = [MLNormalWebViewController new];
+        vc.TittleStr = @"我的订单";
+        [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
+    }
+    if(sender.tag==4){//轻松理赔
+        MLNormalWebViewController *vc = [MLNormalWebViewController new];
+        vc.TittleStr = @"轻松理赔";
+        [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
+    }
+    
+   
+    
+    
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
