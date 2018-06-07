@@ -1308,11 +1308,13 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-MiliCssApp/Pods-MiliCssApp-resources.sh",
 				"${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
+				"${PODS_ROOT}/UMCShare/UMShare/UMSocialUI/UMSocialSDKResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/IQKeyboardManager.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/UMSocialSDKResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1706,18 +1708,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MiliCssApp/Mili.pch;
 				INFOPLIST_FILE = MiliCssApp/Info.plist;
-<<<<<<< HEAD
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-=======
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
->>>>>>> 2891df248e4959a1a8c300fdc794d07db848fd38
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.miliapp.www;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-<<<<<<< HEAD
-=======
 				PROVISIONING_PROFILE = "";
->>>>>>> 2891df248e4959a1a8c300fdc794d07db848fd38
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MiliCssApp/Public/tool/MiliCssApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1739,18 +1734,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MiliCssApp/Mili.pch;
 				INFOPLIST_FILE = MiliCssApp/Info.plist;
-<<<<<<< HEAD
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-=======
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
->>>>>>> 2891df248e4959a1a8c300fdc794d07db848fd38
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.miliapp.www;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-<<<<<<< HEAD
-=======
 				PROVISIONING_PROFILE = "";
->>>>>>> 2891df248e4959a1a8c300fdc794d07db848fd38
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MiliCssApp/Public/tool/MiliCssApp-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
