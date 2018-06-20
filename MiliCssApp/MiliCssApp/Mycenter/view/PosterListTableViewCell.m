@@ -14,15 +14,13 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        [self SetupViews];
         self.backgroundColor = [UIColor whiteColor];
         self.separatorImageView.x = 30;
     }
     return self;
 }
--(void)SetupViews{
-   NSArray *dataArr = @[@"手足口少儿门诊",@"手足口少儿门诊阿达首付低",@"手足口少儿门诊",@"手足口少儿门诊"];
-
+-(void)SetupViews:(NSArray *)posterListArr{
+   NSArray *dataArr = posterListArr;
     UIScrollView *PosterScrollView = [[UIScrollView alloc]init];
     [self addSubview:PosterScrollView];
     PosterScrollView.sd_layout
@@ -42,7 +40,9 @@
     for (int i = 0; i <dataArr.count; i++) {
         UIImageView *normalView = [[UIImageView alloc] init];
         //    GongLue.backgroundColor = MLNaviColor;
-        normalView.image = [UIImage imageNamed:@"ico_home_5"];
+
+        [normalView sd_setImageWithURL:URLWith([dataArr[i] xyValueForKey:@"imgUrl"]) placeholderImage:HolderWith(nil)];
+        
         [PosterScrollView addSubview:normalView];
         if (i == 0 ) {
             normalView.x = 17;
@@ -63,7 +63,7 @@
         
         
        UILabel *normalLab = [HLSLable LabelWithFont:12 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLTittleColor WithFatherView:PosterScrollView];
-        normalLab.text = dataArr[i];
+        normalLab.text = [dataArr[i] xyValueForKey:@"productName"];
         if (i == 0 ) {
             normalLab.x = 10;
         }else{
@@ -79,7 +79,14 @@
 }
 -(void)goPoster:(UITapGestureRecognizer *)tap{
     PosterDetailViewController *vc = [PosterDetailViewController new];
+    vc.DataDic = _DataDic;
     [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
+}
+-(void)setDataDic:(NSMutableDictionary *)DataDic{
+    _DataDic = DataDic;
+    NSArray *posterListArr = [DataDic xyValueForKey:@"posterList"];
+    [self SetupViews:posterListArr];
+
 }
 - (void)awakeFromNib {
     [super awakeFromNib];

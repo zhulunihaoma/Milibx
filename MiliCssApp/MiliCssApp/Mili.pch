@@ -18,6 +18,8 @@
 #import "Masonry.h"
 #import "NSDictionary+HLS.h"
 #import "UIView+SDAutoLayOut.h"
+//解析
+#import <MJExtension.h>
 //中文解码
 #import "Translatecode.h"
 //刷新

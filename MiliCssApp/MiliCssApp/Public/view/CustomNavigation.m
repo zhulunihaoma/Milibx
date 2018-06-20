@@ -36,10 +36,24 @@
     leftBtn.width = NaviHeight - StatueBarHeight;
     leftBtn.height = NaviHeight - StatueBarHeight;
     leftBtn.x = NaviLeftPadding;
-    leftBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    leftBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     leftBtn.contentMode = UIViewContentModeCenter;
     
     [self.backimg addSubview:self.leftBtn = leftBtn];
+    
+    UIButton *leftCloseBtn = [[UIButton alloc]init];
+    [leftCloseBtn setImage:[UIImage imageNamed:@"close_btn"] forState:UIControlStateNormal];
+    [leftCloseBtn setImage:[UIImage imageNamed:@"close_btn"] forState:UIControlStateHighlighted];
+    leftCloseBtn.y = StatueBarHeight;
+    leftCloseBtn.width = NaviHeight - StatueBarHeight;
+    leftCloseBtn.height = NaviHeight - StatueBarHeight;
+    leftCloseBtn.x = NaviLeftPadding+leftBtn.width;
+    leftCloseBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    leftCloseBtn.contentMode = UIViewContentModeCenter;
+    
+    [self.backimg addSubview:self.leftCloseBtn = leftCloseBtn];
+    [self.leftCloseBtn setHidden:YES];
+    
     
     UIButton *rightBtn = [[UIButton alloc]init];
     rightBtn.y = StatueBarHeight;

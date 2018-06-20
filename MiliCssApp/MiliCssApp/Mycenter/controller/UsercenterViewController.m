@@ -10,6 +10,7 @@
 #import "WalletCenterViewController.h"
 #import "LoginViewController.h"
 #import "ChangeMyPSWViewController.h"
+#import "MLMyRequest.h"
 
 @interface UsercenterViewController ()
 {
@@ -236,17 +237,19 @@
         
         UIButton *ExitBtn = [[UIButton alloc]init];
         [self.view addSubview:ExitBtn];
-        [ExitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.mas_equalTo(self.view.mas_centerX);
-            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH-66, 46));
-            make.top.mas_equalTo(@(241+NaviHeight));
-        }];
+        [ExitBtn setBackgroundImage:[UIImage imageNamed:@"btn_set"] forState:UIControlStateNormal];
+
+        ExitBtn.width = SCREEN_WIDTH-14;
+        ExitBtn.height = 65;
+        ExitBtn.x = 7;
+        ExitBtn.y = 241+NaviHeight;
+       
+      
         [ExitBtn setTitle:@"退出登录" forState:UIControlStateNormal];
         [ExitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [ExitBtn addTarget:self action:@selector(exit) forControlEvents:UIControlEventTouchUpInside];
         ExitBtn.titleLabel.font = [UIFont systemFontOfSize:16];
 //        ExitBtn.backgroundColor = HLSColor(255,85,85);
-        [ExitBtn setBackgroundImage:[UIImage imageNamed:@"btn_set"] forState:UIControlStateNormal];
         ExitBtn.layer.cornerRadius = 8;
         
         
@@ -337,16 +340,39 @@
     
 }
 -(void)exit{
+    [self logout];
+
+//    [self showMLhud];
+    [MLMyRequest PostlogoutSuccess:^(NSDictionary *dic) {
+        HLSLog(@"退出登录后的返回---%@",dic);
+//        [self.HUD hideAnimated:YES];
+
+        if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
+
+        }else{
+            [HLSLable lableWithText:[dic xyValueForKey:@"message"]];
+        }
+    } failure:^(NSError *error) {
+//        [self.HUD hideAnimated:YES];
+
+    }];
+    
+    
+   
+    
+}
+
+-(void)logout{
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"确定退出？" preferredStyle:UIAlertControllerStyleAlert];
     __weak typeof(self) weakself = self;
     UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定退出" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         DEF_PERSISTENT_SET_OBJECT(@"", @"userinfo");
-
+        
         [mUserDefaults removeObjectForKey:KUserInfoDic];
         [mUserDefaults setObject:@"1" forKey:@"isTag"];
         [mUserDefaults synchronize];
         
-//        [APServiceTool setTag];
+        //        [APServiceTool setTag];
         //刷新个人中心
         [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadperson" object:self];
         
@@ -354,7 +380,7 @@
         LoginViewController *lvc = [[LoginViewController alloc]init];
         UINavigationController *navi = [[UINavigationController alloc]initWithRootViewController:lvc];
         navi.navigationBarHidden = YES;
-//        [self.delegate relogin];
+        //        [self.delegate relogin];
         [self presentViewController:navi animated:YES completion:^{
             [self.navigationController popToRootViewControllerAnimated:YES];
             self.tabBarController.selectedIndex = 0;
@@ -372,7 +398,6 @@
     [alert addAction:action];
     
     [self presentViewController:alert animated:YES completion:nil];
-    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

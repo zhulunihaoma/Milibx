@@ -9,4 +9,6 @@
 #import "PublicTableViewController.h"
 
 @interface PosterDetailViewController : PublicTableViewController
+@property(nonatomic,strong)NSMutableDictionary *DataDic;
+
 @end

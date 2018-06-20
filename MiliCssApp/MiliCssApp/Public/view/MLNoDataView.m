@@ -23,12 +23,12 @@
         imageView.y = y;
         [self addSubview:imageView];
         
-        y = imageView.bottom + 35;
+        y = imageView.bottom + 5;
         
         UILabel *textLabel = [[UILabel alloc]init];
         textLabel.text = text;
         textLabel.textAlignment = NSTextAlignmentCenter;
-        textLabel.textColor = MLTittleColor;
+        textLabel.textColor = MLDetailColor;
         textLabel.font = [UIFont systemFontOfSize:17];
         [textLabel sizeToFit];
         textLabel.width = kSCREENSIZE.width - 20;
@@ -55,15 +55,18 @@
         
         
         if (buttonTitle.length > 0) {
+              y = imageView.bottom ;
             UIButton *button = [[UIButton alloc]init];
             [button setTitle:buttonTitle forState:UIControlStateNormal];
-            [button setTitleColor:MLTittleColor forState:UIControlStateNormal];
-            button.titleLabel.font = [UIFont systemFontOfSize:15];
-            button.layer.cornerRadius = 3;
-            button.layer.borderWidth = 0.5f;
+            
+            [button setTitleColor:MLDetailColor forState:UIControlStateNormal];
+            [button setImage:[UIImage imageNamed:@"btn_refresh"] forState:UIControlStateNormal];
+            button.titleLabel.font = [UIFont systemFontOfSize:16];
+//            button.layer.cornerRadius = 3;
+//            button.layer.borderWidth = 0.5f;
             button.layer.borderColor = MLTittleColor.CGColor;
             button.y = y;
-            button.width = 120;
+            button.width = 250;
             button.height = 40;
             button.centerX = kSCREENSIZE.width / 2;
             [self addSubview:self.button = button];

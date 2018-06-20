@@ -9,5 +9,5 @@
 #import "PublicTableViewController.h"
 
 @interface ModifyPasswordViewController : PublicTableViewController
-
+@property(nonatomic,strong)NSString *cardNo;
 @end

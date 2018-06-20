@@ -74,28 +74,28 @@
     
 }
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
-    if ([[viewController class] isSubclassOfClass:[MycenterViewController class]]) {
-        //        if (![[viewController class] isSubclassOfClass:[HLSSendCarViewController class]]) {
-        
-        HLSLog(@"111:%@",TOKEN);
-        
-        // 判断用户是否登陆
-        if (![HLSPersonalInfoTool getWAPSESSIONID]) {
-            
-            LoginViewController *lvc = [[LoginViewController alloc]init];
-            UINavigationController *nvc = [[UINavigationController alloc]initWithRootViewController:lvc];
-            nvc.navigationBarHidden = YES;
-            [self.viewControllers[0] presentViewController:nvc animated:YES completion:^{
-                self.tabBarController.selectedIndex = 0;
-            }];
-            return NO;
-        }
-        
-        
-        //        }
-        
-        
-    }
+//    if ([[viewController class] isSubclassOfClass:[MycenterViewController class]]) {
+//        //        if (![[viewController class] isSubclassOfClass:[HLSSendCarViewController class]]) {
+//
+//        HLSLog(@"111:%@",TOKEN);
+//
+//        // 判断用户是否登陆
+//        if (![HLSPersonalInfoTool getCookies]) {
+//
+//            LoginViewController *lvc = [[LoginViewController alloc]init];
+//            UINavigationController *nvc = [[UINavigationController alloc]initWithRootViewController:lvc];
+//            nvc.navigationBarHidden = YES;
+//            [self.viewControllers[0] presentViewController:nvc animated:YES completion:^{
+//                self.tabBarController.selectedIndex = 0;
+//            }];
+//            return NO;
+//        }
+//
+//
+//        //        }
+//
+//
+//    }
     return YES;
 }
 

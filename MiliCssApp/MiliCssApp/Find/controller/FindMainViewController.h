@@ -12,11 +12,8 @@
 @property (nonatomic, strong) NSString *titleStr;
 
 /**
- 主体类型（资讯，保险公司，保险产品）
+ 栏目Id
  */
-@property (nonatomic, strong) NSString *typeStr;
-/**
- 分类数据（包含分类名和筛选条件数据）
- */
-@property (nonatomic, strong) NSDictionary *ChooseDataDic;
+@property (nonatomic, strong) NSString *columnId;
+
 @end

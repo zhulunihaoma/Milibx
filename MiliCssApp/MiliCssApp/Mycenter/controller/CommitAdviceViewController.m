@@ -9,7 +9,8 @@
 #import "CommitAdviceViewController.h"
 #import "HLSPhotoView.h"
 #import "CollectActionSheet.h"
-
+#import "MLMyRequest.h"
+#import "HLSSelectImageTool.h"
 //详情颜色
 #define MLHolderColor HLSColor(193, 193, 193)
 
@@ -103,7 +104,7 @@
     photoView.x = 30;
     photoView.y = 195+NaviHeight;
     photoView.width = SCREEN_WIDTH-20;
-    photoView.height = 62+5+80;
+    photoView.height = 90+20;
     photoView.lable.text = @"最多添加三张图片";
 //    photoView.lable.textColor = HLSColor(102, 102, 102);
     //        photoView.lable.backgroundColor = HLSGreenColor;
@@ -120,7 +121,9 @@
     [CommitBtn sizeToFit];
     
     CommitBtn.centerX = SCREEN_WIDTH/2;
-    CommitBtn.y = photoView.bottom + 12;
+//    CommitBtn.y = photoView.bottom + 12;
+        CommitBtn.y = photoView.bottom + 30;
+
     
 }
 - (void)back {
@@ -208,6 +211,12 @@
     
     
 }
+
+-(void)Deletephoto:(HLSPhotoView *)photoView clickIndex:(NSInteger)index{
+    [self.photoArr removeObjectAtIndex:index - 1];
+    AddPhotoView.photoArr = self.photoArr;
+    
+}
 #pragma mark - UIActionSheetDelegate
 - (void)collectActionSheet:(CollectActionSheet *)collectActionSheet selectedIndex:(NSInteger)index {
     UIImagePickerController *ipc=[[UIImagePickerController alloc]init];
@@ -231,9 +240,40 @@
 //选完图片后调用
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     UIImage *image= [info objectForKey:@"UIImagePickerControllerEditedImage"];
-//    NSData *imageData = [HLSSelectImageTool selectImageWithImage:image];
+    NSData *imageData = [HLSSelectImageTool selectImageWithImage:image];
     
-//    self.HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    [self showMLhud];
+    
+    [MLMyRequest PostUploadPictureWithfile:imageData Success:^(NSDictionary *dic) {
+        [self.HUD hideAnimated:YES];
+        HLSLog(@"---上传图片:%@",dic);
+        if ([[dic xyValueForKey:@"code"] integerValue] == 10318888) {
+            
+                        NSString *Currentimg = [[dic xyValueForKey:@"result"] xyValueForKey:@"imgUrl"];
+            HLSLog(@"---上传图片成功:%@",Currentimg);
+
+            
+                        NSString *url = Currentimg;
+                        if (self.currentTag == 0) {
+                            [self.photoArr addObject:url];
+                        }else {
+                            [self.photoArr removeObjectAtIndex:self.currentTag-1 ];
+                            [self.photoArr insertObject:url atIndex:self.currentTag -1];
+                        }
+            
+                        AddPhotoView.photoArr = self.photoArr;
+            
+            
+        }else{
+            [HLSLable lableWithText:[dic xyValueForKey:@"message"]];
+        }
+    } failure:^(NSError *error) {
+        
+    }];
+    
+    
+    
+    
     
 //    [HLSPCTHttpTools PostUploadPictureWithfile:imageData WithimgBelong:@"others" Success:^(NSDictionary *dic) {
 //        self.HUD.hidden = YES;

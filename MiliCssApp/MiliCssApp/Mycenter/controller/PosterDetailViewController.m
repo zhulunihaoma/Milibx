@@ -9,6 +9,8 @@
 #import "PosterDetailViewController.h"
 #import "SCAdView.h"
 #import "HeroModel.h"
+#import <UShareUI/UShareUI.h>
+
 @interface PosterDetailViewController ()<SCAdViewDelegate>
 {
     SCAdView *_adView;
@@ -102,7 +104,7 @@
 
     btn1.alpha = 0.8;
     [self.view addSubview:btn1];
-    [btn1 addTarget:self action:@selector(pause) forControlEvents:UIControlEventTouchUpInside];
+    [btn1 addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
   
     
    
@@ -142,13 +144,17 @@
  *  @brief 水平显示
  */
 -(void)showAdHorizontally{
-    NSArray *testArray =@[@"刘备",@"李白",@"嬴政",@"韩信",@"bj_feedback"];
+    
+    
+    
+    NSArray *testArray = [_DataDic xyValueForKey:@"posterList"];
+    
     //模拟服务器获取到的数据
     NSMutableArray *arrayFromService  = [NSMutableArray array];
-    for (NSString *text in testArray) {
+    for (NSDictionary *dic in testArray) {
         HeroModel *hero = [HeroModel new];
-        hero.imageName = text;
-        hero.introduction = [NSString stringWithFormat:@"我是王者农药的:---->%@",text];
+        hero.imageName = [dic xyValueForKey:@"imgUrl"];
+        hero.introduction = [NSString stringWithFormat:@"我是海报:---->%@",[dic xyValueForKey:@"productName"]];
         [arrayFromService addObject:hero];
     }
     
@@ -272,7 +278,12 @@
     
 }
 
-
+-(void)share{
+    [UMSocialUIManager setPreDefinePlatforms:@[@(UMSocialPlatformType_Sina),@(UMSocialPlatformType_QQ),@(UMSocialPlatformType_WechatSession)]];
+    [UMSocialUIManager showShareMenuViewInWindowWithPlatformSelectionBlock:^(UMSocialPlatformType platformType, NSDictionary *userInfo) {
+        // 根据获取的platformType确定所选平台进行下一步操作
+    }];
+}
 
 
 - (void)didReceiveMemoryWarning {

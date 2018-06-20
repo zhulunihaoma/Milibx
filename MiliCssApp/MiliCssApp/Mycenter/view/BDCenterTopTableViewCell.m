@@ -13,6 +13,7 @@
 #import "UserInfoViewController.h"
 #import "MLNormalWebViewController.h"
 #import "PosterViewController.h"
+#import <UShareUI/UShareUI.h>
 
 @implementation BDCenterTopTableViewCell
 
@@ -91,31 +92,50 @@
     .centerYEqualToView(AppMessageBtn);
     [MyTittle setSingleLineAutoResizeWithMaxWidth:(50)];
     
-    
+//    背景图
+    UIView *headbgView = [[UIView alloc]init];
+    [bgimg addSubview:headbgView];
+    headbgView.sd_layout
+    .topSpaceToView(MyTittle, 30)
+    .leftEqualToView(bgimg)
+    .widthIs(SCREEN_WIDTH)
+    .heightIs(50);
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gouserinfo)];
+    [headbgView addGestureRecognizer:tap];
+    headbgView.userInteractionEnabled = YES;
+
 //    头像
+    
+    
     
     UIImageView *Headimg = [[UIImageView alloc]init];
     Headimg.image = [UIImage imageNamed:@"img_me_tx_default"];
-    [bgimg addSubview:Headimg];
+    [headbgView addSubview:Headimg];
     Headimg.sd_layout
-    .topSpaceToView(MyTittle, 21)
-    .centerXEqualToView(bgimg)
-    .widthIs(40)
-    .heightIs(40);
-    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gouserinfo)];
-    [Headimg addGestureRecognizer:tap];
-    Headimg.userInteractionEnabled = YES;
+    .topEqualToView(headbgView)
+    .leftSpaceToView(headbgView, 30)
+    .widthIs(50)
+    .heightIs(50);
+ 
 
     
     // 昵称
-    UILabel *MyName = [HLSLable LabelWithFont:14 WithTextalignment:NSTextAlignmentLeft WithTextColor:[UIColor whiteColor] WithFatherView:bgimg];
+    UILabel *MyName = [HLSLable LabelWithFont:14 WithTextalignment:NSTextAlignmentLeft WithTextColor:[UIColor whiteColor] WithFatherView:headbgView];
     MyName.text = @"朱璐";
     MyName.sd_layout
     .heightIs(16)
-    .centerXEqualToView(bgimg)
-    .topSpaceToView(Headimg, 8);
+    .centerYEqualToView(Headimg)
+    .leftSpaceToView(Headimg, 20);
     [MyName setSingleLineAutoResizeWithMaxWidth:(50)];
     
+    
+//    向右侧箭头
+    UIImageView *arrow = [[UIImageView alloc]init];
+    [headbgView addSubview:arrow];
+    [arrow setImage:[UIImage imageNamed:@"button_arrow_right"]];
+    [arrow sizeToFit];
+    arrow.centerY = 25;
+    arrow.x = SCREEN_WIDTH - arrow.width - 28;
     
 //    推广费
     UILabel *PromoteCount = [HLSLable LabelWithFont:18 WithTextalignment:NSTextAlignmentCenter WithTextColor:[UIColor whiteColor] WithFatherView:bgimg];
@@ -124,7 +144,7 @@
     .heightIs(18)
     .leftSpaceToView(bgimg, 32)
     .widthIs(80)
-    .topSpaceToView(MyName, 30);
+    .topSpaceToView(headbgView, 30);
 //    [PromoteCount setSingleLineAutoResizeWithMaxWidth:(100)];
     
     
@@ -146,7 +166,7 @@
     .heightIs(18)
     .centerXEqualToView(bgimg)
     .widthIs(80)
-    .topSpaceToView(MyName, 30);
+    .centerYEqualToView(PromoteCount);
     //    [PromoteCount setSingleLineAutoResizeWithMaxWidth:(100)];
     
     
@@ -168,7 +188,7 @@
     .heightIs(18)
     .rightSpaceToView(bgimg, 32)
     .widthIs(80)
-    .topSpaceToView(MyName, 30);
+    .centerYEqualToView(PromoteCount);
     //    [PromoteCount setSingleLineAutoResizeWithMaxWidth:(100)];
     
     
@@ -301,14 +321,21 @@
     if(sender.tag==0){//业绩报表
         MLNormalWebViewController *vc = [MLNormalWebViewController new];
         vc.TittleStr = @"业绩报表";
+        vc.UrlStr = @"http://192.168.65.169:17140/webapp/order/hotline";
         [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
 
     }
     
     if(sender.tag==1){//下级管理
-        MLNormalWebViewController *vc = [MLNormalWebViewController new];
-        vc.TittleStr = @"下级管理";
-        [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
+//        MLNormalWebViewController *vc = [MLNormalWebViewController new];
+//        vc.TittleStr = @"下级管理";
+//        [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
+        [UMSocialUIManager setPreDefinePlatforms:@[@(UMSocialPlatformType_Sina),@(UMSocialPlatformType_QQ),@(UMSocialPlatformType_WechatSession)]];
+        [UMSocialUIManager showShareMenuViewInWindowWithPlatformSelectionBlock:^(UMSocialPlatformType platformType, NSDictionary *userInfo) {
+            // 根据获取的platformType确定所选平台进行下一步操作
+            
+           
+        }];
     }
     if (sender.tag == 2) {//海报
         PosterViewController *vc = [PosterViewController new];

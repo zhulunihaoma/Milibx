@@ -38,7 +38,7 @@
 //    倒计时iocn
     UIImageView *TimeIcon = [[UIImageView alloc]init];
     [TopView addSubview:TimeIcon];
-    TimeIcon.image = [UIImage imageNamed:@"ico_home_3"];
+    TimeIcon.image = [UIImage imageNamed:@"img_time"];
     TimeIcon.sd_layout
     .topSpaceToView(TopView, 25)
     .heightIs(66)
@@ -155,7 +155,7 @@
 //        iocn
         UIImageView *PayIcon = [[UIImageView alloc]init];
         [passwordview addSubview:PayIcon];
-        PayIcon.image = [UIImage imageNamed:@"ico_home_3"];
+        PayIcon.image = [UIImage imageNamed:@"icon_wechat"];
         PayIcon.sd_layout
         .centerYEqualToView(passwordview)
         .heightIs(35)
@@ -172,12 +172,17 @@
         .heightIs(17);
         [motifypassword setSingleLineAutoResizeWithMaxWidth:(120)];
         //        箭头
-        UIImageView *arrow1 = [[UIImageView alloc]init];
-        arrow1.image = [UIImage imageNamed:@"btn_arrow"];
-        [passwordview addSubview:arrow1];
-        [arrow1 sizeToFit];
-        arrow1.centerY = 25;
-        arrow1.x = SCREEN_WIDTH - 28- arrow1.width;
+        //        按钮
+        UIButton *ChooseBtnWechat = [[UIButton alloc]init];
+        [ChooseBtnWechat setImage:[UIImage imageNamed:@"btn_choose_default"] forState:UIControlStateNormal];
+        [ChooseBtnWechat setImage:[UIImage imageNamed:@"btn_choose"] forState:UIControlStateSelected];
+        [ChooseBtnWechat addTarget:self action:@selector(Changepayway:) forControlEvents:UIControlEventTouchUpInside];
+        [passwordview addSubview:ChooseBtnWechat];
+        ChooseBtnWechat.sd_layout
+        .heightIs(18)
+        .widthIs(18)
+        .rightSpaceToView(passwordview, 20)
+        .centerYEqualToView(passwordview);
         
         
         UIView *hline1 = [UIView new];
@@ -209,7 +214,7 @@
         //        iocn
         UIImageView *PayIcon2 = [[UIImageView alloc]init];
         [messageview addSubview:PayIcon2];
-        PayIcon2.image = [UIImage imageNamed:@"ico_home_3"];
+        PayIcon2.image = [UIImage imageNamed:@"icon_Alipay"];
         PayIcon2.sd_layout
         .centerYEqualToView(messageview)
         .heightIs(35)
@@ -225,13 +230,18 @@
         .leftSpaceToView(PayIcon2, 13)
         .heightIs(17);
         [messagelab setSingleLineAutoResizeWithMaxWidth:(120)];
-        //  switch开关
-        UISwitch *messageSwitch = [[UISwitch alloc]init];
-        [messageview addSubview:messageSwitch];
-        [messageSwitch sizeToFit];
-        messageSwitch.centerY = 25;
-        messageSwitch.x = SCREEN_WIDTH - 28- messageSwitch.width;
         
+//        按钮
+        UIButton *ChooseBtnAli = [[UIButton alloc]init];
+        [ChooseBtnAli setImage:[UIImage imageNamed:@"btn_choose_default"] forState:UIControlStateNormal];
+        [ChooseBtnAli setImage:[UIImage imageNamed:@"btn_choose"] forState:UIControlStateSelected];
+        [ChooseBtnAli addTarget:self action:@selector(Changepayway:) forControlEvents:UIControlEventTouchUpInside];
+        [messageview addSubview:ChooseBtnAli];
+        ChooseBtnAli.sd_layout
+        .heightIs(18)
+        .widthIs(18)
+        .rightSpaceToView(messageview, 20)
+        .centerYEqualToView(messageview);
         
         UIView *hlinemessage = [UIView new];
         hlinemessage.backgroundColor = MLBGColor;
@@ -253,6 +263,9 @@
     return MycenterView;
 }
 
+-(void)Changepayway:(UIButton *)sender{
+    sender.selected = !sender.selected;
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

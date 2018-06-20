@@ -14,10 +14,11 @@
 #import "Home_PromoteTableViewCell.h"
 #import "Home_NewsTableViewCell.h"
 #import "Home_AdvantageTableViewCell.h"
-
+#import "MLhomeRequest.h"
+#import "UIImage+GIF.h"
 @interface HomeViewController ()
 {
-    
+    NSMutableDictionary *DataDic;
 }
 @end
 
@@ -28,11 +29,39 @@
     
     self.navigationView.hidden = YES;
     self.title = @"首页";
+    DataDic = [NSMutableDictionary new];
     [self setupSubViews];
     HLSLog(@"---StatueBarHeight%f",NaviHeight);
+    [self RequestData];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(homerefresh:) name:@"home" object:nil];
+
     // Do any additional setup after loading the view.
 }
+-(void)homerefresh{
+    [self headerRefresh];
+}
+-(void)RequestData{
+//    self.HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    [self showMLhud];
+    [MLhomeRequest PostmainSuccess:^(NSDictionary *dic) {
+        HLSLog(@"首页数据,%@",dic);
+        [self.HUD hideAnimated:YES];
+        
+        if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
+            
+            DataDic = [dic xyValueForKey:@"result"];
+            [self.tableView reloadData];
+            [self.tableView.mj_header endRefreshing];
+            [self.tableView.mj_footer endRefreshing];
+        }else{
+            [HLSLable lableWithText:[dic xyValueForKey:@"message"]];
+        }
+       
+    } failure:^(NSError *error) {
+        [self.HUD hideAnimated:YES];
 
+    }];
+}
 
 -(void)setupSubViews{
     [self setupTableViewWithStyle:UITableViewStyleGrouped];
@@ -45,8 +74,24 @@
     self.tableView.height = SCREEN_HEIGHT-49+StatueBarHeight;
     self.tableView.showsVerticalScrollIndicator = NO;
     
+    [self setupHeaderRefresh];
     
 }
+
+/**
+ *  下拉刷新
+ */
+- (void)headerRefresh {
+    [self RequestData];
+}
+/**
+ *  上拉加载
+ */
+- (void)footerRefresh {
+    [self RequestData];
+    
+}
+
 #pragma -mark UITableVIew
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -119,7 +164,7 @@
         if (!cell) {
             cell = [[Home_TopTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         }
-        
+        cell.DataDic = DataDic;
         return cell;
     }
     if (indexPath.section == 1) {
@@ -141,7 +186,7 @@
         if (!cell) {
             cell = [[Home_PromoteTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         }
-        
+        cell.DataDic = DataDic;
         return cell;
     }
     if (indexPath.section == 3) {
@@ -152,7 +197,8 @@
         if (!cell) {
             cell = [[Home_NewsTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         }
-        
+        cell.DataDic = DataDic;
+
         return cell;
     }
     if (indexPath.section == 4) {
@@ -182,6 +228,14 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 //    ComDetailViewController *cvc = [[ComDetailViewController alloc]init];
 //    [self.navigationController pushViewController:cvc animated:YES];
+}
+-(void)dealloc{
+    
+    
+    [[NSNotificationCenter defaultCenter]removeObserver:self
+                                                   name:@"home"
+                                                 object:nil];
+    
 }
 
 - (void)didReceiveMemoryWarning {

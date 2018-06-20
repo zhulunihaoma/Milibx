@@ -15,7 +15,7 @@
 
 @end
 @implementation MLHttpTools
-+ (void)postWithURL:(NSString *)url params:(NSDictionary *)params success:(HLSHttpSuccess)success failure:(HLSHttpFailure)failure
++ (void)postWithURL:(NSString *)url params:(id)params success:(HLSHttpSuccess)success failure:(HLSHttpFailure)failure
 {
     [self PostWithURL:url params:params successBlock:^(BOOL isSuccess, NSDictionary *resultDic) {
         if (isSuccess) {
@@ -33,7 +33,11 @@
 {
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:CurrentWindow animated:YES];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/json", @"text/javascript",@"text/html",@"text/plain", nil];
+    [ manager.requestSerializer setValue:@"json" forHTTPHeaderField:@"dataType"];
+    
+    
+//    MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:CurrentWindow animated:YES];
     [manager POST:url parameters:param  constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         
         
@@ -47,14 +51,12 @@
         [formData appendPartWithFileData:imageData name:@"file" fileName:fileName mimeType:@"image/jpeg"];
         
     } success:^(NSURLSessionDataTask *operation, id responseObject) {
-        [HUD hide:YES];
+//        [HUD hide:YES];
         success(responseObject);
-        if (![[responseObject xyValueForKey:@"ok"]boolValue]) {
-            mAlertView(@"上传图片失败，请重新上传");
-        }
+        
         
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
-        [HUD hide:YES];
+//        [HUD hide:YES];
         failure(error);
         
     }];
@@ -85,7 +87,7 @@
 
 
 + (void)PostWithURL:(NSString *)url
-             params:(NSDictionary *)params
+             params:(id)params
        successBlock:(void(^)(BOOL isSuccess, NSDictionary *resultDic))successBlock
        failureBlock:(void(^)(NSError *error))failureBlock
 {
@@ -98,8 +100,24 @@
     //申明返回的结果是json类型
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
   
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html",@"text/plain", nil];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/json", @"text/javascript",@"text/html",@"text/plain", nil];
+    [ manager.requestSerializer setValue:@"json" forHTTPHeaderField:@"dataType"];
+    
+    
+//    [manager.requestSerializer setValue:[HLSPersonalInfoTool getCookies]  forHTTPHeaderField:@"deviceToken"];
 
+    
+//
+//    [manager.requestSerializer
+//     setValue:@"application/json"
+//
+//     forHTTPHeaderField:@"Accept"];
+//
+//    [manager.requestSerializer
+//     setValue:@"application/json"
+//     forHTTPHeaderField:@"Content-Type"];
+//
+    
     
     [manager POST:url parameters: params success:^(NSURLSessionDataTask *operation, id responseObject) {
         

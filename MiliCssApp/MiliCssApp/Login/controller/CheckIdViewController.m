@@ -15,6 +15,8 @@
     UITextField *Idcard;
     UITextField *PhoneNum;
     UITextField *TestNum;
+    UIButton *SendMsgBtn;
+
     UIButton *NextBtn;
     UITextField *selectField;
 
@@ -32,6 +34,13 @@
     self.navigationView.lineImageView.hidden = YES;
     [self setupviews];
     self.view.backgroundColor = [UIColor whiteColor];
+    self.navigationView.backimg.hidden = YES;
+    [self.navigationView addSubview:self.navigationView.titleLabel];
+    [self.navigationView bringSubviewToFront:self.navigationView.titleLabel];
+    self.navigationView.titleLabel.textColor = MLTittleColor;
+    
+    [self.navigationView addSubview:self.navigationView.leftBtn];
+    [self.navigationView bringSubviewToFront:self.navigationView.leftBtn];
 
 
 //    back-btn
@@ -42,7 +51,7 @@
     
     //    身份证号码
     Idcard = [[UITextField alloc]init];
-    Idcard.placeholder = @"请输入用户名";
+    Idcard.placeholder = @"请输入身份证号码";
     Idcard.clearButtonMode= YES;
     [self.view addSubview:Idcard];
     Idcard.x = 32;
@@ -56,7 +65,7 @@
     
     //  手机号码
     PhoneNum = [[UITextField alloc]init];
-    PhoneNum.placeholder = @"请输入密码";
+    PhoneNum.placeholder = @"请输入手机号";
     [self.view addSubview:PhoneNum];
     
     PhoneNum.x = 32;
@@ -70,7 +79,7 @@
     
     //  验证码
     TestNum = [[UITextField alloc]init];
-    TestNum.placeholder = @"请输入密码";
+    TestNum.placeholder = @"请输入验证码";
     [self.view addSubview:TestNum];
     TestNum.x = 32;
     TestNum.y = PhoneNum.bottom+13;
@@ -80,20 +89,20 @@
     [TestNum addTarget:self action:@selector(EditingChanged:) forControlEvents:UIControlEventEditingChanged];
 
     
-    UIButton *TestNumicon = [[UIButton alloc]init];
+    SendMsgBtn = [[UIButton alloc]init];
     
-    TestNumicon.backgroundColor = [UIColor clearColor];
-    TestNumicon.backgroundColor = MLNaviColor;
-    [TestNumicon setTitle:@"发送验证码" forState:UIControlStateNormal];
-    TestNumicon.titleLabel.font = TextFontSize(14);
+    SendMsgBtn.backgroundColor = [UIColor clearColor];
+    SendMsgBtn.backgroundColor = MLNaviColor;
+    [SendMsgBtn setTitle:@"发送验证码" forState:UIControlStateNormal];
+    SendMsgBtn.titleLabel.font = TextFontSize(14);
 
     
-    TestNumicon.size = CGSizeMake(85, 35);
-    TestNumicon.x = PhoneNum.width - 87;
-    TestNumicon.centerY = PhoneNum.height/2;
-    [TestNumicon addTarget:self action:@selector(changestatte:) forControlEvents:UIControlEventTouchUpInside];
+    SendMsgBtn.size = CGSizeMake(85, 35);
+    SendMsgBtn.x = PhoneNum.width - 87;
+    SendMsgBtn.centerY = PhoneNum.height/2;
+    [SendMsgBtn addTarget:self action:@selector(SendMeesage:) forControlEvents:UIControlEventTouchUpInside];
     
-    [TestNum addSubview:TestNumicon];
+    [TestNum addSubview:SendMsgBtn];
     
     
     
@@ -101,15 +110,20 @@
     
     
     NextBtn = [[UIButton alloc]init];
-    NextBtn.backgroundColor = MLNaviColor;
     [NextBtn setTitle:@"下一步" forState:UIControlStateNormal];
     [self.view addSubview:NextBtn];
     [NextBtn addTarget:self action:@selector(GoNext) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:NextBtn];
-    NextBtn.x = 32;
+    [NextBtn setBackgroundImage:[UIImage imageNamed:@"btn_login"] forState:UIControlStateNormal];
+
+    NextBtn.x = 22;
     NextBtn.y = TestNum.bottom+60;
-    NextBtn.width = SCREEN_WIDTH - 64;
-    NextBtn.height = 50;
+    NextBtn.width = SCREEN_WIDTH - 44;
+    NextBtn.height = 65;
+    
+    
+    
+    
     NextBtn.layer.cornerRadius = 6;
     NextBtn.titleLabel.font = TextFontSize(17);
     [PhoneNum addTarget:self action:@selector(EditingDidBegin:) forControlEvents:UIControlEventEditingDidBegin];
@@ -146,6 +160,66 @@
         [view.layer addSublayer:layer];
     }
 }
+//发送验证码
+-(void)SendMeesage:(UIButton *)sender{
+    [self showMLhud];
+
+    [MLloginRequest PostCertifyNumWithphoneNo:PhoneNum.text templateCode:@"1013" Success:^(NSDictionary *dic) {
+        HLSLog(@"--验证码%@---",dic);
+
+        [self.HUD hideAnimated:YES];
+        if ([[dic xyValueForKey:@"code"] integerValue] == 10318888) {
+            [self startTime];
+        }else{
+            [HLSLable lableWithText:[dic xyValueForKey:@"message"]];
+        }
+    } failure:^(NSError *error) {
+        [self.HUD hideAnimated:YES];
+    }];
+}
+
+//计时器的方法
+-(void)startTime{
+    
+    __block int timeout = 60; //倒计时时间
+    
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_source_t _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,queue);
+    dispatch_source_set_timer(_timer,dispatch_walltime(NULL, 0),1.0*NSEC_PER_SEC, 0); //每秒执行
+    dispatch_source_set_event_handler(_timer, ^{
+        if(timeout<=0)
+        { //倒计时结束，关闭
+            dispatch_source_cancel(_timer);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //设置界面的按钮显示 根据自己需求设置
+                [SendMsgBtn setTitle:@"重新发送" forState:UIControlStateNormal];
+                SendMsgBtn.userInteractionEnabled = YES;
+                [SendMsgBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//                SendMsgBtn.layer.cornerRadius = 2;
+//                SendMsgBtn.layer.masksToBounds = YES;
+                SendMsgBtn.backgroundColor = HLSColor(24, 198, 131);
+            });
+        }
+        else
+        {
+            int seconds = timeout % 100;
+            NSString *strTime = [NSString stringWithFormat:@"%.2d", seconds];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //设置界面的按钮显示 根据自己需求设置
+                [SendMsgBtn setTitle:[NSString stringWithFormat:@"已发送(%@)",strTime] forState:UIControlStateNormal];
+                SendMsgBtn.userInteractionEnabled = NO;
+                SendMsgBtn.layer.borderWidth = 0;
+                SendMsgBtn.backgroundColor = HLSOneColor(204);
+                [SendMsgBtn setTitleColor:HLSOneColor(999999) forState:UIControlStateNormal];
+            });
+            timeout--;
+        }
+    });
+    dispatch_resume(_timer);
+    
+}
+
+
 -(void)EditingDidBegin:(id)sender{
     
     [self setBorderWithView:selectField top:NO left:NO bottom:YES right:NO borderColor:HLSColor(229, 235, 232) borderWidth:1];
@@ -164,9 +238,28 @@
     }
 }
 -(void)GoNext{
-    ModifyPasswordViewController *mvc = [[ModifyPasswordViewController alloc]init];
+    [self showMLhud];
+
+    [MLloginRequest PostverifyResetPwdCodeByAppWithphoneCode:TestNum.text WithphoneNo:PhoneNum.text templateCode:@"1013" cardNo:Idcard.text Success:^(NSDictionary *dic) {
+        HLSLog(@"--验证%@---",dic);
+        [self.HUD hideAnimated:YES];
+     
+        if ([[dic xyValueForKey:@"code"] integerValue] == 10318888) {
+                    ModifyPasswordViewController *mvc = [[ModifyPasswordViewController alloc]init];
+                    mvc.cardNo = Idcard.text;
+                    [self.navigationController pushViewController:mvc animated:YES];
+        }else{
+            [HLSLable lableWithText:[dic xyValueForKey:@"message"]];
+        }
+        
+
+    } failure:^(NSError *error) {
+        [self.HUD hideAnimated:YES];
+
+    }];
     
-    [self.navigationController pushViewController:mvc animated:YES];
+    
+
 }
 -(void)login{
     

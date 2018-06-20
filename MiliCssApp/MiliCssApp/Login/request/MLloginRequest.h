@@ -19,8 +19,8 @@
  * 1： 验证码
  */
 
-+ (void)PostCertifyNumWithphoneNum:(NSString *)mobile
-                              type:(NSString *)type
++ (void)PostCertifyNumWithphoneNo:(NSString *)phoneNo
+                              templateCode:(NSString *)templateCode
                            Success:(HLSSuccess)success failure:(HLSHttpFailure)failure;
 
 
@@ -38,5 +38,21 @@
 
 + (void)PostLoginWithloginName:(NSString *)loginName WithPassword:(NSString *)passWord token:(NSString *)token  Success:(HLSSuccess)success failure:(HLSHttpFailure)failure;
 
+/**
+ *  3:验证身份证和手机号码
+ */
+
++ (void)PostverifyResetPwdCodeByAppWithphoneCode:(NSString *)phoneCode WithphoneNo:(NSString *)phoneNo templateCode:(NSString *)templateCode cardNo:(NSString *)cardNo Success:(HLSSuccess)success failure:(HLSHttpFailure)failure;
+
+/**
+ *  4:重置密码
+ */
+
++ (void)PostForgetPassWithnewPwd:(NSString *)newPwd confirmPwd:(NSString *)confirmPwd cardNo:(NSString *)cardNo Success:(HLSSuccess)success failure:(HLSHttpFailure)failure;
+/**
+ *  5:修改密码
+ */
+
++ (void)PostmodifyPwdWitholdPwd:(NSString *)oldPwd newPwd:(NSString *)newPwd confirmPwd:(NSString *)confirmPwd Success:(HLSSuccess)success failure:(HLSHttpFailure)failure;
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "PublicViewController.h"
+#import "UIImage+GIF.h"
 
 @interface PublicViewController ()
 
@@ -39,9 +40,29 @@
     self.view.backgroundColor = MLBGColor;
     [self setupNaviView];
     self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
+    //    self.HUD.label.text = @"加载中…";
+    
+   
 
     
 
+}
+-(void)showMLhud{
+    self.HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    self.HUD.mode = MBProgressHUDModeCustomView;
+    self.HUD.backgroundColor = [UIColor clearColor];
+    UIImageView *logo_gif = [[UIImageView alloc]init];
+    NSString  *filePath = [[NSBundle bundleWithPath:[[NSBundle mainBundle] bundlePath]]pathForResource:@"ml_loading" ofType:@"gif"];
+    NSData  *imageData = [NSData dataWithContentsOfFile:filePath];
+    logo_gif.backgroundColor = [UIColor clearColor];
+    logo_gif.image = [UIImage sd_animatedGIFWithData:imageData];
+    
+    
+    self.HUD.customView = logo_gif;
+    self.HUD.customView.sd_layout
+    .widthIs(60)
+    .centerXEqualToView(self.HUD.bezelView)
+    .heightIs(60);
 }
 /**
  *  创建navi
@@ -52,6 +73,8 @@
     navi.height = NaviHeight;
     [navi.rightBtn addTarget:self action:@selector(clickRightBtn) forControlEvents:UIControlEventTouchUpInside];
     [navi.leftBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    [navi.leftCloseBtn addTarget:self action:@selector(close) forControlEvents:UIControlEventTouchUpInside];
+
     [self.view addSubview:self.navigationView = navi];
     }
 - (void)setTitle:(NSString *)title {
@@ -63,6 +86,11 @@
     [self.navigationController popViewControllerAnimated:YES];
     
 }
+- (void)close{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+
+}
+
 - (void)clickRightBtn {
    
     

@@ -8,7 +8,9 @@
 
 #import "PosterViewController.h"
 #import "PosterListTableViewCell.h"
+#import "PosterDetailViewController.h"
 #import "PosterHeader.h"
+#import "MLMyRequest.h"
 @interface PosterViewController ()
 <UICollectionViewDelegate,UICollectionViewDataSource>{
     UICollectionView *maincollectionView;
@@ -22,10 +24,46 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"海报";
+    dataArr = [NSMutableArray new];
     [self setupSubViews];
+    [self RequestData];
     // Do any additional setup after loading the view.
 }
+-(void)RequestData{
+    [self showMLhud];
+    
+    [MLMyRequest PostposterListWithproductCode:nil merchantCode:[HLSPersonalInfoTool getmerchantCode] pageIndex:nil pageSize:nil Success:^(NSDictionary *dic) {
+        [self.HUD hideAnimated:YES];
+        HLSLog(@"---海报:%@",dic);
+        if ([[dic xyValueForKey:@"code"] integerValue] == 10318888) {
+//            [dataArr removeAllObjects];
+//            dataArr = [[dic xyValueForKey:@"result"] xyValueForKey:@"productList"];
+            [self.tableView reloadData];
 
+            if (dataArr.count == 0) {
+                if (!self.noDataView) {
+                    [self setupNoDataView];
+                }
+                
+            }else {
+                if (self.noDataView) {
+                    [self.noDataView removeFromSuperview];
+                    self.noDataView = nil;
+                }
+                
+            }
+            
+            [self.tableView.mj_header endRefreshing];
+
+        }else{
+            [HLSLable lableWithText:[dic xyValueForKey:@"message"]];
+        }
+    } failure:^(NSError *error) {
+        [self.HUD hideAnimated:YES];
+        [self checkNonet];
+    }];
+    
+}
 //创建tableView
 -(void)setupSubViews{
     [self setupTableViewWithStyle:UITableViewStyleGrouped];
@@ -33,22 +71,59 @@
     self.tableView.x = 0;
     self.tableView.y = NaviHeight;
     self.tableView.width = SCREEN_WIDTH;
-    self.tableView.height = SCREEN_HEIGHT-NaviHeight;
+    self.tableView.height = SCREEN_HEIGHT-NaviHeight-40;
     [self.tableView registerClass:[PosterListTableViewCell class] forCellReuseIdentifier:@"cell"];
-    
-    [self setupFooterRefresh];
     
     [self setupHeaderRefresh];
     
     
     
 }
+/**
+ *  下拉刷新
+ */
+- (void)headerRefresh {
+    [self RequestData];
+}
 
+#pragma mark -- 无网络
+-(void)checkNonet{
+    if (!self.noNetView) {
+        [self setupNoNetView];
+    }
+    
+    
+    [self.tableView.mj_header endRefreshing];
+    [self.tableView.mj_footer endRefreshing];
+    
+}
+/**
+ *  无数据View
+ */
+-(void)setupNoDataView{
+    
+    self.noDataView = [[MLNoDataView alloc]initWithImageName:@"img_Load_2" text:@"扑通，数据君木有了~" detailText:nil buttonTitle:nil];
+    self.noDataView.y = 100;
+    self.noDataView.width = SCREEN_WIDTH;
+    self.noDataView.height = SCREEN_HEIGHT - 64;
+    [self.view addSubview:self.noDataView];
+    
+    
+}
+//无网络的时候
+- (void)setupNoNetView {
+    self.noNetView = [[MLNoDataView alloc]initWithImageName:@"img_Load_1" text:@"" detailText:nil buttonTitle:@"  加载失败，点击页面重试"];
+    self.noNetView.y = 100;
+    self.noNetView.width = kSCREENSIZE.width;
+    self.noNetView.height = kSCREENSIZE.height - self.noNetView.y - 49;
+    [self.noNetView.button addTarget:self action:@selector(RequestData) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.noNetView];
+}
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 2;
+    return dataArr.count;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 1;//[dataArr count];
+    return 1;
     
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -58,7 +133,7 @@
 }
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     PosterHeader *header = [[PosterHeader alloc]init];
-    header.nameLabel.text = @"院安康";
+    header.nameLabel.text = [dataArr[section] xyValueForKey:@"productName"];
     return header;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
@@ -79,7 +154,7 @@
     if (!cell) {
         cell = [[PosterListTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
-    
+    cell.DataDic = dataArr[indexPath.section];
     //    cell.dataDic = dataArr[indexPath.row];
     return cell;
     
@@ -87,8 +162,7 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    MessageDetailVC *mvc = [[MessageDetailVC alloc]init];
-//    [self.navigationController pushViewController:mvc animated:YES];
+  
 }
 
 

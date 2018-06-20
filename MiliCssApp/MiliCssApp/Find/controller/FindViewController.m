@@ -9,12 +9,14 @@
 #import "FindViewController.h"
 #import "FSScrollContentView.h"
 #import "FindMainViewController.h"
-
+#import "MLFindRequest.h"
 @interface FindViewController ()<FSPageContentViewDelegate,FSSegmentTitleViewDelegate>
 {
     NSMutableArray *categoryArr;//标题列表
     CAShapeLayer *shapeLayer;
     UIBezierPath *bezierPath;
+    NSMutableArray *TittleArr;
+    NSMutableArray *DicTittleArr;
 }
 @property (nonatomic, strong) FSPageContentView *pageContentView;
 @property (nonatomic, strong) FSSegmentTitleView *titleView;
@@ -29,29 +31,41 @@
     self.navigationView.height = NaviHeight+43;
     self.title = @"发现";
     categoryArr = [NSMutableArray new];
-    [self setsetgement];
    self.navigationView.backimg.size = CGSizeMake(SCREEN_WIDTH, NaviHeight+43);
 
-//    [self drawRect:64];
-    
-   
-
+    TittleArr = [NSMutableArray new];
+   DicTittleArr = [NSMutableArray new];
+    [self RequestData];
+    // Do any additional setup after loading the view.
 }
-- (void)drawRect:(int)rect {
+-(void)RequestData{
+    //    self.HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    [self showMLhud];
+    [MLFindRequest PostcolumnListSuccess:^(NSDictionary *dic) {
     
-    [shapeLayer removeFromSuperlayer];
-    
-    shapeLayer = [CAShapeLayer new];
-    shapeLayer.fillColor = MLBGColor.CGColor; //填充颜色
-    [self.view.layer addSublayer:shapeLayer];
-    
-    bezierPath = [UIBezierPath new];
-    [bezierPath moveToPoint:CGPointMake(rect, NaviHeight+33+3)];
-    [bezierPath addLineToPoint:CGPointMake(rect-10, NaviHeight+40+3)];
-    [bezierPath addLineToPoint:CGPointMake(rect+10, NaviHeight+40+3)];
-    [bezierPath closePath];//将起点与结束点相连接
-    shapeLayer.path = bezierPath.CGPath;
-  
+        HLSLog(@"发现,%@",dic);
+        [self.HUD hideAnimated:YES];
+
+        if ([[dic xyValueForKey:@"code"] integerValue] == 10318888) {
+            
+           DicTittleArr =  [[dic xyValueForKey:@"result"] xyValueForKey:@"columnList"];
+            
+            for (int i = 0; i <DicTittleArr.count; i++) {
+                [TittleArr addObject:[DicTittleArr[i] xyValueForKey:@"columnTitle"]];
+                
+            }
+
+            [self setsetgement];
+
+
+        }else{
+            [HLSLable lableWithText:[dic xyValueForKey:@"message"]];
+        }
+
+    } failure:^(NSError *error) {
+        [self.HUD hideAnimated:YES];
+        [self checkNonet];
+    }];
 }
 
 -(void)setsetgement{
@@ -74,18 +88,21 @@
     if ([categoryArr count]==0) {
         categoryArr = [NSMutableArray arrayWithArray:DEF_PERSISTENT_GET_OBJECT(@"LastTitle")];
         if ([categoryArr count]==0) {
-            categoryArr = [NSMutableArray arrayWithArray:@[@"全部",@"懂产品",@"米粒说",@"米粒说",@"米粒说",@"米粒说",@"米粒说"]];
+            categoryArr = [NSMutableArray arrayWithArray:@[@"全部",@"懂产品"]];
         }
     }
     
-    self.titleView.titlesArr = categoryArr;
+//    self.titleView.titlesArr = categoryArr;
+    self.titleView.titlesArr = TittleArr;
+
     NSMutableArray *childVCs = [[NSMutableArray alloc]init];
     int i = 0;
     
     for (NSString *title in self.titleView.titlesArr) {
         FindMainViewController *vc = [[FindMainViewController alloc]init];
         vc.title = title;
-        
+        vc.columnId = [DicTittleArr[i] xyValueForKey:@"id"];//类型传到子界面
+
         //        [vc.navigationController.navigationBar removeFromSuperview] ;
         //        vc.navigationView.hidden = YES;
         
@@ -100,6 +117,24 @@
 //    }
     
 }
+#pragma mark -- 无网络
+-(void)checkNonet{
+    if (!self.noNetView) {
+        [self setupNoNetView];
+    }
+    
+}
+//无网络的时候
+- (void)setupNoNetView {
+    self.noNetView = [[MLNoDataView alloc]initWithImageName:@"img_Load_1" text:@"" detailText:nil buttonTitle:@"  加载失败，点击页面重试"];
+    self.noNetView.y = 120;
+    self.noNetView.width = kSCREENSIZE.width;
+    self.noNetView.height = kSCREENSIZE.height - self.noNetView.y - 49;
+    [self.noNetView.button addTarget:self action:@selector(RequestData) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.noNetView];
+}
+
+
 #pragma mark --
 - (void)FSSegmentTitleView:(FSSegmentTitleView *)titleView startIndex:(NSInteger)startIndex endIndex:(NSInteger)endIndex
 {

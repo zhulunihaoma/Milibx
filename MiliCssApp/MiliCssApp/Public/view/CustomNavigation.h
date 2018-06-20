@@ -16,6 +16,10 @@
  */
 @property (nonatomic,strong) UIButton * leftBtn;
 /**
+ *  navi左边关闭按钮
+ */
+@property (nonatomic,strong) UIButton * leftCloseBtn;
+/**
  *  navi右边按钮
  */
 @property (nonatomic,strong) UIButton * rightBtn;

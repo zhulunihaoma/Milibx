@@ -167,6 +167,7 @@
                        success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
                        failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure
 {
+    NSLog(@"---AF%@",parameters);
     return [self POST:URLString parameters:parameters progress:nil success:success failure:failure];
 }
 

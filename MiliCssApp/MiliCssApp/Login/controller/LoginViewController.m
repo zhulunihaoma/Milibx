@@ -13,15 +13,19 @@
 #import "HLSPersonalInfoTool.h"
 #import "UIImage+GIF.h"
 #import "CheckIdViewController.h"
+#import <WebKit/WebKit.h>
 
-@interface LoginViewController ()<WKNavigationDelegate,WKUIDelegate>
+@interface LoginViewController ()<WKNavigationDelegate, WKUIDelegate>
 {
     UITextField *account;
     UITextField *password;
     UIButton *submmit;
     NSString *userstring;
+    NSString *WAPSESSIONID;
+
     CALayer *player;
-    UITextField *selectField;
+    UIView *selectField;
+    UIView *PswBgView;
 }
 @property(nonatomic,strong)WKWebView *webView;
 
@@ -63,31 +67,15 @@
     layer.beginTime = timeSincePause;
 }
 -(void)initwebview{
-    NSString *sesionstr = [HLSPersonalInfoTool getWAPSESSIONID];
-    NSString *cookiestr = [NSString stringWithFormat:@"document.cookie ='WAPSESSIONID=%@';",sesionstr];
-    WKUserContentController* userContentController = WKUserContentController.new;
-    WKUserScript * cookieScript = [[WKUserScript alloc] initWithSource: cookiestr injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:NO];
     
-    [userContentController addUserScript:cookieScript];
-    WKWebViewConfiguration * config = [[WKWebViewConfiguration alloc] init];
-    config.userContentController = userContentController;
-    //    WKCookiesManager * cookieManager = [WKCookiesManager shareCookies];
-    //    config.processPool = cookieManager.processPool;
-    WKPreferences * prefer = [[WKPreferences alloc] init];
-    prefer.javaScriptEnabled = YES;
-    prefer.javaScriptCanOpenWindowsAutomatically = YES;
-    config.preferences = prefer;
-    self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 500, SCREEN_WIDTH, 100) configuration:config];
+    self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 500, SCREEN_WIDTH, 100)];
     self.webView.allowsBackForwardNavigationGestures = YES;
     [self.view addSubview:self.webView];
     self.webView.UIDelegate = self;
     self.webView.navigationDelegate = self;
     NSString *tempUrl = [NSString stringWithFormat:@"%@webapp/initdata",RequestWebUrl];
-    
     NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:tempUrl] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
     [self.webView loadRequest:request];
-
- 
 
 }
 
@@ -102,10 +90,7 @@
     NSData  *imageData = [NSData dataWithContentsOfFile:filePath];
     logo_gif.backgroundColor = [UIColor clearColor];
     logo_gif.image = [UIImage sd_animatedGIFWithData:imageData];
-    
-  
-    
-    
+
     
     [self.view addSubview:logo_gif];
     player = logo_gif.layer;
@@ -148,17 +133,24 @@
 
 
 
-    //    用户名
+    // 密码
+//密码底部的 背景图
+    PswBgView = [[UIView alloc]init];
+    PswBgView.x = 32;
+    PswBgView.y = account.bottom+13;
+    PswBgView.width = SCREEN_WIDTH - 64;
+    PswBgView.height = 50;
+    [self.view addSubview:PswBgView];
     password = [[UITextField alloc]init];
     password.placeholder = @"请输入密码";
-    [self.view addSubview:password];
+    [PswBgView addSubview:password];
     
-    password.x = 32;
-    password.y = account.bottom+13;
-    password.width = SCREEN_WIDTH - 64;
+    password.x = 0;
+    password.y = 0;
+    password.width = SCREEN_WIDTH - 64-22;
     password.height = 50;
     password.secureTextEntry = YES;
-    [self setBorderWithView:password top:NO left:NO bottom:YES right:NO borderColor:HLSColor(229, 235, 232) borderWidth:1];
+    [self setBorderWithView:PswBgView top:NO left:NO bottom:YES right:NO borderColor:HLSColor(229, 235, 232) borderWidth:1];
     [password addTarget:self action:@selector(PasswordEditingChanged:) forControlEvents:UIControlEventEditingChanged];
 
     UIButton *passwordicon = [[UIButton alloc]init];
@@ -167,13 +159,12 @@
     [passwordicon setImage:[UIImage imageNamed:@"button_login_password_nodisplayt"] forState:UIControlStateNormal];
     [passwordicon setImage:[UIImage imageNamed:@"button_login_password_displayt"] forState:UIControlStateSelected];
 
-    passwordicon.size = CGSizeMake(22, 22);
-    passwordicon.x = password.width - 25;
+    passwordicon.size = CGSizeMake(23, 23);
+    passwordicon.x = password.width ;
     passwordicon.centerY = password.height/2;
     [passwordicon addTarget:self action:@selector(changestatte:) forControlEvents:UIControlEventTouchUpInside];
 
-    [password addSubview:passwordicon];
-
+    [PswBgView addSubview:passwordicon];
     
     
     
@@ -181,15 +172,16 @@
 
     
     submmit = [[UIButton alloc]init];
-    submmit.backgroundColor = MLNaviColor;
     [submmit setTitle:@"登录" forState:UIControlStateNormal];
     [self.view addSubview:submmit];
     [submmit addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:submmit];
-    submmit.x = 32;
-    submmit.y = password.bottom+60;
-    submmit.width = SCREEN_WIDTH - 64;
-    submmit.height = 50;
+    [submmit setBackgroundImage:[UIImage imageNamed:@"btn_login"] forState:UIControlStateNormal];
+
+    submmit.x = 22;
+    submmit.y = PswBgView.bottom+60;
+    submmit.height  = 65;
+    submmit.width = SCREEN_WIDTH - 44;
+    
     submmit.layer.cornerRadius = 6;
     submmit.titleLabel.font = TextFontSize(17);
     [password addTarget:self action:@selector(EditingDidBegin:) forControlEvents:UIControlEventEditingDidBegin];
@@ -210,6 +202,7 @@
     [forgetps setSingleLineAutoResizeWithMaxWidth:(100)];
     
 }
+//
 - (void)setBorderWithView:(UIView *)view top:(BOOL)top left:(BOOL)left bottom:(BOOL)bottom right:(BOOL)right borderColor:(UIColor *)color borderWidth:(CGFloat)width
 {
     if (top) {
@@ -238,15 +231,25 @@
     }
 }
 -(void)EditingDidBegin:(id)sender{
+   
     
-    [self setBorderWithView:selectField top:NO left:NO bottom:YES right:NO borderColor:HLSColor(229, 235, 232) borderWidth:1];
-    [self setBorderWithView:sender top:NO left:NO bottom:YES right:NO borderColor:MLNaviColor borderWidth:1];
-    selectField = sender;
+    if (sender == password) {
+        [self setBorderWithView:PswBgView top:NO left:NO bottom:YES right:NO borderColor:MLNaviColor borderWidth:1];
+
+        [self setBorderWithView:account top:NO left:NO bottom:YES right:NO borderColor:HLSColor(229, 235, 232) borderWidth:1];
+
+    }else{
+        [self setBorderWithView:account top:NO left:NO bottom:YES right:NO borderColor:MLNaviColor borderWidth:1];
+        
+        [self setBorderWithView:PswBgView top:NO left:NO bottom:YES right:NO borderColor:HLSColor(229, 235, 232) borderWidth:1];
+
+    }
 
 
 }
 -(void)changestatte:(UIButton *)sender{
     sender.selected = !sender.selected;
+
     if (sender.selected) {
         password.secureTextEntry = NO;
     }else{
@@ -260,16 +263,30 @@
     [self.navigationController pushViewController:cvc animated:YES];
 }
 -(void)login{
+    [self showMLhud];
+
     [MLloginRequest PostLoginWithloginName:account.text WithPassword:[MD5Tool md5:password.text] token:nil Success:^(NSDictionary *dic) {
         HLSLog(@"aa:%@",dic);
-//        [self back];
-        NSMutableDictionary *userdic = [dic xyValueForKey:@"result"];
-        DEF_PERSISTENT_SET_OBJECT(userdic, KUserInfoDic);
-        userstring = [JSONTool dictionaryToJson:[HLSPersonalInfoTool getUserinfo]];
-        HLSLog(@"--本地%@",userstring);
-        [self initwebview];
 
-        [HLSLable lableWithText:@"登录成功！"];
+        [self.HUD hideAnimated:YES];
+        if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
+            //        [self back];
+            NSMutableDictionary *userdic = [dic xyValueForKey:@"result"];
+            DEF_PERSISTENT_SET_OBJECT(userdic, KUserInfoDic);
+            userstring = [JSONTool dictionaryToJson:[HLSPersonalInfoTool getUserinfo]];
+            NSString *session = [HLSPersonalInfoTool getCookies];
+            HLSLog(@"--本地%@---%@",userstring,session);
+            [self initwebview];
+//            [[NSNotificationCenter defaultCenter] postNotificationName:@"homerefresh" object:self];
+//            [[NSNotificationCenter defaultCenter]postNotificationName:@"homerefresh" object:self userInfo:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"home" object:self];
+
+            
+            [HLSLable lableWithText:@"登录成功！"];
+        }else{
+            [HLSLable lableWithText:[dic xyValueForKey:@"message"]];
+        }
+
     } failure:^(NSError *error) {
 
     }];
@@ -279,8 +296,8 @@
 }
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     //设置JS
-//      NSString *strcookie =  [NSString stringWithFormat:@"WAPSESSIONID=%@",[HLSPersonalInfoTool getWAPSESSIONID]];
-    NSString *inputValueJS = [NSString stringWithFormat:@"setUserInfo('%@','%@')",userstring,[HLSPersonalInfoTool getWAPSESSIONID]];
+      NSString *strcookie =  [NSString stringWithFormat:@"%@",[HLSPersonalInfoTool getWAPSESSIONID]];
+    NSString *inputValueJS = [NSString stringWithFormat:@"setUserInfo('%@','%@')",userstring,strcookie];
 
     //执行JS
     [webView evaluateJavaScript:inputValueJS completionHandler:^(id _Nullable response, NSError * _Nullable error) {
@@ -296,6 +313,9 @@
     }
 }
 -(void)PasswordEditingChanged:(UITextField *)TextField{
+    if (TextField.text.length >18) {
+        TextField.text = [TextField.text substringToIndex:15];
+    }
     
 }
 - (void)didReceiveMemoryWarning {

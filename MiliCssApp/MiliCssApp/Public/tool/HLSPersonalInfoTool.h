@@ -20,6 +20,7 @@ typedef NS_ENUM(NSInteger, UserType){
 
 + (NSString *)getCookies; //用户的cookies
 + (NSString *)getWAPSESSIONID; //用户的WAPSESSIONID
++ (NSString *)getmerchantCode; //用户的merchantCode
 
 + (NSString *)getUserinfo;
 

@@ -7,7 +7,7 @@
 //
 
 #import "NewsBaseTableViewCell.h"
-
+#import "NewsModel.h"
 @interface NewsBigImgTableViewCell : NewsBaseTableViewCell
-
+@property(nonatomic,strong)NewsModel *Model;
 @end

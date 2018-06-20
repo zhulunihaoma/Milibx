@@ -173,13 +173,62 @@ TittleImgView.sd_layout
         BannerView.currentPageDotColor = MLNaviColor;
 
     BannerView.imageURLStringsGroup = @[
-                                        @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1527485482581&di=23416d5f5204678ed48a63e2fa495f73&imgtype=0&src=http%3A%2F%2Fwx3.sinaimg.cn%2Fcrop.0.0.583.328.1000%2F0072kNvDgy1froq9pvhwpj30g809474m.jpg",
-                                        @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488778259388&di=bc10a126d396402565395c63baf27196&imgtype=0&src=http%3A%2F%2Fpic.qiantucdn.com%2F58pic%2F17%2F89%2F07%2F55a5c86a77176_1024.jpg",
+                                        @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528796505753&di=4ef5f2dff1f19b336fbd3d1b36314a15&imgtype=0&src=http%3A%2F%2Fwww.fun99.cn%2Fuploads%2Fallimg%2Fc180604%2F152P9155025C0-11Z5.jpg",
+                                        @"https://pics.sc.chinaz.com/files/pic/pic9/201806/zzpic12257.jpg",
                                         @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1527485581800&di=7bd2c03c1fa5b8c496a8c6092e84bef0&imgtype=0&src=http%3A%2F%2Fi.shangc.net%2F2018%2F0526%2F20180526091117619.jpg",
                                         @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488778259383&di=c5ccc270675a567e1d70c52886b95f24&imgtype=0&src=http%3A%2F%2Fpic.58pic.com%2F58pic%2F16%2F50%2F51%2F50Y58PICp4P_1024.jpg"];
     
     
     [Top_BgImg addSubview:BannerView];
+}
+-(void)layoutSubviews{
+    
+    [super layoutSubviews];
+//    HLSLog(@"---topcell数据%@",_DataDic);
+//    NSArray *bannerList = [_DataDic xyValueForKey:@"bannerList"];
+//        NSMutableArray *ImgList = [NSMutableArray new];
+//
+//        for (int i = 0; i < bannerList.count; i++) {
+//            [ImgList addObject:[bannerList[i] xyValueForKey:@"imgUrl"]];
+//        }
+//
+//        BannerView.imageURLStringsGroup = ImgList;
+    
+}
+-(void)setDataDic:(NSMutableDictionary *)DataDic{
+
+    NSArray *bannerList = [DataDic xyValueForKey:@"bannerList"];
+    NSMutableArray *ImgList = [NSMutableArray new];
+
+    if (bannerList !=@"") {
+        
+
+    for (int i = 0; i < bannerList.count; i++) {
+        [ImgList addObject:[bannerList[i] xyValueForKey:@"imgUrl"]];
+    }
+}
+    HLSLog(@"---topcell数据%@",ImgList);
+
+//
+    BannerView.imageURLStringsGroup = ImgList;
+//
+
+}
+#pragma mark -- 中间入口点击方法
+-(void)btnClick:(UIButton *)sender{
+    HLSLog(@"--%ld",sender.tag);
+//    if(sender.tag==0){//业绩报表
+        MLNormalWebViewController *vc = [MLNormalWebViewController new];
+        vc.TittleStr = @"业绩报表";
+        vc.UrlStr = @"http://192.168.65.169:17140/webapp/order/hotline";
+        [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
+        
+//    }
+    
+   
+    
+    
+    
 }
 - (void)awakeFromNib {
     [super awakeFromNib];

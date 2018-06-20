@@ -12,6 +12,7 @@
 @protocol HLSPhotoViewDelegate <NSObject>
 
 - (void)photoView:(HLSPhotoView *)photoView clickIndex:(NSInteger)index;
+- (void)Deletephoto:(HLSPhotoView *)photoView clickIndex:(NSInteger)index;
 
 @end
 @interface HLSPhotoView : UIView

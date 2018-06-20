@@ -12,19 +12,21 @@
 
 //接口请求地址
 
-#define RequestUrl @"https://openapi.milibx.com"//开发环境
+#define RequestUrl @"https://openapi.milibx.com/"//开发环境
+//#define RequestUrl @"https://webapp.milibx.com"//开发环境2
 
 
+//#define RequestUrl @"http://192.168.64.50:8080"//绍堂环境
 
+//#define RequestUrl @"http://openst.milibx.com:80"//开发环境
 
-//#define RequestUrl @"https://app.shenzhoubanche.com.cn"//生产环境
 
 
 
 //web请求地址
-//#define RequestWebUrl @"me.milibx.com:17140"//朱璐环境
-//#define RequestWebUrl @"http://app.milibx.com:17150"//俊逸环境
 #define RequestWebUrl @"http://192.168.64.93:17140/"//朱璐环境
+//#define RequestWebUrl @"http://app.milibx.com:17150"//俊逸环境
+//#define RequestWebUrl @"http://192.168.170.27:17140/"//27环境
 
 
 
@@ -55,8 +57,8 @@
 
 
 //微信分享
-#define WXAppID @""
-#define WXAppSecret @""
+#define WXAppID @"wx9bdbf50631816a31"
+#define WXAppSecret @"9aea50ae56ee62305d0e05d4fd2191a4"
 
 //融云
 #define RCIMID @""

@@ -14,6 +14,14 @@
 #define NaviLeftPadding 10
 #define TabBarHeight ([[UIApplication sharedApplication] statusBarFrame].size.height>20?83:49)
 
+
+//默认图
+#define DefaultHolder [UIImage imageNamed:@"img_auxiliary_default"]
+
+#define HolderWith(name) [UIImage imageNamed:name]
+//获取URL
+#define URLWith(str) [NSURL URLWithString:[NSString stringWithFormat:@"https://mfs.milibx.com/%@",str]]
+
 //字体
 #define TextFontSize(a) [UIFont systemFontOfSize:(a)]
 //获得RGB颜色
@@ -55,6 +63,8 @@
 //版本号
 #define kVersions @"versions"
 #define CurrentVersions [mUserDefaults objectForKey:kVersions]//版本号
+//请求成功状态码
+#define SuccessCode 10318888
 
 //获取用户信息
 #define mUserDefaults [NSUserDefaults standardUserDefaults]

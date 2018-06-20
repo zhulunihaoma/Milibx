@@ -15,7 +15,7 @@
 #import "UsercenterViewController.h"
 #import "CommitAdviceViewController.h"
 #import "GotoPayViewController.h"
-
+#import "MLMyRequest.h"
 @interface CityBDCenterView()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView *listTableView;/**个人中心列表*/
 @property(nonatomic,strong)NSMutableArray *DataArr;/**个人中心列表*/
@@ -37,13 +37,23 @@
             dic[@"tittle"] = tittleearr[i];
             [_DataArr addObject:dic];
         }
-      
+        [self RequestData];
     }
     
     
     return self;
 }
+-(void)RequestData{
+    [MLMyRequest PostuserCenterSuccess:^(NSDictionary *dic) {
+        HLSLog(@"userinfo:%@",dic);
 
+        if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
+            
+        }
+    } failure:^(NSError *error) {
+        
+    }];
+}
 -(void)initSubviews{
     [self addSubview:self.listTableView];
     
@@ -140,6 +150,11 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 1) {
+        MLNormalWebViewController *avc = [[MLNormalWebViewController alloc]init];
+        avc.UrlStr = [NSString stringWithFormat:@"%@webapp/opena/list",RequestWebUrl];// @"https://www.baidu.com";//
+        [[GetUnderController getvcwithtarget:self].navigationController pushViewController:avc animated:YES];
+    }
     if (indexPath.section == 3) {
         CommitAdviceViewController *avc = [[CommitAdviceViewController alloc]init];
         [[GetUnderController getvcwithtarget:self].navigationController pushViewController:avc animated:YES];

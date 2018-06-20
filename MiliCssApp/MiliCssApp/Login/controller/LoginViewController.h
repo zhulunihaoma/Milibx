@@ -7,7 +7,6 @@
 //
 
 #import "PublicTableViewController.h"
-#import <WebKit/WebKit.h>
 @interface LoginViewController : PublicTableViewController
 
 @end

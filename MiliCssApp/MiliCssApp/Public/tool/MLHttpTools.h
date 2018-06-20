@@ -27,7 +27,7 @@ typedef void (^HLSHttpFailure)(NSError *error);
 
 @interface MLHttpTools : NSObject
 
-+ (void)postWithURL:(NSString *)url params:(NSDictionary *)params success:(HLSHttpSuccess)success failure:(HLSHttpFailure)failure;
++ (void)postWithURL:(NSString *)url params:(id)params success:(HLSHttpSuccess)success failure:(HLSHttpFailure)failure;
 
 /**
  *  上传图片
@@ -50,7 +50,7 @@ typedef void (^HLSHttpFailure)(NSError *error);
 
 
 + (void)PostWithURL:(NSString *)url
-             params:(NSDictionary *)params
+             params:(id)params
        successBlock:(void(^)(BOOL isSuccess, NSDictionary *resultDic))successBlock
        failureBlock:(void(^)(NSError *error))failureBlock;
 /**

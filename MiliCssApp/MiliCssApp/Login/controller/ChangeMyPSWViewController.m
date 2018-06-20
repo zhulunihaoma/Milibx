@@ -7,7 +7,8 @@
 //
 
 #import "ChangeMyPSWViewController.h"
-
+#import "MD5Tool.h"
+#import "MLloginRequest.h"
 @interface ChangeMyPSWViewController ()
 {
     UITextField *OldPw;
@@ -18,7 +19,10 @@
     UIButton *NewMoreNewPw;
     UIButton *SureBtn;
     UITextField *selectField;
-    
+    UIView *OldPwBgView;
+    UIView *NewPwBgView;
+    UIView *MoreNewPwBgView;
+
 }
 @end
 
@@ -51,97 +55,133 @@
 }
 
 -(void)setupviews{
-    //旧的手机号码
+    
+    //旧的密码
+    OldPwBgView = [[UIView alloc]init];
+    OldPwBgView.x = 32;
+    OldPwBgView.y =  NaviHeight +77;
+    OldPwBgView.width = SCREEN_WIDTH - 64;
+    OldPwBgView.height = 50;
+    [self.view addSubview:OldPwBgView];
     OldPw = [[UITextField alloc]init];
     OldPw.placeholder = @"请输入原密码";
-    [self.view addSubview:OldPw];
-    OldPw.x = 32;
-    OldPw.y = NaviHeight +77;
-    OldPw.width = SCREEN_WIDTH - 64;
+    [OldPwBgView addSubview:OldPw];
+    
+    OldPw.x = 0;
+    OldPw.y = 0;
+    OldPw.width = SCREEN_WIDTH - 64-22;
     OldPw.height = 50;
-    [self setBorderWithView:OldPw top:NO left:NO bottom:YES right:NO borderColor:HLSColor(229, 235, 232) borderWidth:1];
-    [OldPw addTarget:self action:@selector(EditingChanged:) forControlEvents:UIControlEventEditingChanged];
-    UIButton *OldPwicon = [[UIButton alloc]init];
+    OldPw.secureTextEntry = YES;
+    [self setBorderWithView:OldPwBgView top:NO left:NO bottom:YES right:NO borderColor:HLSColor(229, 235, 232) borderWidth:1];
+    [OldPw addTarget:self action:@selector(PasswordEditingChanged:) forControlEvents:UIControlEventEditingChanged];
     
-    OldPwicon.backgroundColor = [UIColor clearColor];
-    [OldPwicon setImage:[UIImage imageNamed:@"button_login_password_nodisplayt"] forState:UIControlStateNormal];
-    [OldPwicon setImage:[UIImage imageNamed:@"button_login_password_displayt"] forState:UIControlStateSelected];
+    UIButton *passwordicon_old = [[UIButton alloc]init];
     
-    OldPwicon.size = CGSizeMake(22, 22);
-    OldPwicon.x = OldPw.width - 25;
-    OldPwicon.centerY = OldPw.height/2;
-    [OldPwicon addTarget:self action:@selector(changestatte:) forControlEvents:UIControlEventTouchUpInside];
+    passwordicon_old.backgroundColor = [UIColor clearColor];
+    [passwordicon_old setImage:[UIImage imageNamed:@"button_login_password_nodisplayt"] forState:UIControlStateNormal];
+    [passwordicon_old setImage:[UIImage imageNamed:@"button_login_password_displayt"] forState:UIControlStateSelected];
     
-    [OldPw addSubview:OldPwicon];
+    passwordicon_old.size = CGSizeMake(23, 23);
+    passwordicon_old.x = OldPw.width ;
+    passwordicon_old.centerY = OldPw.height/2;
+    [passwordicon_old addTarget:self action:@selector(changestatte_old:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [OldPwBgView addSubview:passwordicon_old];
+    
+   
     
     
     
-    
-    
-    //   新的手机号码
+    //新的密码
+    NewPwBgView = [[UIView alloc]init];
+    NewPwBgView.x = 32;
+    NewPwBgView.y =  OldPwBgView.bottom +16;
+    NewPwBgView.width = SCREEN_WIDTH - 64;
+    NewPwBgView.height = 50;
+    [self.view addSubview:NewPwBgView];
     NewPw = [[UITextField alloc]init];
     NewPw.placeholder = @"请输入新密码";
-    [self.view addSubview:NewPw];
-    NewPw.x = 32;
-    NewPw.y = OldPw.bottom +16;
-    NewPw.width = SCREEN_WIDTH - 64;
+    [NewPwBgView addSubview:NewPw];
+    
+    NewPw.x = 0;
+    NewPw.y = 0;
+    NewPw.width = SCREEN_WIDTH - 64-22;
     NewPw.height = 50;
-    [self setBorderWithView:NewPw top:NO left:NO bottom:YES right:NO borderColor:HLSColor(229, 235, 232) borderWidth:1];
-    [NewPw addTarget:self action:@selector(EditingChanged:) forControlEvents:UIControlEventEditingChanged];
-    UIButton *NewPwicon = [[UIButton alloc]init];
+    NewPw.secureTextEntry = YES;
+    [self setBorderWithView:NewPwBgView top:NO left:NO bottom:YES right:NO borderColor:HLSColor(229, 235, 232) borderWidth:1];
+    [NewPw addTarget:self action:@selector(PasswordEditingChanged:) forControlEvents:UIControlEventEditingChanged];
     
-    NewPwicon.backgroundColor = [UIColor clearColor];
-    [NewPwicon setImage:[UIImage imageNamed:@"button_login_password_nodisplayt"] forState:UIControlStateNormal];
-    [NewPwicon setImage:[UIImage imageNamed:@"button_login_password_displayt"] forState:UIControlStateSelected];
+    UIButton *passwordicon_new = [[UIButton alloc]init];
     
-    NewPwicon.size = CGSizeMake(22, 22);
-    NewPwicon.x = NewPw.width - 25;
-    NewPwicon.centerY = NewPw.height/2;
-    [NewPwicon addTarget:self action:@selector(changestatte:) forControlEvents:UIControlEventTouchUpInside];
+    passwordicon_new.backgroundColor = [UIColor clearColor];
+    [passwordicon_new setImage:[UIImage imageNamed:@"button_login_password_nodisplayt"] forState:UIControlStateNormal];
+    [passwordicon_new setImage:[UIImage imageNamed:@"button_login_password_displayt"] forState:UIControlStateSelected];
     
-    [NewPw addSubview:NewPwicon];
+    passwordicon_new.size = CGSizeMake(23, 23);
+    passwordicon_new.x = OldPw.width ;
+    passwordicon_new.centerY = OldPw.height/2;
+    [passwordicon_new addTarget:self action:@selector(changestatte_new:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [NewPwBgView addSubview:passwordicon_new];
     
     
-    //  手机号码
+    
+    
+    
+    
+    
+    
+    
+    //新的密码
+    MoreNewPwBgView = [[UIView alloc]init];
+    MoreNewPwBgView.x = 32;
+    MoreNewPwBgView.y =  NewPwBgView.bottom +16;
+    MoreNewPwBgView.width = SCREEN_WIDTH - 64;
+    MoreNewPwBgView.height = 50;
+    [self.view addSubview:MoreNewPwBgView];
     MoreNewPw = [[UITextField alloc]init];
-    MoreNewPw.placeholder = @"再次输入新密码";
-    [self.view addSubview:MoreNewPw];
+    MoreNewPw.placeholder = @"请输入新密码";
+    [MoreNewPwBgView addSubview:MoreNewPw];
     
-    MoreNewPw.x = 32;
-    MoreNewPw.y = NewPw.bottom+16;
-    MoreNewPw.width = SCREEN_WIDTH - 64;
+    MoreNewPw.x = 0;
+    MoreNewPw.y = 0;
+    MoreNewPw.width = SCREEN_WIDTH - 64-22;
     MoreNewPw.height = 50;
-    [self setBorderWithView:MoreNewPw top:NO left:NO bottom:YES right:NO borderColor:HLSColor(229, 235, 232) borderWidth:1];
-    [MoreNewPw addTarget:self action:@selector(EditingChanged:) forControlEvents:UIControlEventEditingChanged];
+    MoreNewPw.secureTextEntry = YES;
+    [self setBorderWithView:MoreNewPwBgView top:NO left:NO bottom:YES right:NO borderColor:HLSColor(229, 235, 232) borderWidth:1];
+    [MoreNewPw addTarget:self action:@selector(PasswordEditingChanged:) forControlEvents:UIControlEventEditingChanged];
     
-    UIButton *MoreNewPwicon = [[UIButton alloc]init];
+    UIButton *passwordicon_morenew = [[UIButton alloc]init];
     
-    MoreNewPwicon.backgroundColor = [UIColor clearColor];
-    [MoreNewPwicon setImage:[UIImage imageNamed:@"button_login_password_nodisplayt"] forState:UIControlStateNormal];
-    [MoreNewPwicon setImage:[UIImage imageNamed:@"button_login_password_displayt"] forState:UIControlStateSelected];
+    passwordicon_morenew.backgroundColor = [UIColor clearColor];
+    [passwordicon_morenew setImage:[UIImage imageNamed:@"button_login_password_nodisplayt"] forState:UIControlStateNormal];
+    [passwordicon_morenew setImage:[UIImage imageNamed:@"button_login_password_displayt"] forState:UIControlStateSelected];
     
-    MoreNewPwicon.size = CGSizeMake(22, 22);
-    MoreNewPwicon.x = MoreNewPw.width - 25;
-    MoreNewPwicon.centerY = MoreNewPw.height/2;
-    [MoreNewPwicon addTarget:self action:@selector(changestatte:) forControlEvents:UIControlEventTouchUpInside];
+    passwordicon_morenew.size = CGSizeMake(23, 23);
+    passwordicon_morenew.x = OldPw.width ;
+    passwordicon_morenew.centerY = OldPw.height/2;
+    [passwordicon_morenew addTarget:self action:@selector(changestatte_morenew:) forControlEvents:UIControlEventTouchUpInside];
     
-    [MoreNewPw addSubview:MoreNewPwicon];
+    [MoreNewPwBgView addSubview:passwordicon_morenew];
     
     
+   
     
     
     
     
     SureBtn = [[UIButton alloc]init];
-    SureBtn.backgroundColor = MLNaviColor;
-    [SureBtn setTitle:@"下一步" forState:UIControlStateNormal];
+    [SureBtn setTitle:@"确定" forState:UIControlStateNormal];
     [self.view addSubview:SureBtn];
-    [SureBtn addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
+    [SureBtn setBackgroundImage:[UIImage imageNamed:@"btn_login"] forState:UIControlStateNormal];
+    
+  
+    [SureBtn addTarget:self action:@selector(SureBtn) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:SureBtn];
-    SureBtn.x = 32;
-    SureBtn.y = MoreNewPw.bottom+60;
-    SureBtn.width = SCREEN_WIDTH - 64;
-    SureBtn.height = 50;
+    SureBtn.x = 22;
+    SureBtn.y = MoreNewPwBgView.bottom+60;
+    SureBtn.width = SCREEN_WIDTH - 44;
+    SureBtn.height = 65;
     SureBtn.layer.cornerRadius = 6;
     SureBtn.titleLabel.font = TextFontSize(17);
     [NewPw addTarget:self action:@selector(EditingDidBegin:) forControlEvents:UIControlEventEditingDidBegin];
@@ -185,7 +225,25 @@
     
     
 }
--(void)changestatte:(UIButton *)sender{
+-(void)changestatte_old:(UIButton *)sender{
+    sender.selected = !sender.selected;
+    if (sender.selected) {
+        OldPw.secureTextEntry = NO;
+    }else{
+        OldPw.secureTextEntry = YES;
+        
+    }
+}
+-(void)changestatte_new:(UIButton *)sender{
+    sender.selected = !sender.selected;
+    if (sender.selected) {
+        NewPw.secureTextEntry = NO;
+    }else{
+        NewPw.secureTextEntry = YES;
+        
+    }
+}
+-(void)changestatte_morenew:(UIButton *)sender{
     sender.selected = !sender.selected;
     if (sender.selected) {
         MoreNewPw.secureTextEntry = NO;
@@ -198,28 +256,29 @@
     
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
--(void)login{
+-(void)SureBtn{
+    [self showMLhud];
+    [MLloginRequest PostmodifyPwdWitholdPwd:[MD5Tool md5:OldPw.text] newPwd:[MD5Tool md5:NewPw.text] confirmPwd:[MD5Tool md5:MoreNewPw.text] Success:^(NSDictionary *dic) {
+        [self.HUD hideAnimated:YES];
+        
+        if ([[dic xyValueForKey:@"code"] integerValue] == 10318888) {
+            [HLSLable lableWithText:@"修改成功"];
+            [self.navigationController popViewControllerAnimated:YES];
+
+        }else{
+            [HLSLable lableWithText:[dic xyValueForKey:@"message"]];
+        }
+        
+    } failure:^(NSError *error) {
+        [self.HUD hideAnimated:YES];
+
+    }];
     
-    
-    
-    //    [MLloginRequest PostLoginWithloginName:NewPw.text WithMoreNewPw:[MD5Tool md5:MoreNewPw.text] token:nil Success:^(NSDictionary *dic) {
-    //        HLSLog(@"aa:%@",dic);
-    //        //        [self back];
-    //        NSMutableDictionary *userdic = [dic xyValueForKey:@"result"];
-    //        DEF_PERSISTENT_SET_OBJECT(userdic, @"userinfo");
-    //        userstring = [JSONTool dictionaryToJson:[HLSPersonalInfoTool getUserinfo]];
-    //        HLSLog(@"--本地%@",userstring);
-    //        [self initwebview];
-    //
-    //        [HLSLable lableWithText:@"登录成功！"];
-    //
-    //    } failure:^(NSError *error) {
-    //
-    //    }];
+   
 }
 
 #pragma mark --EditingChanged
--(void)EditingChanged:(UITextField *)TextField{
+-(void)PasswordEditingChanged:(UITextField *)TextField{
     if (TextField == NewPw) {
         if (TextField.text.length >18) {
             TextField.text = [TextField.text substringToIndex:18];

@@ -9,5 +9,6 @@
 #import "HLSBaseCell.h"
 
 @interface Home_NewsTableViewCell : HLSBaseCell
+@property(nonatomic,strong)NSMutableDictionary *DataDic;
 
 @end

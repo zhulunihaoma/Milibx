@@ -10,4 +10,5 @@
 
 @interface PosterListTableViewCell : HLSBaseCell
 @property(nonatomic,strong)UIScrollView *PosterScrollView;
+@property(nonatomic,strong)NSMutableDictionary *DataDic;
 @end

@@ -10,8 +10,13 @@
 #import "NewsBigImgTableViewCell.h"
 #import "NewsSmallImgTableViewCell.h"
 #import "NewsBaseTableViewCell.h"
+#import "MLFindRequest.h"
+#import "NewsModel.h"
 @interface FindMainViewController ()
-
+{
+    NSInteger page;
+    NSMutableArray *dataArr;
+}
 @end
 
 @implementation FindMainViewController
@@ -20,7 +25,72 @@
     [super viewDidLoad];
    
     [self setupSubViews];
+    
+    page = 1;
+    dataArr = [NSMutableArray new];
+    [self RequestData];
     // Do any additional setup after loading the view.
+}
+-(void)RequestData{
+//    [self showMLhud];
+    [MLFindRequest PostarticleListWithcolumnId:self.columnId pageIndex:page pageSize:5 Success:^(NSDictionary *dic) {
+    
+        [self.HUD hideAnimated:YES];
+        HLSLog(@"---aaa新闻里面main---%@,%@",self.columnId,dic);
+
+//
+        if ([[dic xyValueForKey:@"code"] integerValue] == 10318888) {
+
+                    if (page == 1) {
+                        [dataArr removeAllObjects];
+                    }
+            NSArray *arr =[[dic xyValueForKey:@"result"] xyValueForKey:@"articleList"];
+//            HLSLog(@"数据：111%@",);
+            
+            for (NSDictionary *Dic in arr) {
+                NewsModel *model = [NewsModel mj_objectWithKeyValues:Dic];
+
+                [dataArr addObject:model];
+            }
+            
+//            [dataArr removeAllObjects];
+
+            
+            
+                    [self.tableView reloadData];
+                    if (dataArr.count == 0) {
+                        if (!self.noDataView) {
+                            [self setupNoDataView];
+                        }
+
+                    }else {
+                        if (self.noDataView) {
+                            [self.noDataView removeFromSuperview];
+                            self.noDataView = nil;
+                        }
+                       
+                    }
+
+                    [self.tableView.mj_header endRefreshing];
+                    [self.tableView.mj_footer endRefreshing];
+
+
+
+
+
+
+
+                }else{
+                    [HLSLable lableWithText:[dic xyValueForKey:@"message"]];
+
+                }
+        
+    } failure:^(NSError *error) {
+        [self.HUD hideAnimated:YES];
+        [self checkNonet];
+
+    }];
+    
 }
 -(void)setupSubViews{
     [self setupTableViewWithStyle:UITableViewStyleGrouped];
@@ -35,9 +105,69 @@
     self.tableView.height = SCREEN_HEIGHT-naheight-tabBarHeight -43;
     HLSLog(@"222：%d",naheight);
     self.tableView.showsVerticalScrollIndicator = NO;
+
+    [self setupHeaderRefresh];
+    [self setupFooterRefresh];
+
+}
+
+/**
+ *  下拉刷新
+ */
+- (void)headerRefresh {
+    page = 1;
+    [self RequestData];
+}
+/**
+ *  上拉加载
+ */
+- (void)footerRefresh {
+    page ++;
+    [self RequestData];
+    
+}
+#pragma mark -- 无网络
+-(void)checkNonet{
+    if (page == 1) {//如果为第一页
+        if (!self.noNetView) {
+            [self setupNoNetView];
+        }
+        
+    }else{
+        if (dataArr.count>0) {
+            return;
+        }
+        
+        
+    }
+    
+    [self.tableView.mj_header endRefreshing];
+    [self.tableView.mj_footer endRefreshing];
+    
+}
+/**
+ *  无数据View
+ */
+-(void)setupNoDataView{
+    
+    self.noDataView = [[MLNoDataView alloc]initWithImageName:@"img_Load_2" text:@"扑通，数据君木有了~" detailText:nil buttonTitle:nil];
+    self.noDataView.y = 100;
+    self.noDataView.width = SCREEN_WIDTH;
+    self.noDataView.height = SCREEN_HEIGHT - 64;
+    [self.view addSubview:self.noDataView];
     
     
 }
+//无网络的时候
+- (void)setupNoNetView {
+    self.noNetView = [[MLNoDataView alloc]initWithImageName:@"img_Load_1" text:@"" detailText:nil buttonTitle:@"  加载失败，点击页面重试"];
+    self.noNetView.y = 100;
+    self.noNetView.width = kSCREENSIZE.width;
+    self.noNetView.height = kSCREENSIZE.height - self.noNetView.y - 49;
+    [self.noNetView.button addTarget:self action:@selector(RequestData) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.noNetView];
+}
+
 #pragma -mark UITableVIew
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -46,7 +176,7 @@
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
-    return 5;
+    return dataArr.count;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 0.001;
@@ -71,7 +201,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
 
-    if (indexPath.section <2) {
+    if (indexPath.section %3 == 0) {
         return  208;
 
     }else{
@@ -83,7 +213,7 @@
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    if (indexPath.section <2) {
+    if (indexPath.section %3 == 0) {
         // 定义唯一标识
         static NSString *CellIdentifier = @"Cellsbig";
         // 通过唯一标识创建cell实例
@@ -91,6 +221,7 @@
         if (!cell) {
             cell = [[NewsBigImgTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         }
+        cell.Model = dataArr[indexPath.section];
         
         return cell;
     }
@@ -103,6 +234,8 @@
         cell = [[NewsSmallImgTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
    
+    cell.Model = dataArr[indexPath.section];
+
     return cell;
     
 }

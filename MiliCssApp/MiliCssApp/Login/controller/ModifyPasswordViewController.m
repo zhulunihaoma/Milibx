@@ -7,7 +7,8 @@
 //
 
 #import "ModifyPasswordViewController.h"
-
+#import "MLloginRequest.h"
+#import "MD5Tool.h"
 @interface ModifyPasswordViewController ()
 
 {
@@ -31,6 +32,14 @@
     [self.navigationView.leftBtn setImage:[UIImage imageNamed:@"back-btn"] forState:UIControlStateHighlighted];
     self.navigationView.lineImageView.hidden = YES;
     self.view.backgroundColor = [UIColor whiteColor];
+
+    self.navigationView.backimg.hidden = YES;
+    [self.navigationView addSubview:self.navigationView.titleLabel];
+    [self.navigationView bringSubviewToFront:self.navigationView.titleLabel];
+    self.navigationView.titleLabel.textColor = MLTittleColor;
+    
+    [self.navigationView addSubview:self.navigationView.leftBtn];
+    [self.navigationView bringSubviewToFront:self.navigationView.leftBtn];
 
     [self setupviews];
     
@@ -95,15 +104,16 @@
     
     
     SureBtn = [[UIButton alloc]init];
-    SureBtn.backgroundColor = MLNaviColor;
-    [SureBtn setTitle:@"下一步" forState:UIControlStateNormal];
+   
+    [SureBtn setTitle:@"确定" forState:UIControlStateNormal];
     [self.view addSubview:SureBtn];
-    [SureBtn addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
+    [SureBtn addTarget:self action:@selector(Finish) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:SureBtn];
-    SureBtn.x = 32;
+     [SureBtn setBackgroundImage:[UIImage imageNamed:@"btn_login"] forState:UIControlStateNormal];
+    SureBtn.x = 22;
     SureBtn.y = MoreNewPw.bottom+60;
-    SureBtn.width = SCREEN_WIDTH - 64;
-    SureBtn.height = 50;
+    SureBtn.width = SCREEN_WIDTH - 44;
+    SureBtn.height = 65;
     SureBtn.layer.cornerRadius = 6;
     SureBtn.titleLabel.font = TextFontSize(17);
     [NewPw addTarget:self action:@selector(EditingDidBegin:) forControlEvents:UIControlEventEditingDidBegin];
@@ -156,29 +166,29 @@
         
     }
 }
--(void)forgetps{
+
+-(void)Finish{
+    [self showMLhud];
+
+    [MLloginRequest PostForgetPassWithnewPwd:[MD5Tool md5:NewPw.text] confirmPwd:[MD5Tool md5:MoreNewPw.text] cardNo:self.cardNo Success:^(NSDictionary *dic) {
+        HLSLog(@"完后修改:%@",dic);
+        [self.HUD hideAnimated:YES];
+        if ([[dic xyValueForKey:@"code"] integerValue] == 10318888) {
+            [HLSLable lableWithText:@"修改完成"];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+
+        }else{
+            [HLSLable lableWithText:[dic xyValueForKey:@"message"]];
+        }
+
+    } failure:^(NSError *error) {
+        [self.HUD hideAnimated:YES];
+
+    }];
     
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    
 }
--(void)login{
-    
-    
-    
-    //    [MLloginRequest PostLoginWithloginName:NewPw.text WithMoreNewPw:[MD5Tool md5:MoreNewPw.text] token:nil Success:^(NSDictionary *dic) {
-    //        HLSLog(@"aa:%@",dic);
-    //        //        [self back];
-    //        NSMutableDictionary *userdic = [dic xyValueForKey:@"result"];
-    //        DEF_PERSISTENT_SET_OBJECT(userdic, @"userinfo");
-    //        userstring = [JSONTool dictionaryToJson:[HLSPersonalInfoTool getUserinfo]];
-    //        HLSLog(@"--本地%@",userstring);
-    //        [self initwebview];
-    //
-    //        [HLSLable lableWithText:@"登录成功！"];
-    //
-    //    } failure:^(NSError *error) {
-    //
-    //    }];
-}
+
 
 #pragma mark --EditingChanged
 -(void)EditingChanged:(UITextField *)TextField{

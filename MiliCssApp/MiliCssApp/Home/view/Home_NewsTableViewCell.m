@@ -14,7 +14,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
 //        [self setupViews];
-        [self makeBroadcasts];
         self.backgroundColor = [UIColor lightGrayColor];
         
         self.separatorImageView.hidden = YES;
@@ -25,17 +24,22 @@
 }
 
 #pragma mark -- 广播
--(void)makeBroadcasts{
-//
-//    UIView *linev =[UIView new];
-//    linev.backgroundColor = [UIColor colorWithWhite:0.902 alpha:1.000];
-//    [self addSubview:linev];
-//    [linev mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.right.mas_equalTo(self);
-//        make.top.mas_equalTo(self.mas_bottom).offset(0);
-//        make.height.mas_equalTo(1);
-//    }];
-    
+-(void)makeBroadcasts:(NSMutableDictionary *)DataDic{
+    NSArray *MLnewsArr = [DataDic xyValueForKey:@"articleList"];
+
+    if (MLnewsArr !=@"") {
+        
+ 
+    NSMutableArray *newArr = [NSMutableArray new];
+    for (int i = 0; i <MLnewsArr.count; i++) {
+        NSString *tittle = [MLnewsArr[i] xyValueForKey:@"articleTitle"];
+        NSString *readNo = [MLnewsArr[i] xyValueForKey:@"readNo"];
+        NSString *newtsr = [NSString stringWithFormat:@"%@,%@",tittle,readNo];
+        NSDictionary *dic = [NSDictionary dictionaryWithObject:newtsr forKey:@"title"];
+        
+        [newArr addObject:dic];
+    }
+
     UIView *v =[UIView new];
     v.backgroundColor = [UIColor whiteColor];
     [self addSubview:v];
@@ -66,11 +70,7 @@
     
 
   
-    NSDictionary *dic = [NSDictionary dictionaryWithObject:@"我的消息1,351324热度" forKey:@"title"];
-    NSDictionary *dic1 = [NSDictionary dictionaryWithObject:@"我的消息2,1111热度" forKey:@"title"];
-
-    NSArray *newArr = @[dic,dic1
-                        ];
+   
     HKNewsBannerView *newsView = [[HKNewsBannerView alloc] initWithFrame:CGRectMake(92, 20, 180, 35)];
     if (newArr.count>0) {
         NSArray *newsArr = @[[newArr[0] xyValueForKey:@"title"],[newArr[1] xyValueForKey:@"title"]];
@@ -99,10 +99,15 @@
     [GoseeBtn sizeToFit];
     GoseeBtn.x = v.width - 19 - GoseeBtn.width;
     GoseeBtn.centerY = v.height/2;
+           }
 //    GoseeBtn.sd_layout
 //    .rightSpaceToView(v, 19)
 //    .centerYEqualToView(v);
     
+}
+-(void)setDataDic:(NSMutableDictionary *)DataDic{
+    [self makeBroadcasts:DataDic];
+
 }
 - (void)awakeFromNib {
     [super awakeFromNib];
