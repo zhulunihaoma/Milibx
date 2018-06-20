@@ -21,7 +21,6 @@ target 'MiliCssApp' do
 	pod 'UMCShare/Social/WeChat'
 	pod 'UMCShare/Social/QQ'
 	pod 'JPush'
-	pod 'WechatOpenSDK'
 	pod 'AliPay'
   target 'MiliCssAppTests' do
     inherit! :search_paths
