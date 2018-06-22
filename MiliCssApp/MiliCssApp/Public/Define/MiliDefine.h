@@ -64,7 +64,7 @@
 #define kVersions @"versions"
 #define CurrentVersions [mUserDefaults objectForKey:kVersions]//版本号
 //请求成功状态码
-#define SuccessCode 10318888
+#define SuccessCode 10018888
 
 //获取用户信息
 #define mUserDefaults [NSUserDefaults standardUserDefaults]

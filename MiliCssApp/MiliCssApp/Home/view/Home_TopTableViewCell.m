@@ -12,6 +12,7 @@
 #import "AutoBtns.h"
 #import "UIImage+GIF.h"
 #import "FLAnimatedImage.h"
+#import "PosterViewController.h"
 //#import <FLAnimatedImage/FLAnimatedImage.h>
 
 @interface Home_TopTableViewCell ()<SDCycleScrollViewDelegate>
@@ -37,7 +38,7 @@
     NSArray *titles = @[@"业绩报表",@"下级管理",@"海报"];
     NSArray *pics = @[@"ico_home_1",@"ico_home_2",@"ico_home_3"];
 
-    [self makeEqualWidthBtnNum:3 Names:titles Imgs:pics inView:self LRpadding:40 viewPadding:57 y:203+NaviHeight titlefont:13  titleColor:MLTittleColor withtag:5];
+    [self makeEqualWidthBtnNum:3 Names:titles Imgs:pics inView:self LRpadding:40 viewPadding:57 y:203+NaviHeight titlefont:13  titleColor:MLTittleColor withtag:0];
     
     
     
@@ -139,6 +140,7 @@
     Top_BgImg.y = 0;
     Top_BgImg.height = 196+NaviHeight;
     Top_BgImg.width = SCREEN_WIDTH;
+    Top_BgImg.userInteractionEnabled = YES;
     [self addSubview:Top_BgImg];
 
     UIImageView *TittleImgView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"img_home_title"]];
@@ -197,6 +199,7 @@ TittleImgView.sd_layout
 }
 -(void)setDataDic:(NSMutableDictionary *)DataDic{
 
+    _DataDic = DataDic;
     NSArray *bannerList = [DataDic xyValueForKey:@"bannerList"];
     NSMutableArray *ImgList = [NSMutableArray new];
 
@@ -214,22 +217,50 @@ TittleImgView.sd_layout
 //
 
 }
+#pragma mark -- 点击轮播回调
+/** 点击图片回调 */
+- (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index{
+    //  ProductDetailViewController *pvc = [[ProductDetailViewController alloc]init];
+    // [self.navigationController pushViewController:pvc animated:YES];
+    NSArray *bannerList = [_DataDic xyValueForKey:@"bannerList"];
+    HLSLog(@"---%@",bannerList[index]);
+    if ([[bannerList[index] xyValueForKey:@"url"] length] > 0) {
+        MLNormalWebViewController *vc = [MLNormalWebViewController new];
+        vc.TittleStr = [bannerList[index] xyValueForKey:@"title"];
+        vc.AllUrlStr = [bannerList[index] xyValueForKey:@"url"];
+        [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
+    }
+    
+}
 #pragma mark -- 中间入口点击方法
 -(void)btnClick:(UIButton *)sender{
     HLSLog(@"--%ld",sender.tag);
-//    if(sender.tag==0){//业绩报表
+    if(sender.tag==0){//业绩报表
         MLNormalWebViewController *vc = [MLNormalWebViewController new];
         vc.TittleStr = @"业绩报表";
-        vc.UrlStr = @"http://192.168.65.169:17140/webapp/order/hotline";
+        vc.UrlStr = @"/perform/center";
         [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
         
-//    }
+    }
     
-   
+    if(sender.tag==1){//下级管理
+        MLNormalWebViewController *vc = [MLNormalWebViewController new];
+        vc.TittleStr = @"下级管理";
+        vc.UrlStr = @"/opena/list";
+        [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
+        
+    }
+    if(sender.tag==2){//海报
+        PosterViewController *vc = [PosterViewController new];
+       
+        [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
+        
+    }
     
     
     
 }
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code

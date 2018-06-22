@@ -46,7 +46,7 @@
         HLSLog(@"发现,%@",dic);
         [self.HUD hideAnimated:YES];
 
-        if ([[dic xyValueForKey:@"code"] integerValue] == 10318888) {
+        if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
             
            DicTittleArr =  [[dic xyValueForKey:@"result"] xyValueForKey:@"columnList"];
             
@@ -101,7 +101,7 @@
     for (NSString *title in self.titleView.titlesArr) {
         FindMainViewController *vc = [[FindMainViewController alloc]init];
         vc.title = title;
-        vc.columnId = [DicTittleArr[i] xyValueForKey:@"id"];//类型传到子界面
+        vc.columnId = [DicTittleArr[i] xyValueForKey:@"columnId"];//类型传到子界面
 
         //        [vc.navigationController.navigationBar removeFromSuperview] ;
         //        vc.navigationView.hidden = YES;

@@ -35,6 +35,10 @@
 {
     return [[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"user"];
 }
++ (NSString *)getdeviceId{
+    NSString *deviceUUID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    return deviceUUID;
+}
 
 /**
  *  获取融云token

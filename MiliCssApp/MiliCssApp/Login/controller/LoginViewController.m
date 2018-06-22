@@ -14,6 +14,7 @@
 #import "UIImage+GIF.h"
 #import "CheckIdViewController.h"
 #import <WebKit/WebKit.h>
+#import "APServiceTool.h"
 
 @interface LoginViewController ()<WKNavigationDelegate, WKUIDelegate>
 {
@@ -73,7 +74,7 @@
     [self.view addSubview:self.webView];
     self.webView.UIDelegate = self;
     self.webView.navigationDelegate = self;
-    NSString *tempUrl = [NSString stringWithFormat:@"%@webapp/initdata",RequestWebUrl];
+    NSString *tempUrl = [NSString stringWithFormat:@"%@/initdata",RequestWebUrl];
     NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:tempUrl] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
     [self.webView loadRequest:request];
 
@@ -271,17 +272,22 @@
         [self.HUD hideAnimated:YES];
         if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
             //        [self back];
+
             NSMutableDictionary *userdic = [dic xyValueForKey:@"result"];
             DEF_PERSISTENT_SET_OBJECT(userdic, KUserInfoDic);
             userstring = [JSONTool dictionaryToJson:[HLSPersonalInfoTool getUserinfo]];
             NSString *session = [HLSPersonalInfoTool getCookies];
-            HLSLog(@"--本地%@---%@",userstring,session);
+            NSString *merchantCode = [HLSPersonalInfoTool getmerchantCode];
+
+            HLSLog(@"--本地%@---%@---%@",userstring,session,merchantCode);
             [self initwebview];
 //            [[NSNotificationCenter defaultCenter] postNotificationName:@"homerefresh" object:self];
 //            [[NSNotificationCenter defaultCenter]postNotificationName:@"homerefresh" object:self userInfo:nil];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"home" object:self];
+//            [[NSNotificationCenter defaultCenter] postNotificationName:@"home" object:self];
 
             
+            [APServiceTool setTag];
+
             [HLSLable lableWithText:@"登录成功！"];
         }else{
             [HLSLable lableWithText:[dic xyValueForKey:@"message"]];

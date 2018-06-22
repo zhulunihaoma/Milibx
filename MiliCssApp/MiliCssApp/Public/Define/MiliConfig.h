@@ -12,8 +12,9 @@
 
 //接口请求地址
 
-#define RequestUrl @"https://openapi.milibx.com/"//开发环境
-//#define RequestUrl @"https://webapp.milibx.com"//开发环境2
+//#define RequestUrl @"https://openapi.milibx.com/"//开发环境
+#define RequestUrl @"https://app.milibx.com/app"//开发环境2
+//#define RequestUrl @"http://192.168.65.193:17140/app"//海涛本地
 
 
 //#define RequestUrl @"http://192.168.64.50:8080"//绍堂环境
@@ -24,7 +25,10 @@
 
 
 //web请求地址
-#define RequestWebUrl @"http://192.168.64.93:17140/"//朱璐环境
+//#define RequestWebUrl @"http://192.168.64.93:17140/"//朱璐环境
+#define RequestWebUrl @"https://app.milibx.com/webapp"//朱璐环境
+//#define RequestWebUrl @"http://192.168.65.193:17140/webapp"//朱璐环境
+
 //#define RequestWebUrl @"http://app.milibx.com:17150"//俊逸环境
 //#define RequestWebUrl @"http://192.168.170.27:17140/"//27环境
 
@@ -47,13 +51,12 @@
 
 
 //极光推送AppKey
-//#define JPUSHKEY @"" //测试环境
-#define JPUSHKEY @"" //生产环境
+#define JPUSHKEY @"1fd26c747f5de341a6d35957" //测试环境
+//#define JPUSHKEY @"" //生产环境
 
 
-//高德地图APPKey
-#define AMapAppKey @""//测试环境
-//#define AMapAppKey @""//appstore环境
+//友盟APPKey
+#define UMAppKey @"5b2b6d4af29d9866cd000032"//测试环境
 
 
 //微信分享
@@ -64,7 +67,7 @@
 #define RCIMID @""
 
 //支付宝app id
-#define AlipayID @""
+#define AlipayID @"2017092708960890"
 
 //腾讯 app id
 

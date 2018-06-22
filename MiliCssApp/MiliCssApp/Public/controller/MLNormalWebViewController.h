@@ -11,5 +11,7 @@
 @interface MLNormalWebViewController : PublicViewController
 @property(nonatomic,strong)NSString *TittleStr;
 @property(nonatomic,strong)NSString *UrlStr;
+@property(nonatomic,strong)NSString *AllUrlStr;
+
 
 @end

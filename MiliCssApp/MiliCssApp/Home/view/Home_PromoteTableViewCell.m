@@ -107,7 +107,7 @@
             .bottomSpaceToView(Pro_BgImg, 5)
             .widthIs(170)
             .heightIs(90);
-            [right_img sd_setImageWithURL:URLWith([proarr[i] xyValueForKey:@"imgUrl"]) placeholderImage:nil];
+            [right_img sd_setImageWithURL:URLWith([proarr[i] xyValueForKey:@"imgUrl"]) placeholderImage:HolderWith(@"img_loading_big")];
 
             
 

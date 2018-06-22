@@ -17,7 +17,7 @@
 + (void)PostCertifyNumWithphoneNo:(NSString *)phoneNo
                       templateCode:(NSString *)templateCode
                            Success:(HLSSuccess)success failure:(HLSHttpFailure)failure{
-    NSString *url = [NSString stringWithFormat:@"%@/app/sendValidCode",RequestUrl];
+    NSString *url = [NSString stringWithFormat:@"%@/sendValidCode",RequestUrl];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     if (phoneNo) {
         [param setValue:phoneNo forKey:@"phoneNo"];
@@ -43,7 +43,7 @@
 
 
 + (void)PostLoginWithloginName:(NSString *)loginName WithPassword:(NSString *)passWord token:(NSString *)token  Success:(HLSSuccess)success failure:(HLSHttpFailure)failure{
-    NSString *url = [NSString stringWithFormat:@"%@/merchant/login",RequestUrl];
+    NSString *url = [NSString stringWithFormat:@"%@/login",RequestUrl];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     if (loginName) {
         [param setValue:loginName forKey:@"userName"];
@@ -51,9 +51,8 @@
     if (passWord) {
         [param setValue:passWord forKey:@"password"];
     }
-    if (token) {
-        [param setValue:token forKey:@"openId"];
-    }
+    
+
     
     
     [MLHttpTools postWithURL:url params:param success:^(id json) {
@@ -96,7 +95,7 @@
 
 + (void)PostForgetPassWithnewPwd:(NSString *)newPwd confirmPwd:(NSString *)confirmPwd cardNo:(NSString *)cardNo Success:(HLSSuccess)success failure:(HLSHttpFailure)failure{
     
-    NSString *url = [NSString stringWithFormat:@"%@/merchant/resetPwd",RequestUrl];
+    NSString *url = [NSString stringWithFormat:@"%@/resetPwd",RequestUrl];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     if (newPwd) {
         [param setValue:newPwd forKey:@"newPwd"];
@@ -120,7 +119,7 @@
  */
 
 + (void)PostmodifyPwdWitholdPwd:(NSString *)oldPwd newPwd:(NSString *)newPwd confirmPwd:(NSString *)confirmPwd Success:(HLSSuccess)success failure:(HLSHttpFailure)failure{
-    NSString *url = [NSString stringWithFormat:@"%@/merchant/modifyPwd",RequestUrl];
+    NSString *url = [NSString stringWithFormat:@"%@/modifyPwd",RequestUrl];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     if (oldPwd) {
         [param setValue:oldPwd forKey:@"oldPwd"];

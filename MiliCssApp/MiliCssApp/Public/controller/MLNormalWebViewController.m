@@ -62,6 +62,7 @@
     - (void)viewDidLoad {
         [super viewDidLoad];
         [self.navigationView.leftCloseBtn setHidden:NO];
+        [self.navigationView.lineImageView setHidden:YES];
 
         [self setupToolView];
         
@@ -99,7 +100,15 @@
 #pragma mark - start load web
     
 - (void)startLoad {
-        NSString *urlString = self.UrlStr;
+    NSString *urlString;
+        if ([self.AllUrlStr length]>0) {
+            urlString = self.AllUrlStr;
+
+        }else{
+              urlString = [NSString stringWithFormat:@"%@%@",RequestWebUrl,self.UrlStr];
+        }
+   
+    HLSLog(@"^^^^^^url地址%@",urlString);
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
         request.timeoutInterval = 15.0f;
         [self.wkWebView loadRequest:request];

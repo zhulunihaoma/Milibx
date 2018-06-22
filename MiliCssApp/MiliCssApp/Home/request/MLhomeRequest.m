@@ -11,7 +11,7 @@
 #import "JSONTool.h"
 @implementation MLhomeRequest
 + (void)PostmainSuccess:(HLSSuccess)success failure:(HLSHttpFailure)failure{
-        NSString *url = [NSString stringWithFormat:@"%@/app/main",RequestUrl];
+        NSString *url = [NSString stringWithFormat:@"%@/main",RequestUrl];
         NSMutableDictionary *param = [NSMutableDictionary dictionary];
       
         

@@ -35,7 +35,7 @@
     [MLMyRequest PostposterListWithproductCode:nil merchantCode:[HLSPersonalInfoTool getmerchantCode] pageIndex:nil pageSize:nil Success:^(NSDictionary *dic) {
         [self.HUD hideAnimated:YES];
         HLSLog(@"---海报:%@",dic);
-        if ([[dic xyValueForKey:@"code"] integerValue] == 10318888) {
+        if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
 //            [dataArr removeAllObjects];
 //            dataArr = [[dic xyValueForKey:@"result"] xyValueForKey:@"productList"];
             [self.tableView reloadData];

@@ -193,10 +193,10 @@
         // 定义唯一标识
         static NSString *CellIdentifier = @"Cell3";
         // 通过唯一标识创建cell实例
-        Home_NewsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (!cell) {
-            cell = [[Home_NewsTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-        }
+        Home_NewsTableViewCell *cell = [[Home_NewsTableViewCell alloc]init];
+//        if (!cell) {
+//            cell = [[Home_NewsTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+//        }
         cell.DataDic = DataDic;
 
         return cell;

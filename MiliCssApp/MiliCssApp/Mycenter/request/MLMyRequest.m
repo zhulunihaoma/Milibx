@@ -15,7 +15,7 @@
  */
 
 + (void)PostlogoutSuccess:(HLSSuccess)success failure:(HLSHttpFailure)failure{
-    NSString *url = [NSString stringWithFormat:@"%@/merchant/logout",RequestUrl];
+    NSString *url = [NSString stringWithFormat:@"%@/logout",RequestUrl];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     [MLHttpTools postWithURL:url params:param success:^(id json) {
         success(json);
@@ -30,7 +30,7 @@
  */
 
 + (void)PostposterListWithproductCode:(NSString *)productCode merchantCode:(NSString *)merchantCode pageIndex:(NSInteger )pageIndex pageSize:(NSInteger )pageSize Success:(HLSSuccess)success failure:(HLSHttpFailure)failure{
-    NSString *url = [NSString stringWithFormat:@"%@/app/posterList",RequestUrl];
+    NSString *url = [NSString stringWithFormat:@"%@/posterList",RequestUrl];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     if (productCode) {
         [param setValue:productCode forKey:@"productCode"];
@@ -50,7 +50,7 @@
  */
 
 + (void)PostbdinfoSuccess:(HLSSuccess)success failure:(HLSHttpFailure)failure{
-    NSString *url = [NSString stringWithFormat:@"%@/merchant/user/bdInfo",RequestUrl];
+    NSString *url = [NSString stringWithFormat:@"%@/user/bdInfo",RequestUrl];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     [MLHttpTools postWithURL:url params:param success:^(id json) {
         success(json);
@@ -63,7 +63,7 @@
  */
 
 + (void)PostuserCenterSuccess:(HLSSuccess)success failure:(HLSHttpFailure)failure{
-    NSString *url = [NSString stringWithFormat:@"%@/merchant/userCenter",RequestUrl];
+    NSString *url = [NSString stringWithFormat:@"%@/userCenter",RequestUrl];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     [MLHttpTools postWithURL:url params:param success:^(id json) {
         success(json);
@@ -78,7 +78,7 @@
 
 
 + (void)PostUploadPictureWithfile:(NSData *)file Success:(HLSSuccess)success failure:(HLSHttpFailure)failure{
-    NSString *url = [NSString stringWithFormat:@"%@/app/uploadPicture",RequestUrl];
+    NSString *url = [NSString stringWithFormat:@"%@/uploadPicture",RequestUrl];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
 
     

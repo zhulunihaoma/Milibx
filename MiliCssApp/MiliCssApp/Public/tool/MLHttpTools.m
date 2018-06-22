@@ -87,7 +87,7 @@
 
 
 + (void)PostWithURL:(NSString *)url
-             params:(id)params
+             params:(NSMutableDictionary *)params
        successBlock:(void(^)(BOOL isSuccess, NSDictionary *resultDic))successBlock
        failureBlock:(void(^)(NSError *error))failureBlock
 {
@@ -117,7 +117,9 @@
 //     setValue:@"application/json"
 //     forHTTPHeaderField:@"Content-Type"];
 //
-    
+
+    [params setValue:[HLSPersonalInfoTool getdeviceId] forKey:@"deviceId"];
+
     
     [manager POST:url parameters: params success:^(NSURLSessionDataTask *operation, id responseObject) {
         

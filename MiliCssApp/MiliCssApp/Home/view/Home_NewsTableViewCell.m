@@ -8,13 +8,14 @@
 
 #import "Home_NewsTableViewCell.h"
 #import "HKNewsBannerView.h"
+#import "FindViewController.h"
 @implementation Home_NewsTableViewCell
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
 //        [self setupViews];
-        self.backgroundColor = [UIColor lightGrayColor];
+//        self.backgroundColor = [UIColor lightGrayColor];
         
         self.separatorImageView.hidden = YES;
     }
@@ -77,13 +78,14 @@
         newsView.newsArray = newsArr;
         newsView.imageArray = @[@"img_home_militt_2",@"img_home_militt_2",];
     }
-    newsView.backgroundColor = [UIColor lightGrayColor];
+//    newsView.backgroundColor = [UIColor lightGrayColor];
     newsView.newsColor = [UIColor blackColor];
     newsView.clickNewsOperationBlock = ^(NSInteger tapIndex){
         MLDebugLog;
         NSLog(@"点击了消息%zd", tapIndex);
-//        YD_newsVC *vc = [YD_newsVC new];
-//        [self.navigationController pushViewController:vc animated:YES];
+//        self.tabBarController.selectedIndex = 1;
+
+        [GetUnderController getvcwithtarget:self].tabBarController.selectedIndex = 1;
         
     };
     [v addSubview:newsView];

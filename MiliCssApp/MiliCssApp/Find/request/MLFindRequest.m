@@ -15,7 +15,7 @@
  *1： 栏目列表
  */
 + (void)PostcolumnListSuccess:(HLSSuccess)success failure:(HLSHttpFailure)failure{
-    NSString *url = [NSString stringWithFormat:@"%@/app/columnList",RequestUrl];
+    NSString *url = [NSString stringWithFormat:@"%@/columnList",RequestUrl];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
    
     
@@ -31,7 +31,7 @@
  */
 
 + (void)PostarticleListWithcolumnId:(NSString *)columnId pageIndex:(NSInteger )pageIndex pageSize:(NSInteger )pageSize Success:(HLSSuccess)success failure:(HLSHttpFailure)failure{
-    NSString *url = [NSString stringWithFormat:@"%@/app/articleList",RequestUrl];
+    NSString *url = [NSString stringWithFormat:@"%@/articleList",RequestUrl];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     if (columnId) {
         [param setValue:columnId forKey:@"columnId"];

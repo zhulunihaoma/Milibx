@@ -24,6 +24,7 @@ typedef NS_ENUM(NSInteger, UserType){
 
 + (NSString *)getUserinfo;
 
++ (NSString *)getdeviceId;
 
 
 

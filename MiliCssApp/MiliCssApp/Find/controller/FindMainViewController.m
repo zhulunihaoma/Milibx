@@ -39,7 +39,7 @@
         HLSLog(@"---aaa新闻里面main---%@,%@",self.columnId,dic);
 
 //
-        if ([[dic xyValueForKey:@"code"] integerValue] == 10318888) {
+        if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
 
                     if (page == 1) {
                         [dataArr removeAllObjects];
