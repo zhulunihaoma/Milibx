@@ -13,6 +13,8 @@
 
 
 @property (nonatomic,strong) NSMutableArray *photoBtnArr;
+@property (nonatomic,strong) NSMutableArray *closeBtnArr;
+
 
 @end
 @implementation HLSPhotoView
@@ -21,6 +23,8 @@
     self = [super init];
     if (self) {
         self.photoBtnArr = [NSMutableArray array];
+        self.closeBtnArr = [NSMutableArray array];
+
         if (photoArr) {
             self.photoArr = [NSMutableArray arrayWithArray:photoArr];
         }else {
@@ -37,6 +41,7 @@
     if (self) {
         self.photoArr = [NSMutableArray array];
         self.photoBtnArr = [NSMutableArray array];
+        self.closeBtnArr = [NSMutableArray array];
         [self setupSubviews];
     }
     return self;
@@ -59,6 +64,11 @@
         [btn removeFromSuperview];
     
     }
+    for (UIButton *btn in self.closeBtnArr) {
+        [btn removeFromSuperview];
+        
+    }
+    
     [self.photoBtnArr removeAllObjects];
     for (int i = 0; i < photoArr.count; i++) {
         NSString *imageUrl = photoArr[i];
@@ -70,12 +80,15 @@
         btn.tag = i + 1;
         
         
-        [btn sd_setImageWithURL:URLWith(imageUrl) forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"morencheyuan"]];
+        [btn sd_setImageWithURL:URLWith(imageUrl) forState:UIControlStateNormal placeholderImage:HolderWith(@"img_loading_small")];
+        HLSLog(@"----循环图片:%@",imageUrl);
         btn.contentMode = UIViewContentModeScaleAspectFill;
         [btn addTarget:self action:@selector(clickPhoto:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:btn];
         [self.photoBtnArr addObject:btn];
         
+        if (photoArr.count > 0) {
+
 //        红色的叉号
         UIButton *btn_close = [[UIButton alloc]init];
         btn_close.clipsToBounds = YES;
@@ -88,10 +101,9 @@
         btn_close.y = 0;
         btn_close.width = 16;
         btn_close.height = 16;
+        [self.closeBtnArr addObject:btn_close];
+        }
 
-        [self bringSubviewToFront:btn_close];
-
-//        [btn.photoBtnArr addObject:btn_close];
     }
 }
 

@@ -10,5 +10,6 @@
 
 @interface GetUnderController : NSObject
 +(UIViewController *)getvcwithtarget:(id)target;
++ (UIViewController *)getCurrentVC;
 
 @end

@@ -10,11 +10,15 @@
 
 #import "MLNormalWebViewController.h"
 #import <WebKit/WebKit.h>
+#import "GotoPayViewController.h"
+#import "PosterDetailViewController.h"
+#import "LoginViewController.h"
+#import <UShareUI/UShareUI.h>
 
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height
 
-@interface MLNormalWebViewController ()<WKUIDelegate,WKNavigationDelegate,UITextFieldDelegate>
+@interface MLNormalWebViewController ()<WKNavigationDelegate, WKUIDelegate,WKScriptMessageHandler,UITextFieldDelegate>
 
 @property (nonatomic, strong) WKWebView *wkWebView;
 @property (nonatomic, strong) WKWebViewConfiguration *wkConfig;
@@ -39,38 +43,31 @@
     
 - (WKWebView *)wkWebView {
         if (!_wkWebView) {
-            _wkWebView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight - 64 - 40) configuration:self.wkConfig];
+            _wkWebView = [[WKWebView alloc] initWithFrame:CGRectMake(0, NaviHeight, kScreenWidth, SCREEN_HEIGHT - 64) configuration:self.wkConfig];
             _wkWebView.navigationDelegate = self;
             _wkWebView.UIDelegate = self;
             [self.view addSubview:_wkWebView];
         }
         return _wkWebView;
-    }
-    
+}
 
     
-    /*
-     *6.在dealloc中取消监听
-     */
-    
-    - (void)dealloc {
-        [self.wkWebView removeObserver:self forKeyPath:@"estimatedProgress"];
-        [self.wkWebView removeObserver:self forKeyPath:@"title"];
-
-    }
-    
-    - (void)viewDidLoad {
+- (void)viewDidLoad {
         [super viewDidLoad];
         [self.navigationView.leftCloseBtn setHidden:NO];
         [self.navigationView.lineImageView setHidden:YES];
 
-        [self setupToolView];
-        
+    if ([_TypeStr integerValue] == 1) {
+        self.navigationView.rightBtn.hidden = NO;
+        [self.navigationView.rightBtn setImage:[UIImage imageNamed:@"enjoy-btn_white"] forState:UIControlStateNormal];
+    }
+//        [self setupToolView];
+    
         /*
          *2.初始化progressView
          */
-        self.progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 64, [[UIScreen mainScreen] bounds].size.width, 2)];
-        self.progressView.backgroundColor = [UIColor blueColor];
+        self.progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, NaviHeight, [[UIScreen mainScreen] bounds].size.width, 2)];
+    self.progressView.backgroundColor = MLNaviColor;
         //设置进度条的高度，下面这句代码表示进度条的宽度变为原来的1倍，高度变为原来的1.5倍.
         self.progressView.transform = CGAffineTransformMakeScale(1.0f, 1.5f);
         [self.view addSubview:self.progressView];
@@ -80,12 +77,16 @@
          */
         [self.wkWebView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
         [self.wkWebView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:NULL];
+    [[self.wkWebView configuration].userContentController addScriptMessageHandler:self name:@"AppgotoPay"];
+    [[self.wkWebView configuration].userContentController addScriptMessageHandler:self name:@"AppgotoShare"];
+    [[self.wkWebView configuration].userContentController addScriptMessageHandler:self name:@"AppgotoPosterList"];
+    [[self.wkWebView configuration].userContentController addScriptMessageHandler:self name:@"AppgotoLogin"];
+
 
         [self startLoad];
     }
 
-    
-    - (void)setupToolView {
+- (void)setupToolView {
         UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, kScreenHeight - 40, kScreenWidth, 40)];
         [self.view addSubview:toolBar];
         
@@ -95,7 +96,7 @@
         UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshAction)];
         
         [toolBar setItems:@[backButton,fixedSpace,forwardButton,fixedSpace,refreshButton] animated:YES];
-    }
+}
     
 #pragma mark - start load web
     
@@ -146,7 +147,7 @@
         }else{
             [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
         }
-    }
+}
     
 #pragma mark - WKWKNavigationDelegate Methods
     
@@ -163,8 +164,9 @@
         self.progressView.transform = CGAffineTransformMakeScale(1.0f, 1.5f);
         //防止progressView被网页挡住
         [self.view bringSubviewToFront:self.progressView];
+    self.progressView.tintColor = MLNaviColor;
         self.textField.text = [NSString stringWithFormat:@"%@",webView.URL];
-    }
+}
     
     //加载完成
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
@@ -185,30 +187,31 @@
         //允许页面跳转
         NSLog(@"%@",navigationAction.request.URL);
         decisionHandler(WKNavigationActionPolicyAllow);
-    }
+}
     
     
 #pragma mark - Tool bar item action
     
-    - (void)goBackAction {
-        if ([self.wkWebView canGoBack]) {
-            [self.wkWebView goBack];
-        }
+- (void)back{
+    if ([self.wkWebView canGoBack]) {
+        [self.wkWebView goBack];
+    }else{
+        [self.navigationController popViewControllerAnimated:YES];
     }
+}
     
 - (void)goForwardAction {
-        if ([self.wkWebView canGoForward]) {
-            [self.wkWebView goForward];
-        }
+    if ([self.wkWebView canGoForward]) {
+        [self.wkWebView goForward];
     }
+}
     
 - (void)refreshAction {
-        [self.wkWebView reload];
-    }
+    [self.wkWebView reload];
+}
     
-    
-   
-    //点击完成时加载网页
+
+//点击完成时加载网页
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
         if (textField.text.length) {
             NSString *urlString;
@@ -224,10 +227,125 @@
         }
         [self.textField resignFirstResponder];
         return YES;
+}
+
+//实现js调用ios的handle委托
+- (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message {
+    NSLog(@"%@",NSStringFromSelector(_cmd));
+    NSLog(@"参数参数====%@",message.body);
+    
+    if ([message.name isEqualToString:@"AppgotoPay"]) {
+        NSLog(@"方法名为:%@",message.name);
+        [self GoTopay:message.body];
     }
+    if ([message.name isEqualToString:@"AppgotoPosterList"]) {
+        NSLog(@"方法名为:%@",message.name);
+        [self AppgotoPosterList:message.body];
+    }
+    if ([message.name isEqualToString:@"AppgotoShare"]) {
+        NSLog(@"方法名为:%@",message.name);
+        [self AppgotoShare:message.body];
+    }
+    if ([message.name isEqualToString:@"AppgotoLogin"]) {
+        NSLog(@"方法名为:%@",message.name);
+        [self AppgotoLogin];
+    }
+    
+}
+
+#pragma mark -- js调用原生方法
+-(void)GoTopay:(NSString *)OrderId{
+    GotoPayViewController *gvc = [[GotoPayViewController alloc]init];
+    gvc.OrderId = OrderId;
+    [self.navigationController pushViewController:gvc animated:YES];
+}
+-(void)AppgotoPosterList:(NSString *)productCode{
+    PosterDetailViewController *pvc = [[PosterDetailViewController alloc]init];
+    pvc.productCode = productCode;
+    [self.navigationController pushViewController:pvc animated:YES];
+}
+
+-(void)AppgotoLogin{
+    LoginViewController *lvc = [[LoginViewController alloc]init];
+    [self presentViewController:lvc animated:YES completion:nil];
+}
+//点击右侧按钮分享新闻
+- (void)clickRightBtn {
+    
+//    [HLSLable lableWithText:@"111分享"];
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setValue:_newsmodel.articleTitle forKey:@"Title"];
+    [param setValue:_newsmodel.content forKey:@"descr"];
+    [param setValue:_newsmodel.imgSmallUrl forKey:@"thumImage"];
+    [param setValue:[NSString stringWithFormat:@"%@%@",RequestWebUrl,self.UrlStr] forKey:@"webpageUrl"];
+
+    [self Sharehandle:param];
+
+}
 
 
 
+-(void)AppgotoShare:(NSMutableDictionary *)ShareInfo{
+    HLSLog(@"---点击产品推广分享的信息%@",ShareInfo);
+    
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setValue:[ShareInfo xyValueForKey:@"title"] forKey:@"Title"];
+    [param setValue:[ShareInfo xyValueForKey:@"features"] forKey:@"descr"];
+    [param setValue:[ShareInfo xyValueForKey:@"image"] forKey:@"thumImage"];
+    [param setValue:[ShareInfo xyValueForKey:@"url"] forKey:@"webpageUrl"];
+    [self Sharehandle:param];
+}
+-(void)Sharehandle:(NSMutableDictionary *)ShareInfo{
+    [UMSocialUIManager setPreDefinePlatforms:@[@(UMSocialPlatformType_QQ),@(UMSocialPlatformType_WechatSession),@(UMSocialPlatformType_WechatTimeLine)]];
+    [UMSocialUIManager showShareMenuViewInWindowWithPlatformSelectionBlock:^(UMSocialPlatformType platformType, NSDictionary *userInfo) {
+        // 根据获取的platformType确定所选平台进行下一步操作
+        [self shareImageToPlatformType:platformType withDic:ShareInfo];
+        
+    }];
+    
+    
+}
+- (void)shareImageToPlatformType:(UMSocialPlatformType)platformType withDic:(NSMutableDictionary *)ShareInfo
+{
+    if ([[ShareInfo xyValueForKey:@"Title"] length] == 0) {
+        [HLSLable lableWithText:@"缺少分享标题"];
+        return;
+    }
+    if ([[ShareInfo xyValueForKey:@"descr"] length] == 0) {
+        [HLSLable lableWithText:@"缺少分享描述"];
+        return;
+    }
+    if ([[ShareInfo xyValueForKey:@"thumImage"] length] == 0) {
+        [HLSLable lableWithText:@"缺少分享图片"];
+        return;
+    }
+    //创建分享消息对象
+    UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
+    //创建网页内容对象
+    UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:[ShareInfo xyValueForKey:@"Title"] descr:[ShareInfo xyValueForKey:@"descr"] thumImage:[ShareInfo xyValueForKey:@"thumImage"]];
+    //设置网页地址
+    shareObject.webpageUrl = [ShareInfo xyValueForKey:@"webpageUrl"];
+    //分享消息对象设置分享内容对象
+    messageObject.shareObject = shareObject;
+    //调用分享接口
+    [[UMSocialManager defaultManager] shareToPlatform:platformType messageObject:messageObject currentViewController:self completion:^(id data, NSError *error) {
+        if (error) {
+            NSLog(@"************Share fail with error %@*********",error);
+        }else{
+            NSLog(@"response data is %@",data);
+        }
+    }];
+ 
+}
+/*
+ *6.在dealloc中取消监听
+ */
+
+- (void)dealloc {
+    [self.wkWebView removeObserver:self forKeyPath:@"estimatedProgress"];
+    [self.wkWebView removeObserver:self forKeyPath:@"title"];
+    
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

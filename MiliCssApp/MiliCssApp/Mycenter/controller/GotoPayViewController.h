@@ -9,5 +9,5 @@
 #import "PublicTableViewController.h"
 
 @interface GotoPayViewController : PublicTableViewController
-
+@property(nonatomic,strong)NSString *OrderId;
 @end

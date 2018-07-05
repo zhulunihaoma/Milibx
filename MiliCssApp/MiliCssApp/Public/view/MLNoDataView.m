@@ -14,7 +14,7 @@
     self = [super init];
     if (self) {
         
-        CGFloat y = 60;
+        CGFloat y = 114;
         
         UIImageView *imageView = [[UIImageView alloc]init];
         imageView.image = [UIImage imageNamed:imageName];

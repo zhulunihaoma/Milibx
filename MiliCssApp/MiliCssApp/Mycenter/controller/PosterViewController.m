@@ -37,9 +37,8 @@
         HLSLog(@"---海报:%@",dic);
         if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
 //            [dataArr removeAllObjects];
-//            dataArr = [[dic xyValueForKey:@"result"] xyValueForKey:@"productList"];
+            dataArr = [[dic xyValueForKey:@"result"] xyValueForKey:@"productList"];
             [self.tableView reloadData];
-
             if (dataArr.count == 0) {
                 if (!self.noDataView) {
                     [self setupNoDataView];
@@ -52,15 +51,25 @@
                 }
                 
             }
-            
+            if (self.noNetView) {
+                [self.noNetView removeFromSuperview];
+                self.noNetView = nil;
+            }
             [self.tableView.mj_header endRefreshing];
+            
+            
+
+            
 
         }else{
             [HLSLable lableWithText:[dic xyValueForKey:@"message"]];
         }
     } failure:^(NSError *error) {
         [self.HUD hideAnimated:YES];
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
         [self checkNonet];
+
     }];
     
 }
@@ -71,7 +80,9 @@
     self.tableView.x = 0;
     self.tableView.y = NaviHeight;
     self.tableView.width = SCREEN_WIDTH;
-    self.tableView.height = SCREEN_HEIGHT-NaviHeight-40;
+    CGFloat tabBarHeight = self.tabBarController.tabBar.frame.size.height;
+    int naheight = (int)NaviHeight;
+    self.tableView.height = SCREEN_HEIGHT-naheight;
     [self.tableView registerClass:[PosterListTableViewCell class] forCellReuseIdentifier:@"cell"];
     
     [self setupHeaderRefresh];
@@ -88,13 +99,13 @@
 
 #pragma mark -- 无网络
 -(void)checkNonet{
+    if (dataArr.count == 0) {//如果为第一页
+
     if (!self.noNetView) {
         [self setupNoNetView];
     }
     
-    
-    [self.tableView.mj_header endRefreshing];
-    [self.tableView.mj_footer endRefreshing];
+}
     
 }
 /**

@@ -10,36 +10,119 @@
 #import "MessageListTableViewCell.h"
 #import "MessageDetailVC.h"
 #import "UIImage+GIF.h"
+#import "MLMyRequest.h"
+#import "MessageModel.h"
 
 @interface MessagesListViewController ()
 {
     NSInteger page;
+    NSMutableArray *dataArr;
+    NSArray *arr;
 
 }
 @end
 
 @implementation MessagesListViewController
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"message" object:self];
 
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"消息中心";
     page = 1;
-    
+    dataArr = [NSMutableArray new];
+    arr = [NSArray new];
+
     [self setupSubViews];
-    [self headerRefresh];
-    
+     [self headerRefresh];
 }
 
 // Do any additional setup after loading the view.
 
 -(void)RequestData{
-   
+    [self showMLhud];
+    [MLMyRequest PostinfolistWithpageIndex:page pageSize:10 Success:^(NSDictionary *dic) {
+        [self.HUD hideAnimated:YES];
+
+        if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
+            
+            if (page == 1) {
+                [dataArr removeAllObjects];
+            }
+            arr =[dic xyValueForKey:@"result"];
+            //            HLSLog(@"数据：111%@",);
+            
+            for (NSDictionary *Dic in arr) {
+                MessageModel *model = [MessageModel mj_objectWithKeyValues:Dic];
+                
+                [dataArr addObject:model];
+            }
+            
+            //            [dataArr removeAllObjects];
+            
+            
+            
+            [self.tableView reloadData];
+            if (dataArr.count == 0) {
+                if (!self.noDataView) {
+                    [self setupNoDataView];
+                }
+                
+            }else {
+                if (self.noDataView) {
+                    [self.noDataView removeFromSuperview];
+                    self.noDataView = nil;
+                }
+                
+            }
+            if (self.noNetView) {
+                [self.noNetView removeFromSuperview];
+                self.noNetView = nil;
+            }
+            [self.tableView.mj_header endRefreshing];
+            [self.tableView.mj_footer endRefreshing];
+            
+            
+            
+            
+            
+            
+            
+        }else{
+            [HLSLable lableWithText:[dic xyValueForKey:@"message"]];
+            
+        }
+    } failure:^(NSError *error) {
+        [self.HUD hideAnimated:YES];
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
+        [self checkNonet];
+    }];
     
 
     
 }
 
-
+#pragma mark -- 无网络
+-(void)checkNonet{
+    if (dataArr.count == 0) {//如果为第一页
+        if (!self.noNetView) {
+            [self setupNoNetView];
+        }
+        
+    }else{
+        if (dataArr.count>0) {
+            return;
+        }
+        
+        
+    }
+    
+    
+    
+}
 
 /**
  *  下拉刷新
@@ -52,17 +135,23 @@
  *  上拉加载
  */
 - (void)footerRefresh {
-    page ++;
-    [self RequestData];
-    
+
+    if (arr.count == 10) {
+        page ++;
+        [self RequestData];
+    }else{
+        [self.tableView.mj_footer endRefreshing];
+        
+        [HLSLable lableWithText:@"没有更多数据"];
+    }
 }
 /**
  *  无数据View
  */
 -(void)setupNoDataView{
     
-    self.noDataView = [[MLNoDataView alloc]initWithImageName:@"noOrderList" text:@"您还没有任何记录" detailText:nil buttonTitle:nil];
-    self.noDataView.y = 64+1;
+    self.noDataView = [[MLNoDataView alloc]initWithImageName:@"img_Load_2" text:@"扑通，数据君木有了~" detailText:nil buttonTitle:nil];
+    self.noDataView.y = NaviHeight;
     self.noDataView.width = SCREEN_WIDTH;
     self.noDataView.height = SCREEN_HEIGHT - 64;
     [self.view addSubview:self.noDataView];
@@ -71,8 +160,8 @@
 }
 //无网络的时候
 - (void)setupNoNetView {
-    self.noNetView = [[MLNoDataView alloc]initWithImageName:@"noNet" text:@"哎呀呀~~出错了+_+" detailText:nil buttonTitle:@"点我重试"];
-    self.noNetView.y = 64;
+    self.noNetView = [[MLNoDataView alloc]initWithImageName:@"img_Load_1" text:@"" detailText:nil buttonTitle:@"  加载失败，点击页面重试"];
+    self.noNetView.y = NaviHeight;
     self.noNetView.width = kSCREENSIZE.width;
     self.noNetView.height = kSCREENSIZE.height - self.noNetView.y - 49;
     [self.noNetView.button addTarget:self action:@selector(RequestData) forControlEvents:UIControlEventTouchUpInside];
@@ -88,7 +177,10 @@
     self.tableView.x = 9;
     self.tableView.y = NaviHeight;
     self.tableView.width = SCREEN_WIDTH-18;
-    self.tableView.height = SCREEN_HEIGHT-NaviHeight;
+
+    CGFloat tabBarHeight = self.tabBarController.tabBar.frame.size.height;
+    int naheight = (int)NaviHeight;
+    self.tableView.height = SCREEN_HEIGHT-naheight;
     [self.tableView registerClass:[MessageListTableViewCell class] forCellReuseIdentifier:@"cell"];
 
     [self setupFooterRefresh];
@@ -100,7 +192,7 @@
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 10;
+    return dataArr.count;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;//[dataArr count];
@@ -131,12 +223,8 @@
     return 80;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    MessageListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    if (!cell) {
-        cell = [[MessageListTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-    }
-   
-//    cell.dataDic = dataArr[indexPath.row];
+    MessageListTableViewCell *cell = [[MessageListTableViewCell alloc]init];
+    cell.Model = dataArr[indexPath.section];
     return cell;
     
     
@@ -144,6 +232,11 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     MessageDetailVC *mvc = [[MessageDetailVC alloc]init];
+  MessageModel *model = dataArr[indexPath.section];
+    mvc.infoId = model.id;
+    model.status = @"0";
+    [dataArr setObject:model atIndexedSubscript:indexPath.section];
+    [self.tableView reloadData];
     [self.navigationController pushViewController:mvc animated:YES];
 }
 

@@ -9,5 +9,6 @@
 #import "PublicTableViewController.h"
 
 @interface UserInfoMainViewController : PublicTableViewController
+@property(nonatomic,strong)NSMutableDictionary *UserinfoDic;
 
 @end

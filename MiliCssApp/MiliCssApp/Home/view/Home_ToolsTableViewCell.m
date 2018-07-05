@@ -7,7 +7,7 @@
 //
 
 #import "Home_ToolsTableViewCell.h"
-
+#import "MLNormalWebViewController.h"
 @implementation Home_ToolsTableViewCell
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -59,6 +59,10 @@
     .topSpaceToView(ToolsScrollView, 0)
     .heightIs(85)
     .widthIs(157);
+    // 理赔跳转
+    UITapGestureRecognizer * tapLipei = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapLipei)];
+    [Lipei addGestureRecognizer:tapLipei];
+    Lipei.userInteractionEnabled = YES;
     
     UIImageView *GongLue = [[UIImageView alloc] init];
 //    GongLue.backgroundColor = MLNaviColor;
@@ -69,6 +73,12 @@
     .topSpaceToView(ToolsScrollView, 0)
     .heightIs(85)
     .widthIs(157);
+    // 攻略跳转
+    UITapGestureRecognizer * tapGongLue = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGongLue)];
+    [GongLue addGestureRecognizer:tapGongLue];
+    GongLue.userInteractionEnabled = YES;
+    
+    
     
     UIImageView *MyOrder = [[UIImageView alloc] init];
     MyOrder.image = [UIImage imageNamed:@"ico_home_6"];
@@ -79,6 +89,27 @@
     .topSpaceToView(ToolsScrollView, 0)
     .heightIs(85)
     .widthIs(157);
+    // 订单跳转
+    UITapGestureRecognizer * tapMyOrder = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapMyOrder)];
+    [MyOrder addGestureRecognizer:tapMyOrder];
+    MyOrder.userInteractionEnabled = YES;
+}
+//点击理赔
+-(void)tapLipei{
+    MLNormalWebViewController *vc = [MLNormalWebViewController new];
+    vc.UrlStr = @"/product/claim";
+    [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
+    
+}
+//点击订单列表
+-(void)tapGongLue{
+    MLNormalWebViewController *vc = [MLNormalWebViewController new];
+    vc.UrlStr = @"/order/agentOrder";
+    [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
+}
+//点击攻略
+-(void)tapMyOrder{
+      [GetUnderController getvcwithtarget:self].tabBarController.selectedIndex = 1;
 }
 -(void)initscrollView{
   

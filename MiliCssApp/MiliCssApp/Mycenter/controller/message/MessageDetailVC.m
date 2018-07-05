@@ -7,10 +7,16 @@
 //
 
 #import "MessageDetailVC.h"
-
+#import "MLMyRequest.h"
+#import "MessageModel.h"
 @interface MessageDetailVC ()
+{
+    MessageModel *Model;
+    
+}
 @property(nonatomic,strong)UILabel *DesLab;
 @property(nonatomic,strong)UILabel *TimeLab;
+
 @end
 
 @implementation MessageDetailVC
@@ -18,8 +24,28 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"消息中心";
-    [self setupSubview];
+    [self RequestData];
     // Do any additional setup after loading the view.
+}
+-(void)RequestData{
+    [self showMLhud];
+    [MLMyRequest PostinfoContentWithinfoId:self.infoId Success:^(NSDictionary *dic) {
+        HLSLog(@"消息详情---:%@",dic);
+        [self.HUD hideAnimated:YES];
+
+        if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
+            Model = [MessageModel mj_objectWithKeyValues:[dic xyValueForKey:@"result"]];
+
+            [self setupSubview];
+
+        }else{
+            [HLSLable lableWithText:[dic xyValueForKey:@"message"]];
+
+        }
+    } failure:^(NSError *error) {
+        [self.HUD hideAnimated:YES];
+
+    }];
 }
 -(void)setupSubview{
     UIView *BgView = [UIView new];
@@ -71,15 +97,15 @@ BgView.sd_layout
     .leftEqualToView(IconImg)
     .rightSpaceToView(BgView, 14);
     
-    _DesLab.text = @"下级代理张教练已出单，您获得了20元净利润来了第三方是的范德萨斯蒂芬斯蒂芬";
+    _DesLab.text = @"";
     
     NSArray *ElementsArr = @[@"购买产品：",@"投保人：",@"手机号：",@"订单号："];
     NSArray *ContentsArr = @[@"安心驾考宝",@"张蓝心",@"1212",@"21"];
     
     UILabel *LastLab = nil;
-    for (int i = 0; i < ElementsArr.count; i++) {
+    for (int i = 0; i < Model.appInfoContentlist.count; i++) {
         UILabel *TittleLab = [HLSLable LabelWithFont:14 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLDetailColor WithFatherView:BgView];
-        TittleLab.text = ElementsArr[i];
+        TittleLab.text = [Model.appInfoContentlist[i] xyValueForKey:@"infoKey"];
         if (i == 0) {
             TittleLab.sd_layout
             .autoHeightRatio(0)
@@ -97,18 +123,47 @@ BgView.sd_layout
        
         
         UILabel *DesLab = [HLSLable LabelWithFont:14 WithTextalignment:NSTextAlignmentRight WithTextColor:MLTittleColor WithFatherView:BgView];
-        DesLab.text = ContentsArr[i];
+        DesLab.text = [Model.appInfoContentlist[i] xyValueForKey:@"infoContent"];
         DesLab.sd_layout
         .autoHeightRatio(0)
         .topEqualToView(TittleLab)
+        .leftSpaceToView(TittleLab, 20)
         .rightEqualToView(_DesLab);
-        [DesLab setSingleLineAutoResizeWithMaxWidth:(150)];
+//        [DesLab setSingleLineAutoResizeWithMaxWidth:(150)];
         
-        LastLab = TittleLab;
+        LastLab = DesLab;
         
 
+        
     }
     
+    NSString *Typeimg;
+    switch ([Model.infoType integerValue]) {
+        case 1:
+            Typeimg = @"ico_message_1";
+            break;
+        case 2:
+            Typeimg = @"ico_message_3";
+            break;
+        case 3:
+            Typeimg = @"ico_message_4";
+            break;
+        case 4:
+            Typeimg = @"ico_message_5";
+            break;
+        case 5:
+            Typeimg = @"ico_message_2";
+            break;
+        default:
+            break;
+    }
+    if (Model) {
+        TittleLab.text = Model.infoTitle;
+        _DesLab.text = Model.infoContent;
+        _TimeLab.text = [[Model.gmtCreate substringToIndex:10] stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
+        IconImg.image = [UIImage imageNamed:Typeimg];
+        
+    }
     [BgView setupAutoHeightWithBottomView:LastLab bottomMargin:29];
 
 }

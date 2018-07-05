@@ -13,7 +13,6 @@
 #import "UserInfoViewController.h"
 #import "MLNormalWebViewController.h"
 #import "PosterViewController.h"
-#import <UShareUI/UShareUI.h>
 
 @implementation BDCenterTopTableViewCell
 
@@ -71,16 +70,16 @@
     
     
     // 消息上的红点
-    UILabel *UnreadNum = [HLSLable LabelWithFont:12 WithTextalignment:NSTextAlignmentCenter WithTextColor:[UIColor whiteColor] WithFatherView:AppMessageBtn];
-    UnreadNum.sd_layout
+    _UnreadNum = [HLSLable LabelWithFont:12 WithTextalignment:NSTextAlignmentCenter WithTextColor:[UIColor whiteColor] WithFatherView:AppMessageBtn];
+    _UnreadNum.sd_layout
     .heightIs(16)
     .widthIs(16)
     .topSpaceToView(AppMessageBtn, -5)
     .rightSpaceToView(AppMessageBtn, -5);
-    UnreadNum.text = @"1";
-    UnreadNum.backgroundColor = [UIColor redColor];
-    UnreadNum.layer.cornerRadius = 8;
-    UnreadNum.layer.masksToBounds = YES;
+    _UnreadNum.text = @"0";
+    _UnreadNum.backgroundColor = [UIColor redColor];
+    _UnreadNum.layer.cornerRadius = 8;
+    _UnreadNum.layer.masksToBounds = YES;
     
     
 //    我的
@@ -126,8 +125,8 @@
     .heightIs(16)
     .centerYEqualToView(Headimg)
     .leftSpaceToView(Headimg, 20);
-    [MyName setSingleLineAutoResizeWithMaxWidth:(50)];
-    
+    [MyName setSingleLineAutoResizeWithMaxWidth:(100)];
+    _uname = MyName;
     
 //    向右侧箭头
     UIImageView *arrow = [[UIImageView alloc]init];
@@ -137,22 +136,23 @@
     arrow.centerY = 25;
     arrow.x = SCREEN_WIDTH - arrow.width - 28;
     
-//    推广费
+//    保费总额
     UILabel *PromoteCount = [HLSLable LabelWithFont:18 WithTextalignment:NSTextAlignmentCenter WithTextColor:[UIColor whiteColor] WithFatherView:bgimg];
-    PromoteCount.text = @"10000";
+    PromoteCount.text = @"0.00";
     PromoteCount.sd_layout
     .heightIs(18)
     .leftSpaceToView(bgimg, 32)
-    .widthIs(80)
+    .widthIs(100)
     .topSpaceToView(headbgView, 30);
+    _policyAmount = PromoteCount;
 //    [PromoteCount setSingleLineAutoResizeWithMaxWidth:(100)];
     
     
     UILabel *PromoteTittle = [HLSLable LabelWithFont:12 WithTextalignment:NSTextAlignmentCenter WithTextColor:[UIColor whiteColor] WithFatherView:bgimg];
-    PromoteTittle.text = @"推广费（元）";
+    PromoteTittle.text = @"保费总额(元)";
     PromoteTittle.sd_layout
     .heightIs(12)
-    .widthIs(80)
+    .widthIs(100)
     .leftSpaceToView(bgimg, 32)
     .topSpaceToView(PromoteCount, 9);
 //    [PromoteTittle setSingleLineAutoResizeWithMaxWidth:(100)];
@@ -161,20 +161,21 @@
     
     //    保费
     UILabel *BaoCount = [HLSLable LabelWithFont:18 WithTextalignment:NSTextAlignmentCenter WithTextColor:[UIColor whiteColor] WithFatherView:bgimg];
-    BaoCount.text = @"10000";
+    BaoCount.text = @"0.00";
     BaoCount.sd_layout
     .heightIs(18)
     .centerXEqualToView(bgimg)
-    .widthIs(80)
+    .widthIs(100)
     .centerYEqualToView(PromoteCount);
+    _prmAmount = BaoCount;
     //    [PromoteCount setSingleLineAutoResizeWithMaxWidth:(100)];
     
     
     UILabel *BaoTittle = [HLSLable LabelWithFont:12 WithTextalignment:NSTextAlignmentCenter WithTextColor:[UIColor whiteColor] WithFatherView:bgimg];
-    BaoTittle.text = @"保费（元）";
+    BaoTittle.text = @"总推广费(元)";
     BaoTittle.sd_layout
     .heightIs(12)
-    .widthIs(80)
+    .widthIs(100)
     .centerXEqualToView(bgimg)
     .topSpaceToView(BaoCount, 9);
     //    [PromoteTittle setSingleLineAutoResizeWithMaxWidth:(100)];
@@ -183,20 +184,21 @@
     
     //    余额
     UILabel *YuCount = [HLSLable LabelWithFont:18 WithTextalignment:NSTextAlignmentCenter WithTextColor:[UIColor whiteColor] WithFatherView:bgimg];
-    YuCount.text = @"10000";
+    YuCount.text = @"0.00";
     YuCount.sd_layout
     .heightIs(18)
     .rightSpaceToView(bgimg, 32)
-    .widthIs(80)
+    .widthIs(100)
     .centerYEqualToView(PromoteCount);
+    _selfPrmAmount = YuCount;
     //    [PromoteCount setSingleLineAutoResizeWithMaxWidth:(100)];
     
     
     UILabel *YuTittle = [HLSLable LabelWithFont:12 WithTextalignment:NSTextAlignmentCenter WithTextColor:[UIColor whiteColor] WithFatherView:bgimg];
-    YuTittle.text = @"余额（元）";
+    YuTittle.text = @"净推广费(元)";
     YuTittle.sd_layout
     .heightIs(12)
-    .widthIs(80)
+    .widthIs(100)
     .rightSpaceToView(bgimg, 32)
     .topSpaceToView(YuCount, 9);
     //    [PromoteTittle setSingleLineAutoResizeWithMaxWidth:(100)];
@@ -205,13 +207,13 @@
     
     
     UIView *topview = [[UIView alloc]init];
-    [bgimg addSubview:topview];
+    [MytopView addSubview:topview];
     topview.sd_layout
     .widthIs(SCREEN_WIDTH-18)
-    .leftSpaceToView(bgimg, 9)
-    .rightSpaceToView(bgimg, 9)
+    .leftSpaceToView(MytopView, 9)
+    .rightSpaceToView(MytopView, 9)
     .heightIs(225)
-    .topSpaceToView(bgimg, 157+NaviHeight);
+    .topSpaceToView(MytopView, 157+NaviHeight);
     topview.layer.cornerRadius = 8;
     topview.layer.masksToBounds = YES;
     topview.backgroundColor = [UIColor whiteColor];
@@ -287,8 +289,18 @@
 
 
 
--(void)setModel:(NSDictionary *)model{
+-(void)setModel:(BDInfoModel *)Model{
+    if (Model) {
+//        self.Model = Model;
+        _policyAmount.text = Model.policyAmount;
+        _prmAmount.text = Model.prmAmount;
+        _selfPrmAmount.text = Model.selfPrmAmount;
+        _uname.text = Model.merchantName;
+    }
+    
+
 }
+
 -(void)goinfo:(UITapGestureRecognizer *)tap{
     BDInfoViewController *infovc = [[BDInfoViewController alloc]init];
     
@@ -321,21 +333,18 @@
     if(sender.tag==0){//业绩报表
         MLNormalWebViewController *vc = [MLNormalWebViewController new];
         vc.TittleStr = @"业绩报表";
-        vc.UrlStr = @"http://192.168.65.169:17140/webapp/order/hotline";
+        vc.UrlStr = @"/perform/center";
         [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
 
     }
     
     if(sender.tag==1){//下级管理
-//        MLNormalWebViewController *vc = [MLNormalWebViewController new];
-//        vc.TittleStr = @"下级管理";
-//        [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
-        [UMSocialUIManager setPreDefinePlatforms:@[@(UMSocialPlatformType_Sina),@(UMSocialPlatformType_QQ),@(UMSocialPlatformType_WechatSession)]];
-        [UMSocialUIManager showShareMenuViewInWindowWithPlatformSelectionBlock:^(UMSocialPlatformType platformType, NSDictionary *userInfo) {
-            // 根据获取的platformType确定所选平台进行下一步操作
-            [self shareImageToPlatformType:platformType];
-           
-        }];
+        MLNormalWebViewController *vc = [MLNormalWebViewController new];
+        vc.TittleStr = @"下级管理";
+        vc.UrlStr = @"/opena/list";
+
+        [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
+        
     }
     if (sender.tag == 2) {//海报
         PosterViewController *vc = [PosterViewController new];
@@ -346,11 +355,15 @@
     if(sender.tag==3){//我的订单
         MLNormalWebViewController *vc = [MLNormalWebViewController new];
         vc.TittleStr = @"我的订单";
+        vc.UrlStr = @"/order/agentOrder";
+
         [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
     }
     if(sender.tag==4){//轻松理赔
         MLNormalWebViewController *vc = [MLNormalWebViewController new];
         vc.TittleStr = @"轻松理赔";
+        vc.UrlStr = @"/product/claim";
+
         [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
     }
     
@@ -358,26 +371,7 @@
     
     
 }
-- (void)shareImageToPlatformType:(UMSocialPlatformType)platformType
-{
-    //创建分享消息对象
-    UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
-    //创建图片内容对象
-    UMShareImageObject *shareObject = [[UMShareImageObject alloc] init];
-    //如果有缩略图，则设置缩略图
-    shareObject.thumbImage = [UIImage imageNamed:@"icon"];
-    [shareObject setShareImage:@"https://mobile.umeng.com/images/pic/home/social/img-1.png"];
-    //分享消息对象设置分享内容对象
-    messageObject.shareObject = shareObject;
-    //调用分享接口
-    [[UMSocialManager defaultManager] shareToPlatform:platformType messageObject:messageObject currentViewController:[GetUnderController getvcwithtarget:self] completion:^(id data, NSError *error) {
-        if (error) {
-            NSLog(@"************Share fail with error %@*********",error);
-        }else{
-            NSLog(@"response data is %@",data);
-        }
-    }];
-}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

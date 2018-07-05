@@ -34,5 +34,15 @@
 
     return imageData;
 }
++ (NSString *)ToBasestrWithImage:(UIImage *)image{
+    
+    
+    NSData *data = [self selectImageWithImage:image];
+    
+    NSString *encodedImageStr = [data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    
+    return encodedImageStr;
+
+}
 
 @end

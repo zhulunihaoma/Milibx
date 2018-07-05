@@ -38,6 +38,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"登录";
+    [APServiceTool setTag];
+
     self.navigationView.backgroundColor = [UIColor whiteColor];
     [self setupviews];
     self.navigationView.lineImageView.hidden = YES;
@@ -120,7 +122,7 @@
     
 //    用户名
     account = [[UITextField alloc]init];
-    account.placeholder = @"请输入用户名";
+    account.placeholder = @"请输入用户名或手机号";
 //    account.layer.borderColor = MLNaviColor.CGColor;
 //    account.layer.borderWidth = 1;
     account.clearButtonMode= YES;
@@ -176,7 +178,11 @@
     [submmit setTitle:@"登录" forState:UIControlStateNormal];
     [self.view addSubview:submmit];
     [submmit addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
+    [submmit setBackgroundImage:[UIImage imageNamed:@"btn_login"] forState:UIControlStateSelected];
     [submmit setBackgroundImage:[UIImage imageNamed:@"btn_login"] forState:UIControlStateNormal];
+
+    [submmit setTitleColor:HLSHexColor(0xc0edc6) forState:UIControlStateNormal];
+    [submmit setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
 
     submmit.x = 22;
     submmit.y = PswBgView.bottom+60;
@@ -189,7 +195,6 @@
     [account addTarget:self action:@selector(EditingDidBegin:) forControlEvents:UIControlEventEditingDidBegin];
 
 //    忘记密码
-    //    标题
     UILabel *forgetps = [HLSLable LabelWithFont:14 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLNaviColor WithFatherView:self.view];
     forgetps.text = @"忘记密码";
     //    跳转忘记密码
@@ -264,7 +269,7 @@
     [self.navigationController pushViewController:cvc animated:YES];
 }
 -(void)login{
-    [self showMLhud];
+//    [self showMLhud];
 
     [MLloginRequest PostLoginWithloginName:account.text WithPassword:[MD5Tool md5:password.text] token:nil Success:^(NSDictionary *dic) {
         HLSLog(@"aa:%@",dic);
@@ -273,7 +278,22 @@
         if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
             //        [self back];
 
-            NSMutableDictionary *userdic = [dic xyValueForKey:@"result"];
+            NSMutableDictionary *userdic = [NSMutableDictionary dictionaryWithDictionary:[dic xyValueForKey:@"result"]];
+            NSMutableDictionary *Myuserinfo = [NSMutableDictionary dictionaryWithDictionary:[userdic xyValueForKey:@"user"]];
+            NSArray* arr = [Myuserinfo allKeys];
+            for(NSString *str in arr)
+            {
+                id obj = [Myuserinfo objectForKey:str];// judge NSNull
+                
+                BOOL isNull = [obj isEqual:[NSNull null]];
+                if (isNull) {
+                    [Myuserinfo setValue:@"" forKey:str];
+                }
+//                NSLog("%@", [yourdictonary objectForKey:str]);
+            }
+            [userdic setValue:Myuserinfo forKey:@"user"];
+
+            
             DEF_PERSISTENT_SET_OBJECT(userdic, KUserInfoDic);
             userstring = [JSONTool dictionaryToJson:[HLSPersonalInfoTool getUserinfo]];
             NSString *session = [HLSPersonalInfoTool getCookies];
@@ -281,9 +301,7 @@
 
             HLSLog(@"--本地%@---%@---%@",userstring,session,merchantCode);
             [self initwebview];
-//            [[NSNotificationCenter defaultCenter] postNotificationName:@"homerefresh" object:self];
-//            [[NSNotificationCenter defaultCenter]postNotificationName:@"homerefresh" object:self userInfo:nil];
-//            [[NSNotificationCenter defaultCenter] postNotificationName:@"home" object:self];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"home" object:self];
 
             
             [APServiceTool setTag];
@@ -294,6 +312,7 @@
         }
 
     } failure:^(NSError *error) {
+        [self.HUD hideAnimated:YES];
 
     }];
 }
@@ -309,16 +328,28 @@
     [webView evaluateJavaScript:inputValueJS completionHandler:^(id _Nullable response, NSError * _Nullable error) {
         [self back];
 
-        NSLog(@"value: %@ error: %@", response, error);
+        NSLog(@"---返回value: %@ error: %@", response, error);
     }];
 }
 #pragma mark --EditingChanged
 -(void)AccountEditingChanged:(UITextField *)TextField{
+    if (TextField.text.length >0 && password.text.length > 0) {
+        submmit.selected = YES;
+    }else{
+        submmit.selected = NO;
+        
+    }
     if (TextField.text.length >15) {
         TextField.text = [TextField.text substringToIndex:15];
     }
 }
 -(void)PasswordEditingChanged:(UITextField *)TextField{
+    if (TextField.text.length >0 && account.text.length > 0) {
+        submmit.selected = YES;
+    }else{
+        submmit.selected = NO;
+
+    }
     if (TextField.text.length >18) {
         TextField.text = [TextField.text substringToIndex:15];
     }

@@ -17,6 +17,8 @@
 @interface CommitAdviceViewController ()<UITextViewDelegate,HLSPhotoViewDelegate,UIActionSheetDelegate>
 {
     HLSPhotoView *AddPhotoView;
+    NSString *placestr;
+    UIView *ImgviewBg;
 }
 @property(nonatomic,strong)UITextView *adViceView;
 @property (nonatomic,strong) NSMutableArray *photoArr;
@@ -29,6 +31,7 @@
     [super viewDidLoad];
 //    self.title = @"意见反馈";
     self.navigationView.hidden = YES;
+    placestr = @"请简明扼要的描述你的问题，我们会详细为你做出解答。";
     [self SetupSubViews];
 }
 -(void)SetupSubViews{
@@ -113,7 +116,7 @@
     self.photoArr = [NSMutableArray array];
     
     UIButton *CommitBtn = [[UIButton alloc]init];
-
+    [CommitBtn addTarget:self action:@selector(commitadvice) forControlEvents:UIControlEventTouchUpInside];
     [bgimg addSubview:CommitBtn];
     [CommitBtn setBackgroundImage:[UIImage imageNamed:@"btn_login"] forState:UIControlStateNormal];
     [CommitBtn setTitle:@"提交" forState:UIControlStateNormal];
@@ -200,15 +203,15 @@
     self.currentTag = index;
     if (index == 0) {
         titlesArr = @[@"从手机相册中选择",@"拍照"];
-    }else {
-        titlesArr = @[@"从手机相册中选择",@"拍照"];
+        CollectActionSheet *actionSheet = [[CollectActionSheet alloc]initWithTitle:nil cancelTitle:@"取消"otherTitles:titlesArr];
+        actionSheet.delegate = self;
+        //    [self.view addSubview:actionSheet];
+        [actionSheet showInView:self.view];
         
+    }else {
+        [self ShowImgview:photoView.photoArr[index-1]];
     }
-    CollectActionSheet *actionSheet = [[CollectActionSheet alloc]initWithTitle:nil cancelTitle:@"取消"otherTitles:titlesArr];
-    actionSheet.delegate = self;
-    //    [self.view addSubview:actionSheet];
-    [actionSheet showInView:self.view];
-    
+   
     
 }
 
@@ -236,75 +239,113 @@
         AddPhotoView.photoArr = self.photoArr;
     }
 }
+-(void)ShowImgview:(NSString *)Imgstr{
+    
+    ImgviewBg = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    ImgviewBg.backgroundColor = COLORWithRGB(0, 0, 0, 0.5);
+
+    [self.view addSubview:ImgviewBg];
+    [self.view bringSubviewToFront:ImgviewBg];
+    UIImageView *BigImg = [[UIImageView alloc]init];
+    [ImgviewBg addSubview:BigImg];
+    [BigImg sd_setImageWithURL:URLWith(Imgstr) placeholderImage:HolderWith(@"img_loading.png")];
+    BigImg.sd_layout
+    .centerXEqualToView(ImgviewBg)
+    .topSpaceToView(ImgviewBg, 98)
+    .heightIs(380)
+    .widthIs(285);
+    
+//    按钮
+    UIButton *CloseBtn = [[UIButton alloc]init];
+    [ImgviewBg addSubview:CloseBtn];
+    [CloseBtn setImage:[UIImage imageNamed:@"btn_feedback_photodelete_2"] forState:UIControlStateNormal];
+//    [CloseBtn sizeToFit];
+    CloseBtn.sd_layout
+    .heightIs(41)
+    .widthIs(41)
+    .topSpaceToView(BigImg, 23)
+    .centerXEqualToView(BigImg);
+    [CloseBtn addTarget:self action:@selector(closeImg) forControlEvents:UIControlEventTouchUpInside];
+}
+-(void)closeImg{
+    [ImgviewBg removeFromSuperview];
+}
 #pragma mark - UIImagePickerControllerDelegate
 //选完图片后调用
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     UIImage *image= [info objectForKey:@"UIImagePickerControllerEditedImage"];
-    NSData *imageData = [HLSSelectImageTool selectImageWithImage:image];
+    NSString *imageData = [HLSSelectImageTool ToBasestrWithImage:image];
+    HLSLog(@"base64---%@",imageData);
+        [self showMLhud];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     
-    [self showMLhud];
+    [dateFormatter setDateFormat:@"yyyyMMddHHmmss"];
     
-    [MLMyRequest PostUploadPictureWithfile:imageData Success:^(NSDictionary *dic) {
+    NSString *currentDateStr = [dateFormatter stringFromDate:[NSDate date]];
+    NSString *fileName = [NSString stringWithFormat:@"%@.png", currentDateStr];
+    [MLMyRequest PostuploadImageWithimgContent:imageData fileName:fileName suffix:@"png" Success:^(NSDictionary *dic) {
         [self.HUD hideAnimated:YES];
-        HLSLog(@"---上传图片:%@",dic);
-        if ([[dic xyValueForKey:@"code"] integerValue] == 10318888) {
-            
-                        NSString *Currentimg = [[dic xyValueForKey:@"result"] xyValueForKey:@"imgUrl"];
-            HLSLog(@"---上传图片成功:%@",Currentimg);
-
-            
-                        NSString *url = Currentimg;
-                        if (self.currentTag == 0) {
-                            [self.photoArr addObject:url];
-                        }else {
-                            [self.photoArr removeObjectAtIndex:self.currentTag-1 ];
-                            [self.photoArr insertObject:url atIndex:self.currentTag -1];
-                        }
-            
-                        AddPhotoView.photoArr = self.photoArr;
-            
-            
-        }else{
-            [HLSLable lableWithText:[dic xyValueForKey:@"message"]];
-        }
-    } failure:^(NSError *error) {
+                HLSLog(@"---上传图片:%@",dic);
+                if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
         
+                                NSString *Currentimg = [[dic xyValueForKey:@"result"] xyValueForKey:@"imgUrl"];
+                    HLSLog(@"---上传图片成功:%@",Currentimg);
+        
+        
+                                NSString *url = Currentimg;
+                                if (self.currentTag == 0) {
+                                    [self.photoArr addObject:url];
+                                }else {
+                                    [self.photoArr removeObjectAtIndex:self.currentTag-1 ];
+                                    [self.photoArr insertObject:url atIndex:self.currentTag -1];
+                                }
+        
+                                AddPhotoView.photoArr = self.photoArr;
+        
+        
+                }else{
+                    [HLSLable lableWithText:[dic xyValueForKey:@"message"]];
+                }
+    } failure:^(NSError *error) {
+        [self.HUD hideAnimated:YES];
+
     }];
-    
-    
-    
-    
-    
-//    [HLSPCTHttpTools PostUploadPictureWithfile:imageData WithimgBelong:@"others" Success:^(NSDictionary *dic) {
-//        self.HUD.hidden = YES;
-//        if ([[dic xyValueForKey:@"ok"] boolValue]) {
-//
-//
-//            NSString *url = [dic xyValueForKey:@"res"];
-//            if (self.currentTag == 0) {
-//                [self.photoArr addObject:url];
-//            }else {
-//                [self.photoArr removeObjectAtIndex:self.currentTag-1 ];
-//                [self.photoArr insertObject:url atIndex:self.currentTag -1];
-//            }
-//
-//            AddPhotoView.photoArr = self.photoArr;
-//        }else{
-//            [HLSLable lableWithText:[dic xyValueForKey:@"message"] inView:self.view];
-//
-//        }
-//    } failure:^(NSError *error) {
-//        [self.HUD hide:YES];
-//    }];
-    
-    //
-    //    [HLSPostRequest postUploadimgforgoodsWithFile:imageData success:^(NSDictionary *dict) {
-    //           } failure:^(NSError *error) {
-    //
-    //    }];
-    
+ 
     
     [self dismissViewControllerAnimated:YES completion:Nil];
+}
+-(void)commitadvice{
+    if (_adViceView.text.length < 5 || [_adViceView.text isEqualToString:placestr]) {
+        [HLSLable lableWithText:@"至少输入5个字符"];
+        return;
+    }
+ 
+    NSString *imgUrlA = AddPhotoView.photoArr[0];
+    NSString *imgUrlB = @"";
+    NSString *imgUrlC = @"";
+    if (AddPhotoView.photoArr.count > 1) {
+        imgUrlB = AddPhotoView.photoArr[1];
+
+    }
+    if (AddPhotoView.photoArr.count > 2) {
+        imgUrlC = AddPhotoView.photoArr[2];
+
+    }
+        [self showMLhud];
+        [MLMyRequest PostsaveOpinionWithcontent:_adViceView.text imgUrlA:imgUrlA imgUrlB:imgUrlB imgUrlC:imgUrlC Success:^(NSDictionary *dic) {
+        self.HUD.hidden = YES;
+        if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
+            [HLSLable lableWithText:@"提交成功，感谢您对米粒保险的支持！"];
+            
+
+                }else{
+                    [HLSLable lableWithText:[dic xyValueForKey:@"message"] inView:self.view];
+        
+                }
+    } failure:^(NSError *error) {
+        self.HUD.hidden = YES;
+
+    }];
 }
 
 -(void)dealloc{

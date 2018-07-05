@@ -14,10 +14,10 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.separatorImageView = [[UIImageView alloc] initWithImage:[UIImage imageWithColor:HLSColor(215, 215, 215)]];
+        self.separatorImageView = [[UIImageView alloc] initWithImage:[UIImage imageWithColor:HLSColor(229, 235, 232)]];
         self.textLabel.backgroundColor = [UIColor clearColor];
         [self.contentView addSubview:self.separatorImageView];
-        self.lineHeight = 1.0f;
+        self.lineHeight = 0.6f;
         self.selectionStyle = UITableViewCellSelectionStyleNone;
 
 

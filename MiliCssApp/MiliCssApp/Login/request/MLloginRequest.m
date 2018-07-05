@@ -67,7 +67,7 @@
  */
 
 + (void)PostverifyResetPwdCodeByAppWithphoneCode:(NSString *)phoneCode WithphoneNo:(NSString *)phoneNo templateCode:(NSString *)templateCode cardNo:(NSString *)cardNo Success:(HLSSuccess)success failure:(HLSHttpFailure)failure{
-    NSString *url = [NSString stringWithFormat:@"%@/merchant/verifyResetPwdCodeByApp",RequestUrl];
+    NSString *url = [NSString stringWithFormat:@"%@/verifyResetPwdCodeByApp",RequestUrl];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     if (phoneCode) {
         [param setValue:phoneCode forKey:@"phoneCode"];
@@ -95,7 +95,7 @@
 
 + (void)PostForgetPassWithnewPwd:(NSString *)newPwd confirmPwd:(NSString *)confirmPwd cardNo:(NSString *)cardNo Success:(HLSSuccess)success failure:(HLSHttpFailure)failure{
     
-    NSString *url = [NSString stringWithFormat:@"%@/resetPwd",RequestUrl];
+    NSString *url = [NSString stringWithFormat:@"%@/forgetPass",RequestUrl];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     if (newPwd) {
         [param setValue:newPwd forKey:@"newPwd"];
@@ -119,7 +119,7 @@
  */
 
 + (void)PostmodifyPwdWitholdPwd:(NSString *)oldPwd newPwd:(NSString *)newPwd confirmPwd:(NSString *)confirmPwd Success:(HLSSuccess)success failure:(HLSHttpFailure)failure{
-    NSString *url = [NSString stringWithFormat:@"%@/modifyPwd",RequestUrl];
+    NSString *url = [NSString stringWithFormat:@"%@/modifyPass",RequestUrl];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     if (oldPwd) {
         [param setValue:oldPwd forKey:@"oldPwd"];

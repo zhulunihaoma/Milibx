@@ -7,11 +7,13 @@
 //
 
 #import "PublicViewController.h"
+#import "NewsModel.h"
 
 @interface MLNormalWebViewController : PublicViewController
 @property(nonatomic,strong)NSString *TittleStr;
+@property(nonatomic,strong)NSString *TypeStr;
 @property(nonatomic,strong)NSString *UrlStr;
 @property(nonatomic,strong)NSString *AllUrlStr;
-
+@property (nonatomic, strong) NewsModel *newsmodel;
 
 @end

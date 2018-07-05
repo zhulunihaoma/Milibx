@@ -41,7 +41,9 @@
         UIImageView *normalView = [[UIImageView alloc] init];
         //    GongLue.backgroundColor = MLNaviColor;
 
-        [normalView sd_setImageWithURL:URLWith([dataArr[i] xyValueForKey:@"imgUrl"]) placeholderImage:HolderWith(nil)];
+        [normalView sd_setImageWithURL:URLWith([dataArr[i] xyValueForKey:@"imgUrl"]) placeholderImage:HolderWith(@"img_loading")];
+        
+
         
         [PosterScrollView addSubview:normalView];
         if (i == 0 ) {
@@ -65,9 +67,9 @@
        UILabel *normalLab = [HLSLable LabelWithFont:12 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLTittleColor WithFatherView:PosterScrollView];
         normalLab.text = [dataArr[i] xyValueForKey:@"productName"];
         if (i == 0 ) {
-            normalLab.x = 10;
+            normalLab.x = 15;
         }else{
-            normalLab.x = 10 +i*120;
+            normalLab.x = 15 +i*114;
         }
         normalLab.y = normalView.bottom+10;
         normalLab.width = 105;
@@ -79,7 +81,7 @@
 }
 -(void)goPoster:(UITapGestureRecognizer *)tap{
     PosterDetailViewController *vc = [PosterDetailViewController new];
-    vc.DataDic = _DataDic;
+    vc.productCode = [self.DataDic xyValueForKey:@"productCode"];
     [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
 }
 -(void)setDataDic:(NSMutableDictionary *)DataDic{
@@ -88,6 +90,7 @@
     [self SetupViews:posterListArr];
 
 }
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code

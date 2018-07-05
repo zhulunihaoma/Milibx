@@ -16,7 +16,13 @@
 #import "CommitAdviceViewController.h"
 #import "GotoPayViewController.h"
 #import "MLMyRequest.h"
+#import "BDInfoModel.h"
 @interface CityBDCenterView()<UITableViewDelegate,UITableViewDataSource>
+{
+    NSMutableDictionary *Datadic;
+    BDInfoModel *BDmodel;
+    NSString *UnreadNum;
+}
 @property(nonatomic,strong)UITableView *listTableView;/**个人中心列表*/
 @property(nonatomic,strong)NSMutableArray *DataArr;/**个人中心列表*/
 
@@ -28,6 +34,9 @@
     if (self) {
         [self initSubviews];
         _DataArr = [NSMutableArray new];
+        Datadic = [NSMutableDictionary new];
+        BDmodel = [[BDInfoModel alloc]init];
+        UnreadNum = @"0";
         NSArray *imagearr = @[@"icon_personal_1",@"icon_personal_2",@"icon_personal_3",@"icon_personal_4",];
         NSArray *tittleearr = @[@"常见问题",@"联系我们",@"意见反馈",@"平台资质",];
 
@@ -38,20 +47,64 @@
             [_DataArr addObject:dic];
         }
         [self RequestData];
+        [self RequestUnreadNum];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(homerefresh:) name:@"home" object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(messagerefresh:) name:@"message" object:nil];
+
     }
     
     
     return self;
+}
+-(void)homerefresh:(NSNotification *)notification{
+    
+    
+    [self RequestData];
+    [self RequestUnreadNum];
+    [GetUnderController getvcwithtarget:self].tabBarController.selectedIndex = 0;
+
+
+}
+-(void)messagerefresh:(NSNotification *)notification{
+    
+    
+    [self RequestUnreadNum];
+    
+    
+}
+-(void)RequestUnreadNum{
+    [MLMyRequest PostinfoUnReadSuccess:^(NSDictionary *dic) {
+   
+        if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
+//            Datadic = [dic xyValueForKey:@"result"];
+//            BDmodel = [BDInfoModel mj_objectWithKeyValues:Datadic];
+//            [self.listTableView reloadData];
+            HLSLog(@"未读消息数量----%@",dic);
+            
+            UnreadNum = [dic xyValueForKey:@"result"];
+            [self.listTableView reloadData];
+            [self.listTableView.mj_header endRefreshing];
+
+        }
+    } failure:^(NSError *error) {
+        [self.listTableView.mj_header endRefreshing];
+
+    }];
 }
 -(void)RequestData{
     [MLMyRequest PostuserCenterSuccess:^(NSDictionary *dic) {
         HLSLog(@"userinfo:%@",dic);
 
         if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
-            
+            Datadic = [dic xyValueForKey:@"result"];
+            BDmodel = [BDInfoModel mj_objectWithKeyValues:Datadic];
+            [self.listTableView reloadData];
+            [self.listTableView.mj_header endRefreshing];
+
         }
     } failure:^(NSError *error) {
-        
+        [self.listTableView.mj_header endRefreshing];
+
     }];
 }
 -(void)initSubviews{
@@ -62,8 +115,44 @@
     self.listTableView.width = SCREEN_WIDTH;
     self.listTableView.height = SCREEN_HEIGHT-49+20;
     self.listTableView.backgroundColor = MLBGColor;
+    [self setupHeaderRefresh];
+
+}
+- (void)setupHeaderRefresh {
+    
+    //    header.lastUpdatedTimeLabel.hidden = YES;
+    NSMutableArray *headerImages = [NSMutableArray array];
+    for (int i = 1; i < 7; i++) {
+        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"refresh_%d",i]];
+
+        [headerImages addObject:image];
+    }
+    
+    
+    
+    
+    
+    MJRefreshGifHeader *header = [MJRefreshGifHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefresh)];
+    
+    
+    //给MJRefreshStateIdle状态设置一组图片，可以是一张，idleImages为数组
+    [header setImages:headerImages forState:MJRefreshStateIdle];
+    [header setImages:headerImages forState:MJRefreshStateRefreshing];
+    
+    header.lastUpdatedTimeLabel.hidden =YES;
+    header.stateLabel.hidden =YES;
+    
+    self.listTableView.mj_header = header;
 }
 
+
+/**
+ *  下拉刷新
+ */
+- (void)headerRefresh {
+    [self RequestData];
+    [self RequestUnreadNum];
+}
 -(UITableView *)listTableView{
     if (!_listTableView) {
         
@@ -131,7 +220,14 @@
         if (!cell) {
             cell = [[BDCenterTopTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifiertop];
         }
-        cell.Model = _DataArr[indexPath.row];
+        if ([UnreadNum integerValue] == 0) {
+            cell.UnreadNum.hidden = YES;
+        }else{
+            cell.UnreadNum.hidden = NO;
+
+            cell.UnreadNum.text = UnreadNum;
+        }
+        cell.Model = BDmodel;
         return cell;
     }else{
         // 定义唯一标识
@@ -152,7 +248,14 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 1) {
         MLNormalWebViewController *avc = [[MLNormalWebViewController alloc]init];
-        avc.UrlStr = [NSString stringWithFormat:@"%@webapp/opena/list",RequestWebUrl];// @"https://www.baidu.com";//
+        avc.UrlStr = @"/product/problem";
+        [[GetUnderController getvcwithtarget:self].navigationController pushViewController:avc animated:YES];
+    }
+    if (indexPath.section == 2) {
+        MLNormalWebViewController *avc = [[MLNormalWebViewController alloc]init];
+        NSDictionary * dict = [NSBundle mainBundle].infoDictionary;
+        NSString *version = [dict valueForKey:@"CFBundleShortVersionString"];
+        avc.UrlStr = [NSString stringWithFormat:@"/contactus/contactus?ver=%@",version];
         [[GetUnderController getvcwithtarget:self].navigationController pushViewController:avc animated:YES];
     }
     if (indexPath.section == 3) {
@@ -161,30 +264,30 @@
     }
     
     if (indexPath.section == 4) {//测试支付界面
-        GotoPayViewController *avc = [[GotoPayViewController alloc]init];
+//        GotoPayViewController *avc = [[GotoPayViewController alloc]init];
+//        [[GetUnderController getvcwithtarget:self].navigationController pushViewController:avc animated:YES];
+        MLNormalWebViewController *avc = [[MLNormalWebViewController alloc]init];
+        avc.UrlStr = @"/product/platformaptitude";
         [[GetUnderController getvcwithtarget:self].navigationController pushViewController:avc animated:YES];
+
         
-        
-//        if (indexPath.row == 0) {
-//            AchievementViewController *avc = [[AchievementViewController alloc]init];
-//            [[GetUnderController getvcwithtarget:self].navigationController pushViewController:avc animated:YES];
-//        }
-//        if (indexPath.row == 1) {
-//            CompmanaViewController *cvc = [[CompmanaViewController alloc]init];
-//            [[GetUnderController getvcwithtarget:self].navigationController pushViewController:cvc animated:YES];
-//        }
-//        if (indexPath.row == 2) {
-//            PrimanaViewController *pvc = [[PrimanaViewController alloc]init];
-//            [[GetUnderController getvcwithtarget:self].navigationController pushViewController:pvc animated:YES];
-//        }
-//        if (indexPath.row == 3) {
-//            UsercenterViewController *uvc = [[UsercenterViewController alloc]init];
-//            [[GetUnderController getvcwithtarget:self].navigationController pushViewController:uvc animated:YES];
-//        }
+
     }
     
     
    
+}
+-(void)dealloc{
+    
+    
+    [[NSNotificationCenter defaultCenter]removeObserver:self
+                                                   name:@"home"
+                                                 object:nil];
+    
+    [[NSNotificationCenter defaultCenter]removeObserver:self
+                                                   name:@"message"
+                                                 object:nil];
+    
 }
 
 

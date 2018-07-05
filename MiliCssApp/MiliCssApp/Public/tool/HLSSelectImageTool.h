@@ -10,4 +10,6 @@
 
 @interface HLSSelectImageTool : NSObject
 + (NSData *)selectImageWithImage:(UIImage *)image;
++ (NSString *)ToBasestrWithImage:(UIImage *)image;
+
 @end

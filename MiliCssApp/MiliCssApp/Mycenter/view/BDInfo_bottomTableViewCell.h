@@ -14,6 +14,9 @@
 @property (nonatomic, strong)UILabel *degreelab;
 
 
-@property (nonatomic, strong)NSString *Model;
+@property (nonatomic, strong)NSDictionary *ProDic;
+@property (nonatomic, assign)NSInteger index;
+@property(nonatomic,assign)NSInteger padding;
+
 
 @end

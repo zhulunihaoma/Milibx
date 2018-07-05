@@ -9,6 +9,12 @@
 #import "HLSBaseCell.h"
 
 @interface Home_PromoteTableViewCell : HLSBaseCell
+@property(nonatomic,strong)UILabel *ToolsTittle;
+@property(nonatomic,strong)UILabel *MoreBtn;
+@property(nonatomic,strong)UIImageView *Pro_BgImg0;
+@property(nonatomic,strong)UIImageView *Pro_BgImg1;
+
+
 @property(nonatomic,strong)NSMutableDictionary *DataDic;
 
 @end

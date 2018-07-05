@@ -9,5 +9,5 @@
 #import "PublicTableViewController.h"
 
 @interface MessageDetailVC : PublicTableViewController
-
+@property(nonatomic,strong)NSString *infoId;
 @end

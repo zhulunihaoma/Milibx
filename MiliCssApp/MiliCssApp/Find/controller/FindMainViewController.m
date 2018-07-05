@@ -16,6 +16,7 @@
 {
     NSInteger page;
     NSMutableArray *dataArr;
+    NSArray *arr;
 }
 @end
 
@@ -28,12 +29,13 @@
     
     page = 1;
     dataArr = [NSMutableArray new];
+    arr = [NSArray new];
     [self RequestData];
     // Do any additional setup after loading the view.
 }
 -(void)RequestData{
 //    [self showMLhud];
-    [MLFindRequest PostarticleListWithcolumnId:self.columnId pageIndex:page pageSize:5 Success:^(NSDictionary *dic) {
+    [MLFindRequest PostarticleListWithcolumnId:self.columnId pageIndex:page pageSize:10 Success:^(NSDictionary *dic) {
     
         [self.HUD hideAnimated:YES];
         HLSLog(@"---aaa新闻里面main---%@,%@",self.columnId,dic);
@@ -44,7 +46,7 @@
                     if (page == 1) {
                         [dataArr removeAllObjects];
                     }
-            NSArray *arr =[[dic xyValueForKey:@"result"] xyValueForKey:@"articleList"];
+            arr =[[dic xyValueForKey:@"result"] xyValueForKey:@"articleList"];
 //            HLSLog(@"数据：111%@",);
             
             for (NSDictionary *Dic in arr) {
@@ -70,7 +72,10 @@
                         }
                        
                     }
-
+                if (self.noNetView) {
+                    [self.noNetView removeFromSuperview];
+                    self.noNetView = nil;
+                }
                     [self.tableView.mj_header endRefreshing];
                     [self.tableView.mj_footer endRefreshing];
 
@@ -87,6 +92,8 @@
         
     } failure:^(NSError *error) {
         [self.HUD hideAnimated:YES];
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
         [self checkNonet];
 
     }];
@@ -122,13 +129,20 @@
  *  上拉加载
  */
 - (void)footerRefresh {
-    page ++;
-    [self RequestData];
+    if (arr.count == 10) {
+        page ++;
+        [self RequestData];
+    }else{
+        [self.tableView.mj_footer endRefreshing];
+
+        [HLSLable lableWithText:@"没有更多数据"];
+    }
+    
     
 }
 #pragma mark -- 无网络
 -(void)checkNonet{
-    if (page == 1) {//如果为第一页
+    if (dataArr.count == 0) {//如果为第一页
         if (!self.noNetView) {
             [self setupNoNetView];
         }
@@ -141,8 +155,7 @@
         
     }
     
-    [self.tableView.mj_header endRefreshing];
-    [self.tableView.mj_footer endRefreshing];
+   
     
 }
 /**
@@ -240,8 +253,16 @@
     
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    //    ComDetailViewController *cvc = [[ComDetailViewController alloc]init];
-    //    [self.navigationController pushViewController:cvc animated:YES];
+    MLNormalWebViewController *avc = [[MLNormalWebViewController alloc]init];
+    NewsModel *model = dataArr[indexPath.section];
+    avc.UrlStr = [NSString stringWithFormat:@"/discover/detail?id=%@",model.articleId];
+    avc.TypeStr = @"1";
+    avc.newsmodel = model;
+    model.readNo  = [NSString stringWithFormat:@"%ld",[model.readNo integerValue]+1];
+    [dataArr setObject:model atIndexedSubscript:indexPath.section];
+    [self.tableView reloadData];
+    [[GetUnderController getvcwithtarget:self].navigationController pushViewController:avc animated:YES];
+
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

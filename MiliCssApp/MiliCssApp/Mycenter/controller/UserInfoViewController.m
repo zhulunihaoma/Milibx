@@ -11,13 +11,14 @@
 #import "FSScrollContentView.h"
 #import "ProductPromoteInfoViewController.h"
 #import "BDInfoViewController.h"
-
+#import "MLMyRequest.h"
 @interface UserInfoViewController ()
 <FSPageContentViewDelegate,FSSegmentTitleViewDelegate>
 {
     NSMutableArray *categoryArr;//标题列表
     CAShapeLayer *shapeLayer;
     UIBezierPath *bezierPath;
+    NSMutableDictionary *UserinfoDic;
 }
 @property (nonatomic, strong) FSPageContentView *pageContentView;
 @property (nonatomic, strong) FSSegmentTitleView *titleView;
@@ -27,18 +28,44 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [super viewDidLoad];
 //    self.navigationView.leftBtn.hidden = YES;
     self.navigationView.lineImageView.hidden = YES;
     self.navigationView.height = NaviHeight+43;
     self.title = @"我的资料";
     categoryArr = [NSMutableArray new];
-    [self setsetgement];
+    UserinfoDic = [NSMutableDictionary new];
+//    [self setsetgement];
     self.navigationView.backimg.size = CGSizeMake(SCREEN_WIDTH, NaviHeight+43);
-    
+    HLSLog(@"----merchantLevel--%@",[HLSPersonalInfoTool merchantLevel]);
 
-    
-    
+    [self RequestData];
+    // Do any additional setup after loading the view.
+}
+-(void)RequestData{
+    //    self.HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    [self showMLhud];
+    [MLMyRequest PostgetMerchantInfoWithcustomerCode:[HLSPersonalInfoTool getmerchantCode] Success:^(NSDictionary *dic) {
+   
+        
+//        HLSLog(@"我的资料,%@",dic);
+        
+        [self.HUD hideAnimated:YES];
+        
+        if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
+            
+            UserinfoDic = [dic xyValueForKey:@"result"];
+            
+            [self setsetgement];
+            
+            
+        }else{
+            [HLSLable lableWithText:[dic xyValueForKey:@"message"]];
+        }
+        
+    } failure:^(NSError *error) {
+        [self.HUD hideAnimated:YES];
+//        [self checkNonet];
+    }];
 }
 
 
@@ -74,12 +101,13 @@
         
         //        [vc.navigationController.navigationBar removeFromSuperview] ;
         //        vc.navigationView.hidden = YES;
-    
+    vc.UserinfoDic = UserinfoDic;
         [childVCs addObject:vc];
     
     BDInfoViewController *pvc = [[BDInfoViewController alloc]init];
     pvc.title = categoryArr[1];
-    
+    pvc.UserinfoDic = UserinfoDic;
+
     //        [vc.navigationController.navigationBar removeFromSuperview] ;
     //        vc.navigationView.hidden = YES;
     

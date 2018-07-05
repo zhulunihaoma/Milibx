@@ -10,7 +10,7 @@
 #import "AFNetworking.h"
 #import "HLSLable.h"
 #import "MBProgressHUD.h"
-
+#import "LoginViewController.h"
 @interface MLHttpTools ()<MBProgressHUDDelegate>
 
 @end
@@ -104,7 +104,7 @@
     [ manager.requestSerializer setValue:@"json" forHTTPHeaderField:@"dataType"];
     
     
-//    [manager.requestSerializer setValue:[HLSPersonalInfoTool getCookies]  forHTTPHeaderField:@"deviceToken"];
+//    [manager.requestSerializer setValue:[HLSPersonalInfoTool getCookies]  forHTTPHeaderField:@"cookies"];
 
     
 //
@@ -122,6 +122,24 @@
 
     
     [manager POST:url parameters: params success:^(NSURLSessionDataTask *operation, id responseObject) {
+        responseObject = [NSMutableDictionary dictionaryWithDictionary:responseObject];
+  
+        if ([[responseObject xyValueForKey:@"code"] integerValue] == 10013333) {
+            [responseObject setValue:@"10013333" forKey:@"message"];
+            
+            [mUserDefaults removeObjectForKey:KUserInfoDic];
+            [mUserDefaults setObject:@"1" forKey:@"isTag"];
+            [mUserDefaults synchronize];
+            
+        }
+        if ([[responseObject xyValueForKey:@"code"] integerValue] == 10016020) {
+            [responseObject setValue:@"10016020" forKey:@"message"];
+            
+            [mUserDefaults removeObjectForKey:KUserInfoDic];
+            [mUserDefaults setObject:@"1" forKey:@"isTag"];
+            [mUserDefaults synchronize];
+            
+        }
         
         successBlock(YES,responseObject);
         

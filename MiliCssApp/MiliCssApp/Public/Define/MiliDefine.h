@@ -20,7 +20,7 @@
 
 #define HolderWith(name) [UIImage imageNamed:name]
 //获取URL
-#define URLWith(str) [NSURL URLWithString:[NSString stringWithFormat:@"https://mfs.milibx.com/%@",str]]
+#define URLWith(str) [NSURL URLWithString:[NSString stringWithFormat:@"%@",str]]
 
 //字体
 #define TextFontSize(a) [UIFont systemFontOfSize:(a)]
@@ -54,7 +54,7 @@
 #define iPhone5 kSCREENSIZE.width == 320
 #define iPhone6 kSCREENSIZE.width == 375
 #define iPhone6plus kSCREENSIZE.width == 414
-#define Fit6(a) a*(ScreenWidth/375)
+#define Fit6(a) a*(SCREEN_WIDTH/375)
 
 
 //token

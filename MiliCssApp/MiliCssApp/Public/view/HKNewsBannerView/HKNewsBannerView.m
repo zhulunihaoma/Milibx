@@ -223,7 +223,7 @@
 {
     if (self.newsArray.count < 2 || !self.newsArray) return;
     //先取消滚动
-    [self stopRolling];
+//    [self stopRolling];
     [self performSelector:@selector(rollingScrollAction) withObject:nil afterDelay:0.1];
 }
 
@@ -237,7 +237,11 @@
     self.newsArray = newsArray;
     self.imageArray = imageArray;
     self.currentPage = 0;
-    [self startRolling];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)),dispatch_get_main_queue(), ^{
+        //2秒以后移除view
+        [self startRolling];
+
+    });
 }
 
 - (void)stopRolling
@@ -247,6 +251,8 @@
 
 - (void)rollingScrollAction
 {
+    
+    
     [UIView animateWithDuration:0.25 animations:^{
         if (self.scrollDirection == HKNewsBannerViewScrollDirectionLandscape) {
             self.scrollView.contentOffset = CGPointMake(1.99 * self.scrollView.frame.size.width, 0);
@@ -261,6 +267,7 @@
             [self performSelector:@selector(rollingScrollAction) withObject:nil afterDelay:self.rollingDelayTime inModes:@[NSRunLoopCommonModes]];
         }
     }];
+   
 }
 
 /**

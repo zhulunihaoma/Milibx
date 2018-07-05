@@ -55,6 +55,9 @@
                           channel:@"Publish channel"
                  apsForProduction:0
             advertisingIdentifier:nil];
+    // 更新显示的徽章个数
+
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 
     return YES;
 }
@@ -127,6 +130,9 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 {
     /* 设置微信的appKey和appSecret */
     [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:WXAppID appSecret:WXAppSecret redirectURL:@"https://www.milibx.com"];
+    
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatTimeLine appKey:WXAppID appSecret:WXAppSecret redirectURL:@"https://www.milibx.com"];
+
     /*
      * 移除相应平台的分享，如微信收藏
      */
@@ -134,7 +140,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     /* 设置分享到QQ互联的appID
      * U-Share SDK为了兼容大部分平台命名，统一用appKey和appSecret进行参数设置，而QQ平台仅需将appID作为U-Share的appKey参数传进即可。
      */
-    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ appKey:@"1105821097"/*设置QQ平台的appID*/  appSecret:nil redirectURL:@"https://www.milibx.com"];
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ appKey:@"1106073522"/*设置QQ平台的appID*/  appSecret:@"lEBtqfsaDPkHP4Fr" redirectURL:@"https://www.milibx.com"];
     
  
    

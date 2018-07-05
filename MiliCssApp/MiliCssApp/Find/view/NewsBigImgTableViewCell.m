@@ -38,7 +38,7 @@ self.News_img.sd_layout
 }
 -(void)setModel:(NewsModel *)Model{
     self.News_Tittle.text = Model.articleTitle;
-    [self.News_img sd_setImageWithURL:URLWith(Model.imgBigUrl) placeholderImage:DefaultHolder];
+    [self.News_img sd_setImageWithURL:URLWith(Model.imgBigUrl) placeholderImage:HolderWith(@"img_loading_big")];
     self.News_Tag.text = Model.articleLabel;
     self.News_ReadNum.text = [NSString stringWithFormat:@"阅读数 %@",Model.readNo];
 

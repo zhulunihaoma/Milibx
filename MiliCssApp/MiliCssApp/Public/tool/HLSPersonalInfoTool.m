@@ -35,6 +35,13 @@
 {
     return [[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"user"];
 }
++ (NSString *)merchantLevel{
+    return [[[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"user"] xyValueForKey:@"merchantLevel"];
+}
++ (NSString *)merchantNature{
+    return [[[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"user"] xyValueForKey:@"merchantNature"];
+}
+
 + (NSString *)getdeviceId{
     NSString *deviceUUID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     return deviceUUID;

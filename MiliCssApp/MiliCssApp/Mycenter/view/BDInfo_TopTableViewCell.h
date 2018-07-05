@@ -12,5 +12,7 @@
 @property (nonatomic, strong)UILabel *titlelab;
 @property (nonatomic, strong)UILabel *detaillab;
 @property (nonatomic, strong)NSString *Name;
+@property (nonatomic, strong)NSDictionary *CityData;
+
 
 @end

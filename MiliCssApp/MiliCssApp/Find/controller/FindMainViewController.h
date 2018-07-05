@@ -11,6 +11,7 @@
 @interface FindMainViewController : PublicTableViewController
 @property (nonatomic, strong) NSString *titleStr;
 
+
 /**
  栏目Id
  */

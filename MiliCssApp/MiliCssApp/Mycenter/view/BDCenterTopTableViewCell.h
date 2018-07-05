@@ -15,6 +15,11 @@
 
 @property (nonatomic, strong)UIImageView *leftimg;
 @property (nonatomic, strong)UILabel *titlelab;
+@property (nonatomic, strong)UILabel *policyAmount;
+@property (nonatomic, strong)UILabel *prmAmount;
+@property (nonatomic, strong)UILabel *selfPrmAmount;
+@property (nonatomic, strong)UILabel *UnreadNum;
+
 
 @property (nonatomic, strong)BDInfoModel *Model;
 @end

@@ -7,10 +7,13 @@
 //
 
 #import "GotoPayViewController.h"
-
+#import "MLMyRequest.h"
+#import "ZLPayTool.h"
 @interface GotoPayViewController ()
 {
     UIView *MycenterView;
+    UIButton *submmit;
+    NSMutableDictionary *DataDic;
 
 }
 @property(nonatomic,strong)UILabel *nameLabel;
@@ -21,9 +24,96 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"去支付";
-    [self SetupSubViews];
+    HLSLog(@"---支付orderid%@",self.OrderId);
+    
+    //支付信息返回通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alipayresult:) name:@"alipayResult" object:nil];
+    
+    [self RequestData];
+//    MLNormalWebViewController *vc = [MLNormalWebViewController new];
+//    vc.TittleStr = @"下级管理";
+//    vc.UrlStr = [NSString stringWithFormat:@"/order/orderdetailunauth/%@",@"18062620171410000034"];
+//    [self.navigationController pushViewController:vc animated:YES];
+//
     // Do any additional setup after loading the view.
+    
 }
+-(void)RequestData{
+    [self showMLhud];
+
+    [MLMyRequest PostpayOrderDetailWithorderCode:self.OrderId Success:^(NSDictionary *dic) {
+        HLSLog(@"aa:%@",dic);
+        
+        [self.HUD hideAnimated:YES];
+        if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
+            DataDic = [dic xyValueForKey:@"result"];
+            [self SetupSubViews];
+
+        }else{
+            [HLSLable lableWithText:[dic xyValueForKey:@"message"]];
+            
+        }
+        
+    } failure:^(NSError *error) {
+        [self.HUD hideAnimated:YES];
+
+    }];
+    }
+
+-(void)alipayresult:(NSNotification *)notification{
+    NSDictionary *dic = notification.userInfo;
+    switch ([[dic xyValueForKey:@"resultStatus"] integerValue]) {
+        case 9000:
+        {
+            [HLSLable lableWithText:@"订单支付成功"];
+            MLNormalWebViewController *vc = [MLNormalWebViewController new];
+            vc.TittleStr = @"下级管理";
+            vc.UrlStr = [NSString stringWithFormat:@"/order/orderdetailunauth/%@",self.OrderId];
+            [self.navigationController pushViewController:vc animated:YES];
+            
+//            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+            break;
+        case 8000:
+        {
+            [HLSLable lableWithText:@"正在处理中，支付结果未知"];
+//            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+            break;
+            
+        case 4000:
+        {
+            [HLSLable lableWithText:@"订单支付失败"];
+//            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+            break;
+            
+        case 5000:
+        {
+            [HLSLable lableWithText:@"重复请求"];
+//            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+            break;
+            
+        case 6001:
+        {
+            [HLSLable lableWithText:@"用户中途取消，请重新支付"];
+//            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+            break;
+            
+        case 6002:
+        {
+            [HLSLable lableWithText:@"网络连接出错"];
+//            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+            break;
+        default:
+            break;
+    }
+    
+}
+
 -(void)SetupSubViews{
     UIView *TopView = [[UIView alloc]init];
     [self.view addSubview:TopView];
@@ -73,7 +163,7 @@
     
     [ProNameLab setSingleLineAutoResizeWithMaxWidth:(250)];
     
-    ProNameLab.text = @"惠就医-少儿意外/疾病门诊有保版本";
+    ProNameLab.text = [DataDic xyValueForKey:@"productName"];
     // 订单号
     UILabel *OrderNameLab = [HLSLable LabelWithFont:14 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLDetailColor WithFatherView:TopView];
     OrderNameLab.sd_layout
@@ -83,7 +173,7 @@
     
     [OrderNameLab setSingleLineAutoResizeWithMaxWidth:(250)];
     
-    OrderNameLab.text = @"订单号：2132231313213213424";
+    OrderNameLab.text = [NSString stringWithFormat:@"订单号：%@",[DataDic xyValueForKey:@"orderCode"]];
     
 //    价格
     UILabel *Price1 = [HLSLable LabelWithFont:24 WithTextalignment:NSTextAlignmentLeft WithTextColor:HLSColor(255, 123, 6) WithFatherView:TopView];
@@ -94,7 +184,7 @@
     
     [Price1 setSingleLineAutoResizeWithMaxWidth:(100)];
     
-    Price1.text = @"¥200元";
+    Price1.text = [NSString stringWithFormat:@"¥%@",[DataDic xyValueForKey:@"policyAmount"]];
     
     //        前面的绿色标签
     UIImageView *GreenView = [[UIImageView alloc]init];
@@ -119,7 +209,24 @@
     self.nameLabel.textColor = HLSOneColor(134);
     self.nameLabel.font = TextFontSize(14);
 
+    
+    
+    
     [self MycenterView];
+    
+    submmit = [[UIButton alloc]init];
+    [submmit setTitle:@"支付" forState:UIControlStateNormal];
+    [self.view addSubview:submmit];
+    [submmit addTarget:self action:@selector(gotopay) forControlEvents:UIControlEventTouchUpInside];
+    [submmit setBackgroundImage:[UIImage imageNamed:@"btn_login"] forState:UIControlStateNormal];
+    
+    submmit.x = 22;
+    submmit.y = NaviHeight+421;
+    submmit.height  = 65;
+    submmit.width = SCREEN_WIDTH - 44;
+    
+    submmit.layer.cornerRadius = 6;
+    submmit.titleLabel.font = TextFontSize(17);
 
 }
 -(UIView *)MycenterView{
@@ -134,66 +241,66 @@
         .leftSpaceToView(self.view, 9)
         .rightSpaceToView(self.view, 9)
         .topSpaceToView(self.nameLabel,12)
-        .heightIs(101);
+        .heightIs(51);
         
         
         // 微信支付cell
-        UIView *passwordview = [UIView new];
-        passwordview.backgroundColor = [UIColor whiteColor];
-        [MycenterView addSubview:passwordview];
-        passwordview.sd_layout
-        .topSpaceToView(MycenterView, 0)
-        .leftSpaceToView(MycenterView, 0)
-        .rightSpaceToView(MycenterView, 0)
-        .heightIs(50);
-        //    跳转到钱包
-        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(goAgreement:)];
-        [passwordview addGestureRecognizer:tap];
-        passwordview.userInteractionEnabled = YES;
-        
-        
-//        iocn
-        UIImageView *PayIcon = [[UIImageView alloc]init];
-        [passwordview addSubview:PayIcon];
-        PayIcon.image = [UIImage imageNamed:@"icon_wechat"];
-        PayIcon.sd_layout
-        .centerYEqualToView(passwordview)
-        .heightIs(35)
-        .widthIs(35)
-        .leftSpaceToView(passwordview, 23);
-        
-        
-        
-        UILabel *motifypassword = [HLSLable LabelWithFont:16 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLTittleColor WithFatherView:passwordview];
-        motifypassword.text = @"微信支付";
-        motifypassword.sd_layout
-        .centerYIs(25)
-        .leftSpaceToView(PayIcon, 13)
-        .heightIs(17);
-        [motifypassword setSingleLineAutoResizeWithMaxWidth:(120)];
-        //        箭头
-        //        按钮
-        UIButton *ChooseBtnWechat = [[UIButton alloc]init];
-        [ChooseBtnWechat setImage:[UIImage imageNamed:@"btn_choose_default"] forState:UIControlStateNormal];
-        [ChooseBtnWechat setImage:[UIImage imageNamed:@"btn_choose"] forState:UIControlStateSelected];
-        [ChooseBtnWechat addTarget:self action:@selector(Changepayway:) forControlEvents:UIControlEventTouchUpInside];
-        [passwordview addSubview:ChooseBtnWechat];
-        ChooseBtnWechat.sd_layout
-        .heightIs(18)
-        .widthIs(18)
-        .rightSpaceToView(passwordview, 20)
-        .centerYEqualToView(passwordview);
-        
-        
-        UIView *hline1 = [UIView new];
-        hline1.backgroundColor = MLBGColor;
-        [MycenterView addSubview:hline1];
-        hline1.sd_layout
-        .topSpaceToView(MycenterView, 50)
-        .leftSpaceToView(MycenterView, 30)
-        .rightSpaceToView(MycenterView, 0)
-        .heightIs(1);
-        
+//        UIView *passwordview = [UIView new];
+//        passwordview.backgroundColor = [UIColor whiteColor];
+//        [MycenterView addSubview:passwordview];
+//        passwordview.sd_layout
+//        .topSpaceToView(MycenterView, 0)
+//        .leftSpaceToView(MycenterView, 0)
+//        .rightSpaceToView(MycenterView, 0)
+//        .heightIs(50);
+//        //    跳转到钱包
+//        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(goAgreement:)];
+//        [passwordview addGestureRecognizer:tap];
+//        passwordview.userInteractionEnabled = YES;
+//
+//
+////        iocn
+//        UIImageView *PayIcon = [[UIImageView alloc]init];
+//        [passwordview addSubview:PayIcon];
+//        PayIcon.image = [UIImage imageNamed:@"icon_wechat"];
+//        PayIcon.sd_layout
+//        .centerYEqualToView(passwordview)
+//        .heightIs(35)
+//        .widthIs(35)
+//        .leftSpaceToView(passwordview, 23);
+//
+//
+//
+//        UILabel *motifypassword = [HLSLable LabelWithFont:16 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLTittleColor WithFatherView:passwordview];
+//        motifypassword.text = @"微信支付";
+//        motifypassword.sd_layout
+//        .centerYIs(25)
+//        .leftSpaceToView(PayIcon, 13)
+//        .heightIs(17);
+//        [motifypassword setSingleLineAutoResizeWithMaxWidth:(120)];
+//        //        箭头
+//        //        按钮
+//        UIButton *ChooseBtnWechat = [[UIButton alloc]init];
+//        [ChooseBtnWechat setImage:[UIImage imageNamed:@"btn_choose_default"] forState:UIControlStateNormal];
+//        [ChooseBtnWechat setImage:[UIImage imageNamed:@"btn_choose"] forState:UIControlStateSelected];
+//        [ChooseBtnWechat addTarget:self action:@selector(Changepayway:) forControlEvents:UIControlEventTouchUpInside];
+//        [passwordview addSubview:ChooseBtnWechat];
+//        ChooseBtnWechat.sd_layout
+//        .heightIs(18)
+//        .widthIs(18)
+//        .rightSpaceToView(passwordview, 20)
+//        .centerYEqualToView(passwordview);
+//
+//
+//        UIView *hline1 = [UIView new];
+//        hline1.backgroundColor = MLBGColor;
+//        [MycenterView addSubview:hline1];
+//        hline1.sd_layout
+//        .topSpaceToView(MycenterView, 50)
+//        .leftSpaceToView(MycenterView, 30)
+//        .rightSpaceToView(MycenterView, 0)
+//        .heightIs(1);
+//
         
         
 #pragma mark -- 消息通知
@@ -202,7 +309,7 @@
         messageview.backgroundColor = [UIColor whiteColor];
         [MycenterView addSubview:messageview];
         messageview.sd_layout
-        .topSpaceToView(MycenterView, 51)
+        .topSpaceToView(MycenterView, 0)
         .leftSpaceToView(MycenterView, 0)
         .rightSpaceToView(MycenterView, 0)
         .heightIs(50);
@@ -235,7 +342,8 @@
         UIButton *ChooseBtnAli = [[UIButton alloc]init];
         [ChooseBtnAli setImage:[UIImage imageNamed:@"btn_choose_default"] forState:UIControlStateNormal];
         [ChooseBtnAli setImage:[UIImage imageNamed:@"btn_choose"] forState:UIControlStateSelected];
-        [ChooseBtnAli addTarget:self action:@selector(Changepayway:) forControlEvents:UIControlEventTouchUpInside];
+//        [ChooseBtnAli addTarget:self action:@selector(Changepayway:) forControlEvents:UIControlEventTouchUpInside];
+        ChooseBtnAli.selected = YES;
         [messageview addSubview:ChooseBtnAli];
         ChooseBtnAli.sd_layout
         .heightIs(18)
@@ -251,16 +359,29 @@
         .leftSpaceToView(MycenterView, 30)
         .rightSpaceToView(MycenterView, 0)
         .heightIs(1);
-        
-        
-        
     
-        
-        
-        
     }
     
     return MycenterView;
+}
+-(void)gotopay{
+    [self showMLhud];
+    
+    [MLMyRequest PostgotopayInfoWithorderId:self.OrderId returnUrl:nil payment:@"alipayApp" Success:^(NSDictionary *dic) {
+  
+        HLSLog(@"aa:%@",dic);
+        
+        [self.HUD hideAnimated:YES];
+        if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
+            [ZLPayTool payWithalipayWithpayStr:[dic xyValueForKey:@"result"]];
+//            [HLSLable lableWithText:@"登录成功！"];
+        }else{
+            [HLSLable lableWithText:[dic xyValueForKey:@"message"]];
+        }
+        
+    } failure:^(NSError *error) {
+        [self.HUD hideAnimated:YES];
+    }];
 }
 
 -(void)Changepayway:(UIButton *)sender{

@@ -7,6 +7,7 @@
 //
 
 #import "UserInfoMainViewController.h"
+#import "UserinfoBaseInfoCell.h"
 
 @interface UserInfoMainViewController ()
 {
@@ -14,7 +15,9 @@
     UILabel *NameLab;
     UILabel *CardLab;
     UILabel *PhoneNumLab;
-
+    NSMutableArray *InfoArr;
+    NSArray *keyarr;
+    NSArray *valuearr;
 }
 @end
 
@@ -22,165 +25,148 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    InfoArr = [NSMutableArray new];
+    keyarr = [NSArray new];
+    valuearr = [NSArray new];
     [self setupSubviews];
-    // Do any additional setup after loading the view.
-}
--(void)setupSubviews{
-    [self MycenterView];
-    
-}
--(UIView *)MycenterView{
-    if (!MycenterView) {
-        MycenterView = [[UIView alloc]init];
-        MycenterView.backgroundColor = [UIColor whiteColor];
-        [self.view addSubview:MycenterView];
-        MycenterView.layer.cornerRadius = 8;
-        MycenterView.layer.masksToBounds = YES;
-        
-        MycenterView.sd_layout
-        .leftSpaceToView(self.view, 9)
-        .rightSpaceToView(self.view, 9)
-        .topSpaceToView(self.view, 12)
-        .heightIs(153);
-        
-        
-        //     修改密码cell
-        UIView *passwordview = [UIView new];
-        passwordview.backgroundColor = [UIColor whiteColor];
-        [MycenterView addSubview:passwordview];
-        passwordview.sd_layout
-        .topSpaceToView(MycenterView, 0)
-        .leftSpaceToView(MycenterView, 0)
-        .rightSpaceToView(MycenterView, 0)
-        .heightIs(50);
-        
-        
-        
-        
-        UILabel *motifypassword = [HLSLable LabelWithFont:17 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLTittleColor WithFatherView:passwordview];
-        motifypassword.text = @"代理人名称：";
-        motifypassword.sd_layout
-        .centerYIs(25)
-        .leftSpaceToView(passwordview, 22)
-        .heightIs(17);
-        [motifypassword setSingleLineAutoResizeWithMaxWidth:(120)];
-        //
-        NameLab= [HLSLable LabelWithFont:16 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLTittleColor WithFatherView:passwordview];
-        NameLab.text = @"来吧是立刻的方式代付款胜多负少的";
-        NameLab.sd_layout
-        .centerYIs(25)
-        .rightSpaceToView(passwordview, 22)
-        .heightIs(17);
-        [NameLab setSingleLineAutoResizeWithMaxWidth:(200)];
-        
-        
-        UIView *hline1 = [UIView new];
-        hline1.backgroundColor = MLBGColor;
-        [MycenterView addSubview:hline1];
-        hline1.sd_layout
-        .topSpaceToView(MycenterView, 50)
-        .leftSpaceToView(MycenterView, 30)
-        .rightSpaceToView(MycenterView, 0)
-        .heightIs(1);
-        
-        
-        
-#pragma mark -- 消息通知
-        //     修改密码cell
-        UIView *messageview = [UIView new];
-        messageview.backgroundColor = [UIColor whiteColor];
-        [MycenterView addSubview:messageview];
-        messageview.sd_layout
-        .topSpaceToView(MycenterView, 51)
-        .leftSpaceToView(MycenterView, 0)
-        .rightSpaceToView(MycenterView, 0)
-        .heightIs(50);
-      
-        
-        
-        UILabel *messagelab = [HLSLable LabelWithFont:17 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLTittleColor WithFatherView:messageview];
-        messagelab.text = @"身份证号码：";
-        messagelab.sd_layout
-        .centerYIs(25)
-        .leftSpaceToView(messageview, 22)
-        .heightIs(17);
-        [messagelab setSingleLineAutoResizeWithMaxWidth:(120)];
-      
-        //
-        CardLab= [HLSLable LabelWithFont:16 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLTittleColor WithFatherView:messageview];
-        CardLab.text = @"320324199207121372";
-        CardLab.sd_layout
-        .centerYIs(25)
-        .rightSpaceToView(messageview, 22)
-        .heightIs(17);
-        [CardLab setSingleLineAutoResizeWithMaxWidth:(220)];
-        
-        
-        
-        
-        
-        UIView *hlinemessage = [UIView new];
-        hlinemessage.backgroundColor = MLBGColor;
-        [MycenterView addSubview:hlinemessage];
-        hlinemessage.sd_layout
-        .topSpaceToView(MycenterView, 100)
-        .leftSpaceToView(MycenterView, 30)
-        .rightSpaceToView(MycenterView, 0)
-        .heightIs(1);
-        
-        
-        
-        
-        // 清除缓存
-        UIView *QingChuview = [UIView new];
-        QingChuview.backgroundColor = [UIColor whiteColor];
-        [MycenterView addSubview:QingChuview];
-        QingChuview.sd_layout
-        .topSpaceToView(MycenterView, 101)
-        .leftSpaceToView(MycenterView, 0)
-        .rightSpaceToView(MycenterView, 0)
-        .heightIs(50);
-        
-      
-        
-        UILabel *QingChulab = [HLSLable LabelWithFont:17 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLTittleColor WithFatherView:QingChuview];
-        QingChulab.text = @"手机号码：";
-        QingChulab.sd_layout
-        .centerYIs(25)
-        .leftSpaceToView(QingChuview, 22)
-        .heightIs(17);
-        [QingChulab setSingleLineAutoResizeWithMaxWidth:(120)];
-       
-        // 10.2MB
-        PhoneNumLab= [HLSLable LabelWithFont:16 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLTittleColor WithFatherView:QingChuview];
-        PhoneNumLab.text = @"18012321222";
-        PhoneNumLab.sd_layout
-        .centerYIs(25)
-        .rightSpaceToView(QingChuview, 22)
-        .heightIs(17);
-        [PhoneNumLab setSingleLineAutoResizeWithMaxWidth:(220)];
-        
-        
-        
-      
-        
-        
-        
-        
-        
-        
-        
-        
-     
-        
-        
-        
-        
-        
+
+    HLSLog(@"---lalalallal%@",self.UserinfoDic);
+    if ([[HLSPersonalInfoTool merchantLevel] integerValue] == 1) {//BD
+        keyarr = @[@"代理人名称：",@"身份证号码：",@"手机号码："];
+        valuearr = @[[self.UserinfoDic xyValueForKey:@"linker"],[self.UserinfoDic xyValueForKey:@"idCardNo"],[self.UserinfoDic xyValueForKey:@"mobilePhone"]];
+
+        for (int i = 0; i < keyarr.count ; i++) {
+            NSMutableDictionary *param = [NSMutableDictionary new];
+            [param setValue:valuearr[i] forKey:keyarr[i]];
+            [InfoArr addObject:param];
+        }
+        [self.tableView reloadData];
+    }else{
+        if ([[HLSPersonalInfoTool merchantNature] integerValue] == 1) {//个人
+            keyarr = @[@"性质",@"代理人名称：",@"身份证号码：",@"手机号码："];
+            valuearr = @[@"个人",[self.UserinfoDic xyValueForKey:@"linker"],[self.UserinfoDic xyValueForKey:@"idCardNo"],[self.UserinfoDic xyValueForKey:@"mobilePhone"]];
+            
+            for (int i = 0; i < keyarr.count ; i++) {
+                NSMutableDictionary *param = [NSMutableDictionary new];
+                [param setValue:valuearr[i] forKey:keyarr[i]];
+                [InfoArr addObject:param];
+            }
+            [self.tableView reloadData];
+        }else if ([[HLSPersonalInfoTool merchantNature] integerValue] == 2){//机构
+            keyarr = @[@"性质",@"名称：",@"统一社会信用代码：",@"联系地址：",@"联系人：",@"身份证号码：",@"手机号码："];
+            valuearr = @[@"机构",[self.UserinfoDic xyValueForKey:@"companyName"],[self.UserinfoDic xyValueForKey:@"creditCode"],[self.UserinfoDic xyValueForKey:@"address"],[self.UserinfoDic xyValueForKey:@"linker"],[self.UserinfoDic xyValueForKey:@"idCardNo"],[self.UserinfoDic xyValueForKey:@"mobilePhone"]];
+            
+            
+            for (int i = 0; i < keyarr.count ; i++) {
+                NSMutableDictionary *param = [NSMutableDictionary new];
+                [param setValue:valuearr[i] forKey:keyarr[i]];
+                [InfoArr addObject:param];
+            }
+            [self.tableView reloadData];
+        }
     }
     
-    return MycenterView;
+//    初始化数组
+    
+    // Do any additional setup after loading the view.
 }
+
+
+//创建tableView
+-(void)setupSubviews{
+    [self setupTableViewWithStyle:UITableViewStyleGrouped];
+    
+    self.tableView.x = 9;
+    self.tableView.y = 0;
+    self.tableView.width = SCREEN_WIDTH-18;
+    
+    CGFloat tabBarHeight = self.tabBarController.tabBar.frame.size.height;
+    int naheight = (int)NaviHeight;
+    self.tableView.height = SCREEN_HEIGHT-naheight;
+    
+    
+    self.tableView.estimatedRowHeight = 0;
+    self.tableView.estimatedSectionHeaderHeight = 0;
+    self.tableView.estimatedSectionFooterHeight = 0;
+    [self.tableView registerClass:[UserinfoBaseInfoCell class] forCellReuseIdentifier:@"cell"];
+
+    
+    
+    
+    
+}
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return InfoArr.count;//[dataArr count];
+    
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (section == 0) {
+        return 15;
+    }else{
+        return 8;
+    }
+    
+}
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    return nil;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return nil;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    
+    return 0.01;
+}
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 50;
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UserinfoBaseInfoCell *cell = [[UserinfoBaseInfoCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
+//    cell.Model = dataArr[indexPath.section];
+    cell.textLabel.text = keyarr[indexPath.row];
+    cell.detailTextLabel.text = [InfoArr[indexPath.row] xyValueForKey:keyarr[indexPath.row]];
+    if (indexPath.row == InfoArr.count-1) {
+        cell.separatorImageView.hidden = YES;
+    }
+    return cell;
+    
+    
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+        if (indexPath.row == 0) {
+            
+            UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:cell.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(8, 8)];
+            CAShapeLayer *maskLayer = [[CAShapeLayer alloc]init];
+            //设置大小
+            maskLayer.frame = cell.bounds;
+            //设置图形样子
+            maskLayer.path = maskPath.CGPath;
+            cell.layer.mask = maskLayer;
+        }else if (indexPath.row == [InfoArr count]-1) {
+            UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:cell.bounds byRoundingCorners:UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii:CGSizeMake(8, 8)];
+            CAShapeLayer *maskLayer = [[CAShapeLayer alloc]init];
+            //设置大小
+            maskLayer.frame = cell.bounds;
+            //设置图形样子
+            maskLayer.path = maskPath.CGPath;
+            cell.layer.mask = maskLayer;
+        }
+
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

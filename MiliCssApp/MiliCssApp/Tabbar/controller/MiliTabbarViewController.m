@@ -55,7 +55,9 @@
     MycenterViewController *mvc = [[MycenterViewController alloc]init];
     
     [self addChildViewController:mvc normalImage:@"tab_down_3_default" selectedImage:@"tab_down_3" title:@"我的"];
-    
+    HLSLog(@"---tabbar部分的输出%@",[HLSPersonalInfoTool getCookies]);
+
+  
     // Do any additional setup after loading the view.
 }
 
@@ -74,6 +76,23 @@
     
 }
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
+    
+                if (![HLSPersonalInfoTool getCookies]) {
+        
+                    LoginViewController *lvc = [[LoginViewController alloc]init];
+                    UINavigationController *nvc = [[UINavigationController alloc]initWithRootViewController:lvc];
+                    nvc.navigationBarHidden = YES;
+                    [self.viewControllers[0] presentViewController:nvc animated:YES completion:^{
+                        self.tabBarController.selectedIndex = 0;
+                    }];
+                    return NO;
+                }
+    
+    
+    
+    
+    
+    
 //    if ([[viewController class] isSubclassOfClass:[MycenterViewController class]]) {
 //        //        if (![[viewController class] isSubclassOfClass:[HLSSendCarViewController class]]) {
 //

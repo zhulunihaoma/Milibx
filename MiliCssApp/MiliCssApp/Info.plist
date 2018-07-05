@@ -4,6 +4,8 @@
 <dict>
 	<key>Allow Arbitrary Loads</key>
 	<true/>
+	<key>CFBundleAllowMixedLocalizations</key>
+	<true/>
 	<key>App Transport Security Settings </key>
 	<dict/>
 	<key>CFBundleDevelopmentRegion</key>
@@ -38,10 +40,20 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>ali</string>
+			<string>ALiPay</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>2017092708960890</string>
+				<string>milicssapp</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>tencent</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>tencent1106073522</string>
 			</array>
 		</dict>
 	</array>
@@ -51,6 +63,7 @@
 	<string></string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>alipay</string>
 		<string>wechat</string>
 		<string>weixin</string>
 		<string>wtloginmqq2</string>

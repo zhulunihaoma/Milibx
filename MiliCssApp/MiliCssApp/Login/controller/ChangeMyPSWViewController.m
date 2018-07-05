@@ -9,6 +9,7 @@
 #import "ChangeMyPSWViewController.h"
 #import "MD5Tool.h"
 #import "MLloginRequest.h"
+#import "HLSValidateCodeTool.h"
 @interface ChangeMyPSWViewController ()
 {
     UITextField *OldPw;
@@ -256,12 +257,51 @@
     
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
+/**
+ *  验证数据发送验证码
+ */
+- (BOOL)validateData {
+    //密码
+    if ([NewPw.text length] < 6 ) {
+        
+        [HLSLable lableWithText:@"密码必须为6-18位"];
+        
+        return NO;
+        
+    }
+    if ([MoreNewPw.text length] < 6 ) {
+        
+        [HLSLable lableWithText:@"密码必须为6-18位"];
+        
+        return NO;
+        
+    }
+    if (![MoreNewPw.text isEqualToString:NewPw.text]) {
+        
+        [HLSLable lableWithText:@"两次输入密码不一致"];
+        
+        return NO;
+        
+    }
+    if (![HLSValidateCodeTool IsContainTwoCharacter:NewPw.text]) {
+        
+        [HLSLable lableWithText:@"您的密码过于简单"];
+        
+        return NO;
+        
+    }
+    
+    return YES;
+}
+
 -(void)SureBtn{
+    if ([self validateData]) {
+
     [self showMLhud];
     [MLloginRequest PostmodifyPwdWitholdPwd:[MD5Tool md5:OldPw.text] newPwd:[MD5Tool md5:NewPw.text] confirmPwd:[MD5Tool md5:MoreNewPw.text] Success:^(NSDictionary *dic) {
         [self.HUD hideAnimated:YES];
         
-        if ([[dic xyValueForKey:@"code"] integerValue] == 10318888) {
+        if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
             [HLSLable lableWithText:@"修改成功"];
             [self.navigationController popViewControllerAnimated:YES];
 
@@ -274,7 +314,7 @@
 
     }];
     
-   
+    }
 }
 
 #pragma mark --EditingChanged

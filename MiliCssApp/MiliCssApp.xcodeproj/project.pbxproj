@@ -31,6 +31,8 @@
 		6D0FE8A120CF5E2C00917CE8 /* MLhomeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0FE8A020CF5E2C00917CE8 /* MLhomeRequest.m */; };
 		6D0FE8A920CF765700917CE8 /* ml_loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6D0FE8A820CF765700917CE8 /* ml_loading.gif */; };
 		6D0FE8AC20CFB69300917CE8 /* MLFindRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0FE8AB20CFB69300917CE8 /* MLFindRequest.m */; };
+		6D171AA120E0D6CD00E0F960 /* HLSTextHeightTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D171A9F20E0D6CC00E0F960 /* HLSTextHeightTool.m */; };
+		6D171AA420E13C9B00E0F960 /* MessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D171AA320E13C9B00E0F960 /* MessageModel.m */; };
 		6D4CC716206495F800EE0686 /* PublicTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CC714206495F800EE0686 /* PublicTableViewController.m */; };
 		6D4CC7252064981100EE0686 /* HLSPersonalInfoTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CC7242064981100EE0686 /* HLSPersonalInfoTool.m */; };
 		6D4CC73920649ABE00EE0686 /* NSDictionary+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CC72A20649ABC00EE0686 /* NSDictionary+Log.m */; };
@@ -44,7 +46,9 @@
 		6D5C646220B6F4B800DF2B1D /* login.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6D5C646120B6F4B800DF2B1D /* login.gif */; };
 		6D5C646520B7DB0000DF2B1D /* CheckIdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5C646420B7DB0000DF2B1D /* CheckIdViewController.m */; };
 		6D5E5DF620DB4FAC0071FDAF /* APServiceTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5E5DF420DB4FAC0071FDAF /* APServiceTool.m */; };
+		6D65C43B20EE0C4900785648 /* UserinfoBaseInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D65C43A20EE0C4900785648 /* UserinfoBaseInfoCell.m */; };
 		6D66F49520DC924F0030AB94 /* ZLPayTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D66F49420DC924F0030AB94 /* ZLPayTool.m */; };
+		6D6D29DA20E9BC0300EFD5A5 /* HLSValidateCodeTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6D29D820E9BC0200EFD5A5 /* HLSValidateCodeTool.m */; };
 		6D6EBF3C20B53CE100C0D906 /* MD5Tool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6EBF3B20B53CE100C0D906 /* MD5Tool.m */; };
 		6D6EBF3F20B54CE800C0D906 /* JSONTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6EBF3E20B54CE800C0D906 /* JSONTool.m */; };
 		6DAF016120B7FE2C00B42252 /* ModifyPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DAF016020B7FE2C00B42252 /* ModifyPasswordViewController.m */; };
@@ -213,6 +217,10 @@
 		6D0FE8A820CF765700917CE8 /* ml_loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = ml_loading.gif; sourceTree = "<group>"; };
 		6D0FE8AA20CFB69300917CE8 /* MLFindRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MLFindRequest.h; sourceTree = "<group>"; };
 		6D0FE8AB20CFB69300917CE8 /* MLFindRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MLFindRequest.m; sourceTree = "<group>"; };
+		6D171A9F20E0D6CC00E0F960 /* HLSTextHeightTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLSTextHeightTool.m; sourceTree = "<group>"; };
+		6D171AA020E0D6CC00E0F960 /* HLSTextHeightTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLSTextHeightTool.h; sourceTree = "<group>"; };
+		6D171AA220E13C9B00E0F960 /* MessageModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageModel.h; sourceTree = "<group>"; };
+		6D171AA320E13C9B00E0F960 /* MessageModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageModel.m; sourceTree = "<group>"; };
 		6D4CC714206495F800EE0686 /* PublicTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublicTableViewController.m; sourceTree = "<group>"; };
 		6D4CC715206495F800EE0686 /* PublicTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublicTableViewController.h; sourceTree = "<group>"; };
 		6D4CC7232064981100EE0686 /* HLSPersonalInfoTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLSPersonalInfoTool.h; sourceTree = "<group>"; };
@@ -239,8 +247,12 @@
 		6D5E5DF420DB4FAC0071FDAF /* APServiceTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APServiceTool.m; sourceTree = "<group>"; };
 		6D5E5DF520DB4FAC0071FDAF /* APServiceTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APServiceTool.h; sourceTree = "<group>"; };
 		6D5E5DF720DB59170071FDAF /* MiliCssApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MiliCssApp.entitlements; sourceTree = "<group>"; };
+		6D65C43920EE0C4900785648 /* UserinfoBaseInfoCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserinfoBaseInfoCell.h; sourceTree = "<group>"; };
+		6D65C43A20EE0C4900785648 /* UserinfoBaseInfoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserinfoBaseInfoCell.m; sourceTree = "<group>"; };
 		6D66F49320DC924F0030AB94 /* ZLPayTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLPayTool.h; sourceTree = "<group>"; };
 		6D66F49420DC924F0030AB94 /* ZLPayTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLPayTool.m; sourceTree = "<group>"; };
+		6D6D29D820E9BC0200EFD5A5 /* HLSValidateCodeTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLSValidateCodeTool.m; sourceTree = "<group>"; };
+		6D6D29D920E9BC0300EFD5A5 /* HLSValidateCodeTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLSValidateCodeTool.h; sourceTree = "<group>"; };
 		6D6EBF3A20B53CE100C0D906 /* MD5Tool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MD5Tool.h; sourceTree = "<group>"; };
 		6D6EBF3B20B53CE100C0D906 /* MD5Tool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MD5Tool.m; sourceTree = "<group>"; };
 		6D6EBF3D20B54CE800C0D906 /* JSONTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSONTool.h; sourceTree = "<group>"; };
@@ -576,6 +588,8 @@
 				6DAF017720BC082900B42252 /* IconFont */,
 				6D4CC7232064981100EE0686 /* HLSPersonalInfoTool.h */,
 				6D4CC7242064981100EE0686 /* HLSPersonalInfoTool.m */,
+				6D171AA020E0D6CC00E0F960 /* HLSTextHeightTool.h */,
+				6D171A9F20E0D6CC00E0F960 /* HLSTextHeightTool.m */,
 				6219CA402063583600CE242C /* UIView+XY.h */,
 				6219CA412063583600CE242C /* UIView+XY.m */,
 				624C32832064A69B00C68156 /* HomeSwiftView.swift */,
@@ -602,6 +616,8 @@
 				6D5E5DF420DB4FAC0071FDAF /* APServiceTool.m */,
 				6D66F49320DC924F0030AB94 /* ZLPayTool.h */,
 				6D66F49420DC924F0030AB94 /* ZLPayTool.m */,
+				6D6D29D920E9BC0300EFD5A5 /* HLSValidateCodeTool.h */,
+				6D6D29D820E9BC0200EFD5A5 /* HLSValidateCodeTool.m */,
 			);
 			path = tool;
 			sourceTree = "<group>";
@@ -694,6 +710,8 @@
 				878FE418206A3EFC00729729 /* BDInfoModel.m */,
 				87CAAFF0206B906700C0D42D /* ManaModel.h */,
 				87CAAFF1206B906700C0D42D /* ManaModel.m */,
+				6D171AA220E13C9B00E0F960 /* MessageModel.h */,
+				6D171AA320E13C9B00E0F960 /* MessageModel.m */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -743,6 +761,8 @@
 				6DD56CBE20C6379400EDD045 /* SCAdDemoCollectionViewCell.h */,
 				6DD56CBD20C6379400EDD045 /* SCAdDemoCollectionViewCell.m */,
 				6DD56CBF20C6379400EDD045 /* SCAdDemoCollectionViewCell.xib */,
+				6D65C43920EE0C4900785648 /* UserinfoBaseInfoCell.h */,
+				6D65C43A20EE0C4900785648 /* UserinfoBaseInfoCell.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -1254,7 +1274,7 @@
 					6219C9FC20633A6400CE242C = {
 						CreatedOnToolsVersion = 9.2;
 						LastSwiftMigration = 0920;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -1539,7 +1559,9 @@
 				6D4CC73D20649ABE00EE0686 /* NSArray+Log.m in Sources */,
 				87A707D9206DED2100C3B972 /* Wallet_TopCell.m in Sources */,
 				6DDC3F2220C527D100CFF2C4 /* PosterHeader.m in Sources */,
+				6D171AA420E13C9B00E0F960 /* MessageModel.m in Sources */,
 				6D6EBF3F20B54CE800C0D906 /* JSONTool.m in Sources */,
+				6D65C43B20EE0C4900785648 /* UserinfoBaseInfoCell.m in Sources */,
 				6DE7E61C20BFE826008500F6 /* MessageDetailVC.m in Sources */,
 				6DAF018020BC082900B42252 /* UIImage+TBCityIconFont.m in Sources */,
 				624C328A2068A31700C68156 /* MLloginRequest.m in Sources */,
@@ -1558,6 +1580,7 @@
 				6219CA422063583600CE242C /* UIView+XY.m in Sources */,
 				878FE40D206A26C300729729 /* BDCenterTopTableViewCell.m in Sources */,
 				87CAAFEF206B8F2600C0D42D /* ManaCell.m in Sources */,
+				6D6D29DA20E9BC0300EFD5A5 /* HLSValidateCodeTool.m in Sources */,
 				6D4CC73F20649ABE00EE0686 /* UILabel+HLSDefault.m in Sources */,
 				6235B5C62063846D00DEA932 /* PublicViewController.m in Sources */,
 				6D5C646520B7DB0000DF2B1D /* CheckIdViewController.m in Sources */,
@@ -1598,6 +1621,7 @@
 				624C32732064A15D00C68156 /* HomeViewController.m in Sources */,
 				87CAB008206B99BA00C0D42D /* AddNewComViewController.m in Sources */,
 				624C32812064A1F300C68156 /* LoginViewController.m in Sources */,
+				6D171AA120E0D6CD00E0F960 /* HLSTextHeightTool.m in Sources */,
 				87CAB009206B99BA00C0D42D /* CompmanaViewController.m in Sources */,
 				6DAF017F20BC082900B42252 /* TBCityIconInfo.m in Sources */,
 				6DD56CC020C6379500EDD045 /* SCAdDemoCollectionViewCell.m in Sources */,
@@ -1776,9 +1800,9 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MiliCssApp/MiliCssApp.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Chao Ge (F35HDJ466H)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chao Ge (F35HDJ466H)";
+				CODE_SIGN_STYLE = Manual;
 				DEBUG_ACTIVITY_MODE = "";
 				"DEBUG_ACTIVITY_MODE[arch=*]" = default;
 				DEFINES_MODULE = YES;
@@ -1792,8 +1816,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.miliapp.www;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "3b0db4af-288b-4888-97f4-30f9a1ed3126";
+				PROVISIONING_PROFILE_SPECIFIER = zhumiliapp_develop;
 				SWIFT_OBJC_BRIDGING_HEADER = "MiliCssApp/Public/tool/MiliCssApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -1809,9 +1833,9 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MiliCssApp/MiliCssApp.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Chao Ge (F35HDJ466H)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chao Ge (F35HDJ466H)";
+				CODE_SIGN_STYLE = Manual;
 				DEBUG_ACTIVITY_MODE = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 94N82K9RBG;
@@ -1824,8 +1848,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.miliapp.www;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "3b0db4af-288b-4888-97f4-30f9a1ed3126";
+				PROVISIONING_PROFILE_SPECIFIER = zhumiliapp_develop;
 				SWIFT_OBJC_BRIDGING_HEADER = "MiliCssApp/Public/tool/MiliCssApp-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;

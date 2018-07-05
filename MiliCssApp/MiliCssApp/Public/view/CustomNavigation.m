@@ -36,7 +36,7 @@
     leftBtn.width = NaviHeight - StatueBarHeight;
     leftBtn.height = NaviHeight - StatueBarHeight;
     leftBtn.x = NaviLeftPadding;
-    leftBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    leftBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     leftBtn.contentMode = UIViewContentModeCenter;
     
     [self.backimg addSubview:self.leftBtn = leftBtn];
@@ -47,7 +47,7 @@
     leftCloseBtn.y = StatueBarHeight;
     leftCloseBtn.width = NaviHeight - StatueBarHeight;
     leftCloseBtn.height = NaviHeight - StatueBarHeight;
-    leftCloseBtn.x = NaviLeftPadding+leftBtn.width;
+    leftCloseBtn.x = NaviLeftPadding+leftBtn.width-10;
     leftCloseBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     leftCloseBtn.contentMode = UIViewContentModeCenter;
     

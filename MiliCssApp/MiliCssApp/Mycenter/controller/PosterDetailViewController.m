@@ -10,11 +10,14 @@
 #import "SCAdView.h"
 #import "HeroModel.h"
 #import <UShareUI/UShareUI.h>
-
+#import "MLMyRequest.h"
 @interface PosterDetailViewController ()<SCAdViewDelegate>
 {
     SCAdView *_adView;
     UIImageView *bgimg;
+    NSMutableArray *DataDic;
+    NSInteger Myindex;
+    NSString *ProductName;
 }
 
 
@@ -24,9 +27,57 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    [self SetupSubViews];
+    
+    DataDic = [NSMutableArray new];
+    [self RequestData];
+    Myindex = 0;
 }
+
+-(void)RequestData{
+    [self showMLhud];
+    
+    [MLMyRequest PostposterListWithproductCode:self.productCode merchantCode:[HLSPersonalInfoTool getmerchantCode] pageIndex:nil pageSize:nil Success:^(NSDictionary *dic) {
+        [self.HUD hideAnimated:YES];
+        HLSLog(@"---海报详情:%@",dic);
+        if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
+//            NSMutableDictionary *Mdic = [NSMutableDictionary dictionaryWithDictionary:dic];
+//            NSArray* arr = [Mdic allKeys];
+//
+//            for(NSString *str in arr)
+//            {
+//                id obj = [Mdic objectForKey:str];// judge NSNull
+//
+//                BOOL isNull = [obj isEqual:[NSNull null]];
+//                if (isNull) {
+//                    [HLSLable lableWithText:@"暂无数据"];
+//                    return ;
+//                }
+//
+////                return isNull;
+//            }
+            
+            if ([[dic xyValueForKey:@"result"] isEqual:[NSNull null]]) {
+                [HLSLable lableWithText:@"暂无数据"];
+                return ;
+            }
+          
+            DataDic = [[[dic xyValueForKey:@"result"] xyValueForKey:@"productList"][0]  xyValueForKey:@"posterList"];
+
+            ProductName = [[[dic xyValueForKey:@"result"] xyValueForKey:@"productList"][0]  xyValueForKey:@"productName"];
+
+            [self SetupSubViews];
+
+            
+        }else{
+            [HLSLable lableWithText:[dic xyValueForKey:@"message"]];
+        }
+    } failure:^(NSError *error) {
+        [self.HUD hideAnimated:YES];
+//        [self checkNonet];
+    }];
+    
+}
+
 -(void)SetupSubViews{
     bgimg = [[UIImageView alloc]init];
     NSString *SourceName;
@@ -47,12 +98,12 @@
     }];
     // 名称
     UILabel *TittleLab = [HLSLable LabelWithFont:17 WithTextalignment:NSTextAlignmentCenter WithTextColor:[UIColor whiteColor] WithFatherView:bgimg];
+  
     TittleLab.sd_layout
     .heightIs(17)
     .topSpaceToView(bgimg, StatueBarHeight+12)
     .centerXEqualToView(bgimg);
     [TittleLab setSingleLineAutoResizeWithMaxWidth:(200)];
-    
     TittleLab.text = @"海报";
     
     //    返回按钮
@@ -77,11 +128,11 @@
     UILabel *PosterName = [HLSLable LabelWithFont:17 WithTextalignment:NSTextAlignmentCenter WithTextColor:MLTittleColor WithFatherView:bgimg];
     PosterName.sd_layout
     .heightIs(14)
-    .topSpaceToView(bgimg, 524)
+    .topSpaceToView(bgimg, 504+StatueBarHeight)
     .centerXEqualToView(bgimg);
     [PosterName setSingleLineAutoResizeWithMaxWidth:(SCREEN_WIDTH)];
     
-    PosterName.text = @"华安宠物意外升级";
+    PosterName.text = ProductName;
     
     
     
@@ -89,7 +140,7 @@
     CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
     CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
     CGFloat margin_x = (screenWidth-btnWidth)/2;
-    UIButton *btn = [[UIButton alloc]initWithFrame:(CGRect){23,574,btnWidth,47}];
+    UIButton *btn = [[UIButton alloc]initWithFrame:(CGRect){23,554+StatueBarHeight,btnWidth,47}];
     [btn setImage:[UIImage imageNamed:@"btn_poster_download"] forState:UIControlStateNormal];
     btn.alpha = 0.8;
     [self.view addSubview:btn];
@@ -97,7 +148,7 @@
 
     [btn addTarget:self action:@selector(DownloadImg) forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *btn1 = [[UIButton alloc]initWithFrame:(CGRect){screenWidth-23-btnWidth,574,btnWidth,47}];
+    UIButton *btn1 = [[UIButton alloc]initWithFrame:(CGRect){screenWidth-23-btnWidth,554+StatueBarHeight,btnWidth,47}];
 //    [btn1 setTitle:@"分享" forState:UIControlStateNormal];
     [btn1 setImage:[UIImage imageNamed:@"btn_poster_enjoy"] forState:UIControlStateNormal];
     [btn1 sizeToFit];
@@ -147,13 +198,14 @@
     
     
     
-    NSArray *testArray = [_DataDic xyValueForKey:@"posterList"];
+    NSArray *testArray = DataDic;
+    
     
     //模拟服务器获取到的数据
     NSMutableArray *arrayFromService  = [NSMutableArray array];
     for (NSDictionary *dic in testArray) {
         HeroModel *hero = [HeroModel new];
-        hero.imageName = [dic xyValueForKey:@"imgUrl"];
+        hero.imageName = [dic xyValueForKey:@"imgBase64Url"];
         hero.introduction = [NSString stringWithFormat:@"我是海报:---->%@",[dic xyValueForKey:@"productName"]];
         [arrayFromService addObject:hero];
     }
@@ -183,7 +235,8 @@
 }
 
 -(void)sc_scrollToIndex:(NSInteger)index{
-    NSLog(@"sc_scrollToIndex-->%ld",index);
+    NSLog(@"sc_scrollToIndex现在是多少-->%ld",index);
+    Myindex = index;
 }
 
 
@@ -199,11 +252,12 @@
 }
 
 -(void)DownloadImg{
-    UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488778259383&di=c5ccc270675a567e1d70c52886b95f24&imgtype=0&src=http%3A%2F%2Fpic.58pic.com%2F58pic%2F16%2F50%2F51%2F50Y58PICp4P_1024.jpg"]]];
-    [self imglongTapClick];
+    NSString *imgstr = [DataDic[Myindex] xyValueForKey:@"imgBase64Url"];
+    UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imgstr]]];
+    [self imglongTapClickWithImg:img];
 }
 #pragma mark 长按手势弹出警告视图确认
--(void)imglongTapClick
+-(void)imglongTapClickWithImg:(UIImage *)DownLoadImg
 
 {
     
@@ -221,9 +275,9 @@
             NSLog(@"确认保存图片");
             
             // 保存图片到相册
-            UIImageWriteToSavedPhotosAlbum(bgimg.image,self,@selector(imageSavedToPhotosAlbum:didFinishSavingWithError:contextInfo:),nil);
+            UIImageWriteToSavedPhotosAlbum(DownLoadImg,self,@selector(imageSavedToPhotosAlbum:didFinishSavingWithError:contextInfo:),nil);
             
-            //            UIImageWriteToSavedPhotosAlbum(<#UIImage * _Nonnull image#>, <#id  _Nullable completionTarget#>, <#SEL  _Nullable completionSelector#>, <#void * _Nullable contextInfo#>)
+         
             
         }];
         
@@ -279,13 +333,46 @@
 }
 
 -(void)share{
-    [UMSocialUIManager setPreDefinePlatforms:@[@(UMSocialPlatformType_Sina),@(UMSocialPlatformType_QQ),@(UMSocialPlatformType_WechatSession)]];
+    [UMSocialUIManager setPreDefinePlatforms:@[@(UMSocialPlatformType_QQ),@(UMSocialPlatformType_WechatSession),@(UMSocialPlatformType_WechatTimeLine)]];
     [UMSocialUIManager showShareMenuViewInWindowWithPlatformSelectionBlock:^(UMSocialPlatformType platformType, NSDictionary *userInfo) {
         // 根据获取的platformType确定所选平台进行下一步操作
+        [self shareImageToPlatformType:platformType];
+        
+    }];
+    
+    
+   
+}
+- (void)shareImageToPlatformType:(UMSocialPlatformType)platformType
+{
+    //创建分享消息对象
+    UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
+    //创建图片内容对象
+    UMShareImageObject *shareObject = [[UMShareImageObject alloc] init];
+    //如果有缩略图，则设置缩略图
+    UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[DataDic[Myindex] xyValueForKey:@"imgBase64Url"]]]];
+
+    shareObject.thumbImage = img;
+    [shareObject setShareImage:img];
+    //分享消息对象设置分享内容对象
+    messageObject.shareObject = shareObject;
+    //调用分享接口
+    [[UMSocialManager defaultManager] shareToPlatform:platformType messageObject:messageObject currentViewController:self completion:^(id data, NSError *error) {
+        if (error) {
+            NSLog(@"************Share fail with error %@*********",error);
+        }else{
+            NSLog(@"response data is %@",data);
+        }
     }];
 }
-
-
+- (UIImage *)dataURL2Image: (NSString *) imgSrc
+{
+    NSURL *url = [NSURL URLWithString: imgSrc];
+    NSData *data = [NSData dataWithContentsOfURL: url];
+    UIImage *image = [UIImage imageWithData: data];
+    
+    return image;
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

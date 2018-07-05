@@ -9,7 +9,7 @@
 #import "CheckIdViewController.h"
 #import "MLloginRequest.h"
 #import "ModifyPasswordViewController.h"
-
+#import "HLSValidateCodeTool.h"
 @interface CheckIdViewController ()
 {
     UITextField *Idcard;
@@ -162,13 +162,14 @@
 }
 //发送验证码
 -(void)SendMeesage:(UIButton *)sender{
-    [self showMLhud];
+    if ([self validateData]) {
 
+    [self showMLhud];
     [MLloginRequest PostCertifyNumWithphoneNo:PhoneNum.text templateCode:@"1013" Success:^(NSDictionary *dic) {
         HLSLog(@"--验证码%@---",dic);
 
         [self.HUD hideAnimated:YES];
-        if ([[dic xyValueForKey:@"code"] integerValue] == 10318888) {
+        if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
             [self startTime];
         }else{
             [HLSLable lableWithText:[dic xyValueForKey:@"message"]];
@@ -176,6 +177,30 @@
     } failure:^(NSError *error) {
         [self.HUD hideAnimated:YES];
     }];
+    }
+}
+/**
+ *  验证数据发送验证码
+ */
+- (BOOL)validateData {
+    //手机号不能为空
+    if ([PhoneNum.text length] == 0) {
+        
+        [HLSLable lableWithText:@"请输入手机号"];
+        
+        return NO;
+        
+    }
+   
+    
+    if (![HLSValidateCodeTool isValidateMobile:PhoneNum.text]) {
+        [HLSLable lableWithText:@"请输入正确格式的手机号"];
+
+        return NO;
+        
+    }
+    
+    return YES;
 }
 
 //计时器的方法
@@ -237,28 +262,68 @@
         
     }
 }
--(void)GoNext{
-    [self showMLhud];
+/**
+ *  验证数据下一部
+ */
+- (BOOL)validateDataNext{
+    //手机号不能为空
+    if ([Idcard.text length] == 0) {
+        
+        [HLSLable lableWithText:@"身份证号码不能为空"];
+        
+        return NO;
+        
+    }
+    if ([TestNum.text length] == 0) {
+        
+        [HLSLable lableWithText:@"验证码不能为空"];
+        
+        return NO;
+        
+    }
+    if ([TestNum.text length] != 6) {
+        
+        [HLSLable lableWithText:@"请输入正确验证码"];
+        
+        return NO;
+        
+    }
 
+    
+    if (![HLSValidateCodeTool validateIDCardNumber:Idcard.text]) {
+        [HLSLable lableWithText:@"请输入正确身份证号码"];
+        
+        return NO;
+        
+    }
+    
+    return YES;
+}
+-(void)GoNext{
+//    ModifyPasswordViewController *mvc = [[ModifyPasswordViewController alloc]init];
+//    mvc.cardNo = Idcard.text;
+//    [self.navigationController pushViewController:mvc animated:YES];
+    if ([self validateDataNext]) {
+        [self showMLhud];
     [MLloginRequest PostverifyResetPwdCodeByAppWithphoneCode:TestNum.text WithphoneNo:PhoneNum.text templateCode:@"1013" cardNo:Idcard.text Success:^(NSDictionary *dic) {
         HLSLog(@"--验证%@---",dic);
         [self.HUD hideAnimated:YES];
-     
-        if ([[dic xyValueForKey:@"code"] integerValue] == 10318888) {
+
+        if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
                     ModifyPasswordViewController *mvc = [[ModifyPasswordViewController alloc]init];
                     mvc.cardNo = Idcard.text;
                     [self.navigationController pushViewController:mvc animated:YES];
         }else{
             [HLSLable lableWithText:[dic xyValueForKey:@"message"]];
         }
-        
+
 
     } failure:^(NSError *error) {
         [self.HUD hideAnimated:YES];
 
     }];
-    
-    
+
+    }
 
 }
 -(void)login{

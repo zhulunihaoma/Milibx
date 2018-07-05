@@ -11,7 +11,7 @@
 #import "LoginViewController.h"
 #import "ChangeMyPSWViewController.h"
 #import "MLMyRequest.h"
-
+#import "APServiceTool.h"
 @interface UsercenterViewController ()
 {
     UIView *MycenterView;
@@ -122,6 +122,8 @@
         [messageSwitch sizeToFit];
         messageSwitch.centerY = 25;
         messageSwitch.x = SCREEN_WIDTH - 28- messageSwitch.width;
+        messageSwitch.on = [self openThePushNotification];
+        [messageSwitch addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
         
         
         UIView *hlinemessage = [UIView new];
@@ -226,15 +228,7 @@
         [arrow2 sizeToFit];
         arrow2.centerY = 25;
         arrow2.x = SCREEN_WIDTH - 28- arrow2.width;
-//        UIView *hline3 = [UIView new];
-//        hline3.backgroundColor = HLSOneColor(215);
-//        [MycenterView addSubview:hline3];
-//        hline3.sd_layout
-//        .topSpaceToView(MycenterView, 152)
-//        .leftSpaceToView(MycenterView, 0)
-//        .rightSpaceToView(MycenterView, 0)
-//        .heightIs(1);
-        
+
         UIButton *ExitBtn = [[UIButton alloc]init];
         [self.view addSubview:ExitBtn];
         [ExitBtn setBackgroundImage:[UIImage imageNamed:@"btn_set"] forState:UIControlStateNormal];
@@ -298,7 +292,7 @@
     
     MLNormalWebViewController *WebVc = [[MLNormalWebViewController alloc]init];
     WebVc.TittleStr = @"用户协议";
-    WebVc.UrlStr = @"";
+    WebVc.UrlStr = @"/product/userAgreement";
 
     [self.navigationController pushViewController:WebVc animated:YES];
     
@@ -331,14 +325,8 @@
     
 }
 
--(void)gowallet:(UITapGestureRecognizer *)tap{
-    WalletCenterViewController *wvc = [[WalletCenterViewController alloc]init];
-    
-    //获取此View的底层controller
-    
-    [self.navigationController pushViewController:wvc animated:YES];
-    
-}
+
+
 -(void)exit{
     [self logout];
 
@@ -366,13 +354,12 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"确定退出？" preferredStyle:UIAlertControllerStyleAlert];
     __weak typeof(self) weakself = self;
     UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定退出" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        DEF_PERSISTENT_SET_OBJECT(@"", @"userinfo");
         
         [mUserDefaults removeObjectForKey:KUserInfoDic];
         [mUserDefaults setObject:@"1" forKey:@"isTag"];
         [mUserDefaults synchronize];
         
-        //        [APServiceTool setTag];
+        [APServiceTool setTag];
         //刷新个人中心
         [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadperson" object:self];
         
@@ -399,11 +386,34 @@
     
     [self presentViewController:alert animated:YES completion:nil];
 }
+
+
+/**
+ 系统通知是否打开
+ @return 是否打开
+ */
+//检测通知是否打开iOS8以后有所变化 所以需要适配iOS7
+- (BOOL)openThePushNotification{
+    
+    if ([[UIApplication sharedApplication] currentUserNotificationSettings].types  == UIUserNotificationTypeNone) {
+   
+                    return NO;
+                }else{
+                    
+                    return YES;
+    }
+}
+-(void)switchAction:(id)sender
+{
+    UISwitch *switchButton = (UISwitch*)sender;
+    BOOL isButtonOn = [switchButton isOn];
+      [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+   
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 /*
 #pragma mark - Navigation
 

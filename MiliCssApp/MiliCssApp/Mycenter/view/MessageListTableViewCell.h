@@ -7,11 +7,14 @@
 //
 
 #import "HLSBaseCell.h"
-
+#import "MessageModel.h"
 @interface MessageListTableViewCell : HLSBaseCell
 @property(nonatomic,strong)UIImageView *LeftImg;
+@property(nonatomic,strong)UIImageView *Redimg;
+
 @property(nonatomic,strong)UILabel *TittleLab;
 @property(nonatomic,strong)UILabel *DesLab;
 @property(nonatomic,strong)UILabel *TimeLab;
+@property(nonatomic,strong)MessageModel *Model;
 
 @end

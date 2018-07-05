@@ -15,60 +15,137 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        [self setupViews];
-        self.separatorImageView.x = 31;
-    }
+        self.separatorImageView.x = 21;
+            }
     return self;
 }
 -(void)setupViews{
     
-    // 地区
-    _arealab = [[UILabel alloc]init];
-    _arealab.font = TextFontSize(17);
-    _arealab.textColor = MLTittleColor;
-    
-    [self addSubview:_arealab];
-    _arealab.textAlignment = NSTextAlignmentLeft;
-    _arealab.sd_layout
-    .leftSpaceToView(self, 32)
-    .topSpaceToView(self, 18)
-    .heightIs(17);
-    [_arealab setSingleLineAutoResizeWithMaxWidth:(200)];
     // 产品名称
     
     _proname = [[UILabel alloc]init];
-    _proname.font = TextFontSize(17);
+    _proname.font = TextFontSize(16);
     _proname.textColor = MLTittleColor;
     _proname.layer.cornerRadius = 2;
     _proname.layer.backgroundColor = COLORWithRGB(0, 125, 125, 0.1).CGColor;
     [self addSubview:_proname];
     _proname.textAlignment = NSTextAlignmentLeft;
-    _proname.sd_layout
-    .leftSpaceToView(self, 32)
-    .rightSpaceToView(self, 24)
-    .heightIs(32)
-    .centerYEqualToView(self);
     
-    // 费率
     
-    _degreelab = [[UILabel alloc]init];
-    _degreelab.font = TextFontSize(14);
-    _degreelab.textColor = MLNaviColor;
+    if (_index == 0) {
+
+            _proname.sd_layout
+            .leftSpaceToView(self, 8)
+            .rightSpaceToView(self, 14)
+            .heightIs(32)
+            .topSpaceToView(self, 0);
+    }else{
+        _proname.sd_layout
+        .leftSpaceToView(self, 8)
+        .rightSpaceToView(self, 14)
+        .heightIs(32)
+        .topSpaceToView(self, 21);
+    }
+    _proname.text = [NSString stringWithFormat:@"    %@", [_ProDic xyValueForKey:@"proxyName"]];
+//    // 费率
+//
+//    _degreelab = [[UILabel alloc]init];
+//    _degreelab.font = TextFontSize(14);
+//    _degreelab.textColor = MLNaviColor;
+//
+//    [self addSubview:_degreelab];
+//    _degreelab.textAlignment = NSTextAlignmentLeft;
+//    _degreelab.sd_layout
+//    .leftSpaceToView(self, 43)
+//    .topSpaceToView(_proname, 13)
+//    .heightIs(17)
+//    .centerYEqualToView(self);
+//    [_degreelab setSingleLineAutoResizeWithMaxWidth:(300)];
     
-    [self addSubview:_degreelab];
-    _degreelab.textAlignment = NSTextAlignmentLeft;
-    _degreelab.sd_layout
-    .leftSpaceToView(self, 43)
-    .topSpaceToView(_proname, 13)
-    .heightIs(17)
-    .centerYEqualToView(self);
-    [_degreelab setSingleLineAutoResizeWithMaxWidth:(300)];
+    //按钮
+    //for循环来创建4个lab
+//    NSDictionary *dic = [mUserDefaults objectForKey:KSearchArr];
+    
+    NSArray *arr = [_ProDic xyValueForKey:@"feeList"];//[dic xyValueForKey:@"arr"];
+    UILabel *lastbtn = nil;
+    for (int i = 0; i <[arr count]; i ++) {
+        UILabel *manyBtn =[[HLSLable alloc]init];
+//        [manyBtn setTitle:ReArr[i] forState:UIControlStateNormal];
+        HLSLog(@"---每个地区的保费%.2f",[[arr[i] xyValueForKey:@"areaFee"] floatValue]);
+        
+        manyBtn.text = [NSString stringWithFormat:@"%@:%.2f%@",[arr[i] xyValueForKey:@"areaName"],[[arr[i] xyValueForKey:@"areaFee"] floatValue],@"%"];
+        [manyBtn sizeToFit];
+        manyBtn.tag = 3000+i;
+//        [manyBtn addTarget:self action:@selector(searchagain:) forControlEvents:UIControlEventTouchUpInside];
+        manyBtn.font = [UIFont systemFontOfSize:13];
+        
+        [self addSubview:manyBtn];
+        manyBtn.layer.cornerRadius = 3;
+        HLSLog(@"这里是。。。%f",Fit6(80));
+//        manyBtn.width = Fit6(120);
+        manyBtn.width+10;
+//        [manyBtn setTitleColor:HLSTitleGrayColor forState:UIControlStateNormal];
+        manyBtn.textColor = MLDetailColor;
+        manyBtn.backgroundColor = [UIColor whiteColor];
+//        if (lastbtn.right+6+manyBtn.width+10>SCREEN_WIDTH-10) {
+        if(i%3 ==0 && i !=0){
+            manyBtn.y = lastbtn.bottom+10;
+            manyBtn.x = Fit6(20);
+            
+        }else{
+            if ( i == 0) {
+                manyBtn.x = Fit6(20);
+                if (_index == 0) {
+                    manyBtn.y = 56;
+
+                }else{
+                    manyBtn.y = 77;
+
+                }
+                
+            }else{
+                manyBtn.x = lastbtn.right+Fit6(4);
+                manyBtn.y = lastbtn.y;
+                
+            }
+            
+            
+            
+            
+        }
+        
+        
+        
+        lastbtn = manyBtn;
+    }
+    
+    
+//  }
+}
+//-(void)setModel:(NSString *)model{
+//    _arealab.text = @"东京";
+//    _proname.text = @"  东京旅游保障";
+//    _degreelab.text = @"推广费费率:99%";
+//
+//}
+-(void)setProDic:(NSDictionary *)ProDic{
+    HLSLog(@"这里是推广城市的列表---%@",ProDic);
+    _ProDic = ProDic;
 
 }
--(void)setModel:(NSString *)model{
-    _arealab.text = @"东京";
-    _proname.text = @"  东京旅游保障";
-    _degreelab.text = @"推广费费率:99%";
+-(void)setIndex:(NSInteger)index{
+    _index = index;
+    [self setupViews];
+
+}
+-(void)layoutSubviews{
+    
+    [super layoutSubviews];
+    if (_index == 0) {
+        _padding = 0;
+    }else{
+        _padding = 21;
+    }
 
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
