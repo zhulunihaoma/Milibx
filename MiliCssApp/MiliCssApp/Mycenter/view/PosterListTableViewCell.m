@@ -29,7 +29,7 @@
     .topSpaceToView(self, 0)
     .heightIs(218)
     .widthIs(SCREEN_WIDTH);
-    PosterScrollView.contentSize = CGSizeMake((167*3)-10, 85);
+    PosterScrollView.contentSize = CGSizeMake((113*dataArr.count)+17, 85);
     PosterScrollView.backgroundColor = [UIColor whiteColor];
     PosterScrollView.showsHorizontalScrollIndicator = NO;
     
@@ -65,7 +65,7 @@
         
         
        UILabel *normalLab = [HLSLable LabelWithFont:12 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLTittleColor WithFatherView:PosterScrollView];
-        normalLab.text = [dataArr[i] xyValueForKey:@"productName"];
+        normalLab.text = [dataArr[i] xyValueForKey:@"posterName"];
         if (i == 0 ) {
             normalLab.x = 15;
         }else{
@@ -82,6 +82,7 @@
 -(void)goPoster:(UITapGestureRecognizer *)tap{
     PosterDetailViewController *vc = [PosterDetailViewController new];
     vc.productCode = [self.DataDic xyValueForKey:@"productCode"];
+    vc.Posterindex = tap.view.tag-1000;
     [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
 }
 -(void)setDataDic:(NSMutableDictionary *)DataDic{

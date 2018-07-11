@@ -10,6 +10,7 @@
 
 @interface PosterDetailViewController : PublicTableViewController
 @property(nonatomic,strong)NSString *productCode;
+@property(nonatomic,assign)NSInteger Posterindex;
 
 
 @end

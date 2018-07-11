@@ -94,9 +94,53 @@
             break;
     }
     if (Model) {
+        NSString *string = Model.gmtCreate;
+        
+        // 日期格式化类
+        
+        NSDateFormatter *format = [[NSDateFormatter alloc] init];
+        
+        // 设置日期格式 为了转换成功
+        
+        format.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+        
+        // NSString * -> NSDate *
+        
+        NSDate *data = [format dateFromString:string];
+        
+//        NSString *newString = [format stringFromDate:data];
+       
+        NSInteger timeSpxx = [[NSNumber numberWithDouble:[data timeIntervalSince1970]] integerValue];
+
+        
+        NSDate *datenow = [NSDate date];//现在时间
+        //时间转时间戳的方法:
+        
+        
+        NSInteger timeSp = [[NSNumber numberWithDouble:[datenow timeIntervalSince1970]] integerValue];
+        
+        NSLog(@"设备当前的时间戳:%ld",(long)timeSp); //时间戳的值
+        NSLog(@"消息时间戳:%ld",(long)timeSpxx); //时间戳的值
+        NSInteger timeSpcc = timeSp-timeSpxx;
+        if (timeSpcc < 86400) {
+            _TimeLab.text = @"今天";
+
+        }else if (timeSpcc < 172800){
+            _TimeLab.text = @"昨天";
+
+        }else if (timeSpcc < 259200){
+            _TimeLab.text = @"2天前";
+            
+        }else if (timeSpcc < 345600){
+            _TimeLab.text = @"3天前";
+            
+        }else{
+            _TimeLab.text = [[Model.gmtCreate substringToIndex:10] stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
+
+        }
+
         _TittleLab.text = Model.infoTitle;
         _DesLab.text = Model.infoContent;
-        _TimeLab.text = [[Model.gmtCreate substringToIndex:10] stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
         self.LeftImg.image = [UIImage imageNamed:Typeimg];
         if ([Model.status integerValue] == 1) {
             self.Redimg.image = [UIImage imageNamed:@"img_newmessage"];
@@ -105,7 +149,43 @@
     }
     
 }
+#pragma mark - 将某个时间转化成 时间戳
 
++(NSInteger)timeSwitchTimestamp:(NSString *)formatTime andFormatter:(NSString *)format{
+    
+    
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    
+    [formatter setDateStyle:NSDateFormatterMediumStyle];
+    
+    [formatter setTimeStyle:NSDateFormatterShortStyle];
+    
+    [formatter setDateFormat:format]; //(@"YYYY-MM-dd hh:mm:ss") ----------设置你想要的格式,hh与HH的区别:分别表示12小时制,24小时制
+    
+    
+    
+    NSTimeZone* timeZone = [NSTimeZone timeZoneWithName:@"Asia/Beijing"];
+    
+    [formatter setTimeZone:timeZone];
+    
+    
+    
+    NSDate* date = [formatter dateFromString:formatTime]; //------------将字符串按formatter转成nsdate
+    
+    //时间转时间戳的方法:
+    
+    NSInteger timeSp = [[NSNumber numberWithDouble:[date timeIntervalSince1970]] integerValue];
+    
+    
+    
+    NSLog(@"将某个时间转化成 时间戳&&&&&&&timeSp:%ld",(long)timeSp); //时间戳的值
+    
+    
+    
+    return timeSp;
+    
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

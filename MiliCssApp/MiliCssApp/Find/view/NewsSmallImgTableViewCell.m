@@ -30,15 +30,28 @@
     self.News_Tittle.sd_layout
     .topSpaceToView(self.contentView, 20)
     .leftSpaceToView(self.contentView, 18)
-    .widthIs(196)
-    .heightIs(38);
+    .widthIs(SCREEN_WIDTH-182)
+    .maxHeightIs(40)
+    .autoHeightRatio(0);
+    
+
     self.News_Tittle.numberOfLines = 2;
     
 }
 -(void)setModel:(NewsModel *)Model{
     self.News_Tittle.text = Model.articleTitle;
+//        self.News_Tittle.text = @"asjdkajdajfljfd适得府君书代理方即都是垃圾";
+
     [self.News_img sd_setImageWithURL:URLWith(Model.imgBigUrl) placeholderImage:HolderWith(@"img_loading_small")];
     self.News_Tag.text = Model.articleLabel;
+
+    if (Model.articleLabel.length > 0) {
+        self.News_Tag.hidden = NO;
+        
+    }else{
+        self.News_ReadNum.sd_layout
+        .leftSpaceToView(self.contentView, 15);
+    }
     self.News_ReadNum.text = [NSString stringWithFormat:@"阅读数 %@",Model.readNo];
     
     

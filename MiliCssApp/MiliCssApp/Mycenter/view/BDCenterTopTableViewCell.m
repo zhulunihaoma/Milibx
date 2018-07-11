@@ -141,7 +141,7 @@
     PromoteCount.text = @"0.00";
     PromoteCount.sd_layout
     .heightIs(18)
-    .leftSpaceToView(bgimg, 32)
+    .leftSpaceToView(bgimg, 18)
     .widthIs(100)
     .topSpaceToView(headbgView, 30);
     _policyAmount = PromoteCount;
@@ -153,7 +153,7 @@
     PromoteTittle.sd_layout
     .heightIs(12)
     .widthIs(100)
-    .leftSpaceToView(bgimg, 32)
+    .leftSpaceToView(bgimg, 18)
     .topSpaceToView(PromoteCount, 9);
 //    [PromoteTittle setSingleLineAutoResizeWithMaxWidth:(100)];
     
@@ -187,7 +187,7 @@
     YuCount.text = @"0.00";
     YuCount.sd_layout
     .heightIs(18)
-    .rightSpaceToView(bgimg, 32)
+    .rightSpaceToView(bgimg, 18)
     .widthIs(100)
     .centerYEqualToView(PromoteCount);
     _selfPrmAmount = YuCount;
@@ -199,7 +199,7 @@
     YuTittle.sd_layout
     .heightIs(12)
     .widthIs(100)
-    .rightSpaceToView(bgimg, 32)
+    .rightSpaceToView(bgimg, 18)
     .topSpaceToView(YuCount, 9);
     //    [PromoteTittle setSingleLineAutoResizeWithMaxWidth:(100)];
     
@@ -223,7 +223,7 @@
     
     [self makeEqualWidthBtnNum:3 Names:titles Imgs:pics inView:topview LRpadding:40 viewPadding:57 y:25 titlefont:12  titleColor:MLTittleColor withtag:0];
     NSArray *TitlesBttom = @[@"我的订单",@"轻松理赔",@""];
-    NSArray *PicsBttom = @[@"btn_me_function_3",@"btn_me_function_4",@""];
+    NSArray *PicsBttom = @[@"btn_me_function_4",@"btn_me_function_5",@""];
     
     [self makeEqualWidthBtnNum:3 Names:TitlesBttom Imgs:PicsBttom inView:topview LRpadding:40 viewPadding:57 y:120 titlefont:12  titleColor:MLTittleColor withtag:3];
 }
@@ -339,6 +339,10 @@
     }
     
     if(sender.tag==1){//下级管理
+        if ([[HLSPersonalInfoTool merchantLevel] integerValue] >4) {
+            [HLSLable lableWithText:@"抱歉，您暂时没有该权限"];
+            return;
+        }
         MLNormalWebViewController *vc = [MLNormalWebViewController new];
         vc.TittleStr = @"下级管理";
         vc.UrlStr = @"/opena/list";

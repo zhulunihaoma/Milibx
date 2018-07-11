@@ -79,7 +79,7 @@
     
     if (proarr !=@"") {
         
-            if (proarr.count < 2) {
+            if (proarr.count < 3) {
                 _MoreBtn.hidden = YES;
             }
 
@@ -146,12 +146,17 @@
         
         //        des
         UILabel *Pro_des = [HLSLable LabelWithFont:12 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLDetailColor WithFatherView:Pro_BgImg];
-        Pro_des.text = [proarr[i] xyValueForKey:@"productFeature"];
+            Pro_des.text = [proarr[i] xyValueForKey:@"productFeature"];
         Pro_des.sd_layout
         .leftSpaceToView(Pro_BgImg, 25)
-        .topSpaceToView(Pro_Tittle, 8)
-        .heightIs(12);
-        [Pro_des setSingleLineAutoResizeWithMaxWidth:150];
+        .topSpaceToView(Pro_Tittle, 6)
+        .widthIs(130)
+        .maxHeightIs(30)
+        .autoHeightRatio(0);
+            
+            
+            
+    Pro_des.numberOfLines = 2;
         //        des
         UILabel *Pro_count = [HLSLable LabelWithFont:12 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLNaviColor WithFatherView:Pro_BgImg];
         Pro_count.font = [UIFont fontWithName:@"iconfont" size:12];//设置label的字体
@@ -165,7 +170,7 @@
             
         Pro_count.sd_layout
         .leftSpaceToView(Pro_BgImg, 25)
-        .topSpaceToView(Pro_des, 21)
+        .bottomSpaceToView(Pro_BgImg, 22)
         .heightIs(17);
         [Pro_count setSingleLineAutoResizeWithMaxWidth:150];
         }

@@ -27,4 +27,6 @@
 - (instancetype)initWithPhotoArr:(NSArray *)photoArr;
 
 @property (nonatomic,assign) BOOL hideAddPhoto;
+@property (nonatomic,assign) NSInteger maxNum;
+
 @end

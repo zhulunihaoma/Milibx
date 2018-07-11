@@ -15,8 +15,8 @@
 #import "CheckIdViewController.h"
 #import <WebKit/WebKit.h>
 #import "APServiceTool.h"
-
-@interface LoginViewController ()<WKNavigationDelegate, WKUIDelegate>
+#import "ChangeMyPSWViewController.h"
+@interface LoginViewController ()<WKNavigationDelegate, WKUIDelegate,UITextFieldDelegate>
 {
     UITextField *account;
     UITextField *password;
@@ -39,7 +39,9 @@
     [super viewDidLoad];
     self.title = @"登录";
     [APServiceTool setTag];
-
+    [mUserDefaults removeObjectForKey:KUserInfoDic];
+    [mUserDefaults setObject:@"1" forKey:@"isTag"];
+    [mUserDefaults synchronize];
     self.navigationView.backgroundColor = [UIColor whiteColor];
     [self setupviews];
     self.navigationView.lineImageView.hidden = YES;
@@ -116,10 +118,7 @@
     .leftSpaceToView(logo_gif, 15)
     .heightIs(24);
     [title setSingleLineAutoResizeWithMaxWidth:(500)];
-//    _title = title;
-    
-    
-    
+
 //    用户名
     account = [[UITextField alloc]init];
     account.placeholder = @"请输入用户名或手机号";
@@ -147,7 +146,8 @@
     password = [[UITextField alloc]init];
     password.placeholder = @"请输入密码";
     [PswBgView addSubview:password];
-    
+    password.clearsOnBeginEditing = NO;
+    password.delegate = self;
     password.x = 0;
     password.y = 0;
     password.width = SCREEN_WIDTH - 64-22;
@@ -178,9 +178,10 @@
     [submmit setTitle:@"登录" forState:UIControlStateNormal];
     [self.view addSubview:submmit];
     [submmit addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
+    [submmit setBackgroundImage:[UIImage imageNamed:@"btn_login_default"] forState:UIControlStateNormal];
     [submmit setBackgroundImage:[UIImage imageNamed:@"btn_login"] forState:UIControlStateSelected];
-    [submmit setBackgroundImage:[UIImage imageNamed:@"btn_login"] forState:UIControlStateNormal];
 
+    submmit.userInteractionEnabled = NO;
     [submmit setTitleColor:HLSHexColor(0xc0edc6) forState:UIControlStateNormal];
     [submmit setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
 
@@ -254,6 +255,8 @@
 
 }
 -(void)changestatte:(UIButton *)sender{
+    [self.view endEditing:YES];
+
     sender.selected = !sender.selected;
 
     if (sender.selected) {
@@ -268,8 +271,27 @@
     
     [self.navigationController pushViewController:cvc animated:YES];
 }
+/**
+ *  验证数据下一部
+ */
+- (BOOL)validateData{
+    //手机号不能为空
+    if ([account.text length] == 0 || [password.text length] == 0 ) {
+        
+//        [HLSLable lableWithText:@"请输入用户名或密码"];
+        
+        return NO;
+        
+    }
+    
+    
+    return YES;
+}
 -(void)login{
-//    [self showMLhud];
+    if (![self validateData]) {
+        return;
+    }
+    [self showMLhud];
 
     [MLloginRequest PostLoginWithloginName:account.text WithPassword:[MD5Tool md5:password.text] token:nil Success:^(NSDictionary *dic) {
         HLSLog(@"aa:%@",dic);
@@ -300,13 +322,22 @@
             NSString *merchantCode = [HLSPersonalInfoTool getmerchantCode];
 
             HLSLog(@"--本地%@---%@---%@",userstring,session,merchantCode);
-            [self initwebview];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"home" object:self];
-
+            
             
             [APServiceTool setTag];
-
+            
             [HLSLable lableWithText:@"登录成功！"];
+            if ([[Myuserinfo xyValueForKey:@"fistLogin"] integerValue] == 0) {
+                
+            
+            [self initwebview];
+            }else{
+                ChangeMyPSWViewController *cvc = [[ChangeMyPSWViewController alloc]init];
+                
+                [self.navigationController pushViewController:cvc animated:YES];
+            }
+           
         }else{
             [HLSLable lableWithText:[dic xyValueForKey:@"message"]];
         }
@@ -326,6 +357,7 @@
 
     //执行JS
     [webView evaluateJavaScript:inputValueJS completionHandler:^(id _Nullable response, NSError * _Nullable error) {
+       
         [self back];
 
         NSLog(@"---返回value: %@ error: %@", response, error);
@@ -334,8 +366,15 @@
 #pragma mark --EditingChanged
 -(void)AccountEditingChanged:(UITextField *)TextField{
     if (TextField.text.length >0 && password.text.length > 0) {
+//        [submmit setBackgroundImage:[UIImage imageNamed:@"btn_login"] forState:UIControlStateSelected];
+
         submmit.selected = YES;
+        submmit.userInteractionEnabled = YES;
     }else{
+//        [submmit setBackgroundImage:[UIImage imageNamed:@"btn_login_default"] forState:UIControlStateSelected];
+
+        submmit.userInteractionEnabled = NO;
+
         submmit.selected = NO;
         
     }
@@ -345,8 +384,14 @@
 }
 -(void)PasswordEditingChanged:(UITextField *)TextField{
     if (TextField.text.length >0 && account.text.length > 0) {
+//        [submmit setBackgroundImage:[UIImage imageNamed:@"btn_login"] forState:UIControlStateSelected];
+
         submmit.selected = YES;
+        submmit.userInteractionEnabled = YES;
     }else{
+//        [submmit setBackgroundImage:[UIImage imageNamed:@"btn_login_default"] forState:UIControlStateSelected];
+
+        submmit.userInteractionEnabled = NO;
         submmit.selected = NO;
 
     }
@@ -354,6 +399,36 @@
         TextField.text = [TextField.text substringToIndex:15];
     }
     
+}
+
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+
+    NSString *updatedString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+
+    textField.text = updatedString;
+    if (textField.text.length >0 && account.text.length > 0) {
+        
+        submmit.selected = YES;
+        submmit.userInteractionEnabled = YES;
+    }else{
+        
+        submmit.userInteractionEnabled = NO;
+        submmit.selected = NO;
+        
+    }
+    if (textField.text.length == 0) {
+//        submmit.userInteractionEnabled = NO;
+//        submmit.selected = NO;
+        return YES;
+        
+
+        
+    }else{
+        return NO;
+
+    }
+
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

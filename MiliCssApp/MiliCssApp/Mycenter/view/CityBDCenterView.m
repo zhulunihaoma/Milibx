@@ -76,12 +76,15 @@
     [MLMyRequest PostinfoUnReadSuccess:^(NSDictionary *dic) {
    
         if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
-//            Datadic = [dic xyValueForKey:@"result"];
-//            BDmodel = [BDInfoModel mj_objectWithKeyValues:Datadic];
-//            [self.listTableView reloadData];
+
             HLSLog(@"未读消息数量----%@",dic);
             
             UnreadNum = [dic xyValueForKey:@"result"];
+            if ([UnreadNum integerValue] >99) {
+                UnreadNum = @"99+";
+
+            }
+
             [self.listTableView reloadData];
             [self.listTableView.mj_header endRefreshing];
 
@@ -226,6 +229,10 @@
             cell.UnreadNum.hidden = NO;
 
             cell.UnreadNum.text = UnreadNum;
+            if ([UnreadNum isEqualToString:@"99+"]) {
+                cell.UnreadNum.font = TextFontSize(8);
+
+            }
         }
         cell.Model = BDmodel;
         return cell;

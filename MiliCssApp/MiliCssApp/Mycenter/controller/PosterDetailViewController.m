@@ -40,21 +40,7 @@
         [self.HUD hideAnimated:YES];
         HLSLog(@"---海报详情:%@",dic);
         if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
-//            NSMutableDictionary *Mdic = [NSMutableDictionary dictionaryWithDictionary:dic];
-//            NSArray* arr = [Mdic allKeys];
-//
-//            for(NSString *str in arr)
-//            {
-//                id obj = [Mdic objectForKey:str];// judge NSNull
-//
-//                BOOL isNull = [obj isEqual:[NSNull null]];
-//                if (isNull) {
-//                    [HLSLable lableWithText:@"暂无数据"];
-//                    return ;
-//                }
-//
-////                return isNull;
-//            }
+
             
             if ([[dic xyValueForKey:@"result"] isEqual:[NSNull null]]) {
                 [HLSLable lableWithText:@"暂无数据"];
@@ -128,7 +114,7 @@
     UILabel *PosterName = [HLSLable LabelWithFont:17 WithTextalignment:NSTextAlignmentCenter WithTextColor:MLTittleColor WithFatherView:bgimg];
     PosterName.sd_layout
     .heightIs(14)
-    .topSpaceToView(bgimg, 504+StatueBarHeight)
+    .topSpaceToView(bgimg, Fit6(510)+StatueBarHeight)
     .centerXEqualToView(bgimg);
     [PosterName setSingleLineAutoResizeWithMaxWidth:(SCREEN_WIDTH)];
     
@@ -136,22 +122,45 @@
     
     
     
-    CGFloat btnWidth = 155;
     CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
     CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
+    CGFloat btnWidth = Fit6(155);
+    CGFloat btnhieght;
+
+    CGFloat btn_y;
+    if (iPhone6||iPhone5) {
+        if (StatueBarHeight == 44) {
+            btn_y = Fit6(550+StatueBarHeight);
+            btnhieght = Fit6(47);
+
+        }else{
+            btn_y = Fit6(475+StatueBarHeight);
+            btnhieght = Fit6(47);
+            btnWidth = (screenWidth - 90)/2;
+        }
+        
+    }else{
+        btn_y = Fit6(595+StatueBarHeight);
+        btnWidth = 155;
+
+        btnhieght = 47;
+    }
+    
     CGFloat margin_x = (screenWidth-btnWidth)/2;
-    UIButton *btn = [[UIButton alloc]initWithFrame:(CGRect){23,554+StatueBarHeight,btnWidth,47}];
-    [btn setImage:[UIImage imageNamed:@"btn_poster_download"] forState:UIControlStateNormal];
-    btn.alpha = 0.8;
+    UIButton *btn = [[UIButton alloc]initWithFrame:(CGRect){23,btn_y,btnWidth,btnhieght}];
+    [btn setImage:[UIImage imageNamed:@"btn_poster_download_andriod"] forState:UIControlStateNormal];
+//    btn.alpha = 0.8;
+    [btn setTitle:@"下载" forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.view addSubview:btn];
-    [btn sizeToFit];
+//    [btn sizeToFit];
 
     [btn addTarget:self action:@selector(DownloadImg) forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *btn1 = [[UIButton alloc]initWithFrame:(CGRect){screenWidth-23-btnWidth,554+StatueBarHeight,btnWidth,47}];
+    UIButton *btn1 = [[UIButton alloc]initWithFrame:(CGRect){screenWidth-23-btnWidth,btn_y,btnWidth,btnhieght}];
 //    [btn1 setTitle:@"分享" forState:UIControlStateNormal];
     [btn1 setImage:[UIImage imageNamed:@"btn_poster_enjoy"] forState:UIControlStateNormal];
-    [btn1 sizeToFit];
+//    [btn1 sizeToFit];
 
     btn1.alpha = 0.8;
     [self.view addSubview:btn1];
@@ -199,7 +208,7 @@
     
     
     NSArray *testArray = DataDic;
-    
+    HLSLog(@"---第几个产品%ld",self.Posterindex);
     
     //模拟服务器获取到的数据
     NSMutableArray *arrayFromService  = [NSMutableArray array];
@@ -209,11 +218,12 @@
         hero.introduction = [NSString stringWithFormat:@"我是海报:---->%@",[dic xyValueForKey:@"productName"]];
         [arrayFromService addObject:hero];
     }
-    
+    [arrayFromService exchangeObjectAtIndex:0 withObjectAtIndex:self.Posterindex];
+
     SCAdView *adView = [[SCAdView alloc] initWithBuilder:^(SCAdViewBuilder *builder) {
         builder.adArray = arrayFromService;
-        builder.viewFrame = (CGRect){20,9+NaviHeight,self.view.bounds.size.width-40,434};
-        builder.adItemSize = (CGSize){265,390};
+        builder.viewFrame = (CGRect){20,9+NaviHeight,SCREEN_WIDTH-40,Fit6(434)};
+        builder.adItemSize = (CGSize){Fit6(SCREEN_WIDTH-110),Fit6(390)};
         builder.minimumLineSpacing = 0;
         builder.secondaryItemMinAlpha = 0.6;
         builder.threeDimensionalScale = 1.11;

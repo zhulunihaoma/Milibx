@@ -38,6 +38,12 @@
     [MLFindRequest PostarticleListWithcolumnId:self.columnId pageIndex:page pageSize:10 Success:^(NSDictionary *dic) {
     
         [self.HUD hideAnimated:YES];
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
+        if (self.noNetView) {
+            [self.noNetView removeFromSuperview];
+            self.noNetView = nil;
+        }
         HLSLog(@"---aaa新闻里面main---%@,%@",self.columnId,dic);
 
 //
@@ -46,6 +52,7 @@
                     if (page == 1) {
                         [dataArr removeAllObjects];
                     }
+
             arr =[[dic xyValueForKey:@"result"] xyValueForKey:@"articleList"];
 //            HLSLog(@"数据：111%@",);
             
@@ -58,7 +65,8 @@
 //            [dataArr removeAllObjects];
 
             
-            
+//            [dataArr removeAllObjects];
+
                     [self.tableView reloadData];
                     if (dataArr.count == 0) {
                         if (!self.noDataView) {
@@ -72,10 +80,7 @@
                         }
                        
                     }
-                if (self.noNetView) {
-                    [self.noNetView removeFromSuperview];
-                    self.noNetView = nil;
-                }
+            
                     [self.tableView.mj_header endRefreshing];
                     [self.tableView.mj_footer endRefreshing];
 
@@ -142,6 +147,10 @@
 }
 #pragma mark -- 无网络
 -(void)checkNonet{
+    if (self.noDataView) {
+        [self.noDataView removeFromSuperview];
+        self.noDataView = nil;
+    }
     if (dataArr.count == 0) {//如果为第一页
         if (!self.noNetView) {
             [self setupNoNetView];
@@ -164,17 +173,17 @@
 -(void)setupNoDataView{
     
     self.noDataView = [[MLNoDataView alloc]initWithImageName:@"img_Load_2" text:@"扑通，数据君木有了~" detailText:nil buttonTitle:nil];
-    self.noDataView.y = 100;
+    self.noDataView.y = 0;
     self.noDataView.width = SCREEN_WIDTH;
     self.noDataView.height = SCREEN_HEIGHT - 64;
-    [self.view addSubview:self.noDataView];
+    [self.tableView addSubview:self.noDataView];
     
     
 }
 //无网络的时候
 - (void)setupNoNetView {
     self.noNetView = [[MLNoDataView alloc]initWithImageName:@"img_Load_1" text:@"" detailText:nil buttonTitle:@"  加载失败，点击页面重试"];
-    self.noNetView.y = 100;
+    self.noNetView.y = 0;
     self.noNetView.width = kSCREENSIZE.width;
     self.noNetView.height = kSCREENSIZE.height - self.noNetView.y - 49;
     [self.noNetView.button addTarget:self action:@selector(RequestData) forControlEvents:UIControlEventTouchUpInside];
@@ -230,10 +239,9 @@
         // 定义唯一标识
         static NSString *CellIdentifier = @"Cellsbig";
         // 通过唯一标识创建cell实例
-        NewsBigImgTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (!cell) {
-            cell = [[NewsBigImgTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-        }
+     
+        NewsBigImgTableViewCell *cell = [[NewsBigImgTableViewCell alloc]init];
+
         cell.Model = dataArr[indexPath.section];
         
         return cell;
@@ -242,10 +250,7 @@
     // 定义唯一标识
     static NSString *CellIdentifier = @"Cellall";
     // 通过唯一标识创建cell实例
-    NewsSmallImgTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (!cell) {
-        cell = [[NewsSmallImgTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-    }
+        NewsSmallImgTableViewCell *cell = [[NewsSmallImgTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
    
     cell.Model = dataArr[indexPath.section];
 

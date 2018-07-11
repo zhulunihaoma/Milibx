@@ -68,23 +68,26 @@
     
     NSArray *arr = [_ProDic xyValueForKey:@"feeList"];//[dic xyValueForKey:@"arr"];
     UILabel *lastbtn = nil;
-    for (int i = 0; i <[arr count]; i ++) {
+    for (int i = 0; i <[arr count]+1; i ++) {
         UILabel *manyBtn =[[HLSLable alloc]init];
 //        [manyBtn setTitle:ReArr[i] forState:UIControlStateNormal];
-        HLSLog(@"---每个地区的保费%.2f",[[arr[i] xyValueForKey:@"areaFee"] floatValue]);
-        
-        manyBtn.text = [NSString stringWithFormat:@"%@:%.2f%@",[arr[i] xyValueForKey:@"areaName"],[[arr[i] xyValueForKey:@"areaFee"] floatValue],@"%"];
+//        HLSLog(@"---每个地区的保费%.2f",[[arr[i] xyValueForKey:@"areaFee"] floatValue]);
+        manyBtn.textAlignment = NSTextAlignmentLeft;
+        if (i == 0) {
+            manyBtn.text = [NSString stringWithFormat:@"%@:%.2f%@",@"默认保费",[[_ProDic xyValueForKey:@"defaultFee"]  floatValue],@"%"];
+        }else{
+            manyBtn.text = [NSString stringWithFormat:@"%@:%.2f%@",[arr[i-1] xyValueForKey:@"areaName"],[[arr[i-1] xyValueForKey:@"areaFee"] floatValue],@"%"];
+
+        }
         [manyBtn sizeToFit];
         manyBtn.tag = 3000+i;
-//        [manyBtn addTarget:self action:@selector(searchagain:) forControlEvents:UIControlEventTouchUpInside];
-        manyBtn.font = [UIFont systemFontOfSize:13];
+
+        manyBtn.font = [UIFont systemFontOfSize:Fit6(13)];
         
         [self addSubview:manyBtn];
         manyBtn.layer.cornerRadius = 3;
         HLSLog(@"这里是。。。%f",Fit6(80));
-//        manyBtn.width = Fit6(120);
-        manyBtn.width+10;
-//        [manyBtn setTitleColor:HLSTitleGrayColor forState:UIControlStateNormal];
+        manyBtn.width = (SCREEN_WIDTH-Fit6(40))/3;
         manyBtn.textColor = MLDetailColor;
         manyBtn.backgroundColor = [UIColor whiteColor];
 //        if (lastbtn.right+6+manyBtn.width+10>SCREEN_WIDTH-10) {

@@ -13,7 +13,7 @@
 //接口请求地址
 
 //#define RequestUrl @"http://192.168.170.27:17140/app"//开发环境
-#define RequestUrl @"https://app.milibx.com/app"//开发环境2
+#define RequestUrl @"https://app.milibx.com/app"//开发环境
 //#define RequestUrl @"http://192.168.65.193:17140/app"//海涛本地
 
 
@@ -26,7 +26,7 @@
 
 //web请求地址
 //#define RequestWebUrl @"http://192.168.64.93:17140/"//朱璐环境
-#define RequestWebUrl @"https://app.milibx.com/webapp"//朱璐环境
+#define RequestWebUrl @"https://app.milibx.com/webapp"//开发环境
 //#define RequestWebUrl @"http://192.168.65.193:17140/webapp"//海涛环境
 
 //#define RequestWebUrl @"http://app.milibx.com:17150"//俊逸环境

@@ -38,6 +38,10 @@
         
         [alert addAction:action];
         
+        [mUserDefaults removeObjectForKey:KUserInfoDic];
+        [mUserDefaults setObject:@"1" forKey:@"isTag"];
+        [mUserDefaults synchronize];
+        
         [[GetUnderController getCurrentVC] presentViewController:alert animated:YES completion:nil];
         
      
@@ -50,6 +54,10 @@
         nvc.navigationBarHidden = YES;
         [[GetUnderController getCurrentVC] presentViewController:nvc animated:YES completion:nil];
 
+        [mUserDefaults removeObjectForKey:KUserInfoDic];
+        [mUserDefaults setObject:@"1" forKey:@"isTag"];
+        [mUserDefaults synchronize];
+        
         return;
     }
     HLSLable *lable = [[HLSLable alloc]init];

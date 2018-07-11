@@ -113,8 +113,8 @@
  */
 -(void)setupNoDataView{
     
-    self.noDataView = [[MLNoDataView alloc]initWithImageName:@"img_Load_2" text:@"扑通，数据君木有了~" detailText:nil buttonTitle:nil];
-    self.noDataView.y = 100;
+    self.noDataView = [[MLNoDataView alloc]initWithImageName:@"img_Load_3" text:@"海报陆续上架中，敬请期待" detailText:nil buttonTitle:nil];
+    self.noDataView.y = 0;
     self.noDataView.width = SCREEN_WIDTH;
     self.noDataView.height = SCREEN_HEIGHT - 64;
     [self.view addSubview:self.noDataView];
@@ -124,7 +124,7 @@
 //无网络的时候
 - (void)setupNoNetView {
     self.noNetView = [[MLNoDataView alloc]initWithImageName:@"img_Load_1" text:@"" detailText:nil buttonTitle:@"  加载失败，点击页面重试"];
-    self.noNetView.y = 100;
+    self.noNetView.y = 0;
     self.noNetView.width = kSCREENSIZE.width;
     self.noNetView.height = kSCREENSIZE.height - self.noNetView.y - 49;
     [self.noNetView.button addTarget:self action:@selector(RequestData) forControlEvents:UIControlEventTouchUpInside];

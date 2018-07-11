@@ -52,7 +52,6 @@
                 [dataArr removeAllObjects];
             }
             arr =[dic xyValueForKey:@"result"];
-            //            HLSLog(@"数据：111%@",);
             
             for (NSDictionary *Dic in arr) {
                 MessageModel *model = [MessageModel mj_objectWithKeyValues:Dic];

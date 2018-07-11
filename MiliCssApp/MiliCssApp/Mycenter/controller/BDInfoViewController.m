@@ -140,11 +140,13 @@
         
     }else{
        NSDictionary *ProDic = [[self.UserinfoDic xyValueForKey:@"productFeeList"][indexPath.section -2] xyValueForKey:@"proxyList"][indexPath.row];
-        NSInteger feeListcount = [[ProDic xyValueForKey:@"feeList"] count]/3;
-        if ([[ProDic xyValueForKey:@"feeList"] count] %3 !=0) {
+        NSInteger feeListcount = ([[ProDic xyValueForKey:@"feeList"] count] + 1)/3;
+        HLSLog(@"---行数多少：==%ld",(long)feeListcount);
+
+        if (([[ProDic xyValueForKey:@"feeList"] count]+1) %3 !=0) {
             feeListcount++;
         }
-        
+        HLSLog(@"---行数多少：==%ld",(long)feeListcount);
         if (indexPath.row == 0) {
             return 70 + feeListcount*30;
         }else{

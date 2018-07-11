@@ -15,6 +15,14 @@
         self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         self.titleEdgeInsets = UIEdgeInsetsMake(0, -12, 20, 0);
         self.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+        if (iPhone5 || iPhone6) {
+            self.titleLabel.sd_layout
+            .widthIs(Fit6(SCREEN_WIDTH - 220));
+
+        }else{
+            self.titleLabel.sd_layout
+            .widthIs(SCREEN_WIDTH - 80);
+        }
         self.titleLabel.font = TextFontSize(14);
         self.backgroundColor = [UIColor whiteColor];
         self.imageEdgeInsets = UIEdgeInsetsMake(20, 0, 0, 120);

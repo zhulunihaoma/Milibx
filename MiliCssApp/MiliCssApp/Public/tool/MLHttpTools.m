@@ -11,6 +11,7 @@
 #import "HLSLable.h"
 #import "MBProgressHUD.h"
 #import "LoginViewController.h"
+#import "JSONTool.h"
 @interface MLHttpTools ()<MBProgressHUDDelegate>
 
 @end
@@ -103,10 +104,14 @@
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/json", @"text/javascript",@"text/html",@"text/plain", nil];
     [ manager.requestSerializer setValue:@"json" forHTTPHeaderField:@"dataType"];
     
-    
-//    [manager.requestSerializer setValue:[HLSPersonalInfoTool getCookies]  forHTTPHeaderField:@"cookies"];
+    if ([HLSPersonalInfoTool getCookies]) {
+        [manager.requestSerializer setValue:[JSONTool dictionaryToJson:[HLSPersonalInfoTool getCookies]]  forHTTPHeaderField:@"cookies"];
+            HLSLog(@"----AF返回%@",[JSONTool dictionaryToJson:[HLSPersonalInfoTool getCookies]] );
 
-    
+
+    }
+
+//    HLSLog(@"----AF返回%@",[JSONTool dictionaryToJson:[HLSPersonalInfoTool getCookies]] );
 //
 //    [manager.requestSerializer
 //     setValue:@"application/json"
@@ -118,7 +123,7 @@
 //     forHTTPHeaderField:@"Content-Type"];
 //
 
-    [params setValue:[HLSPersonalInfoTool getdeviceId] forKey:@"deviceId"];
+//    [params setValue:[HLSPersonalInfoTool getdeviceId] forKey:@"deviceId"];
 
     
     [manager POST:url parameters: params success:^(NSURLSessionDataTask *operation, id responseObject) {

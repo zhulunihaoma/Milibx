@@ -42,7 +42,7 @@
     self.News_Tag.layer.borderWidth = 1;
     self.News_Tag.layer.cornerRadius = 3;
     self.News_Tag.layer.masksToBounds = YES;
-
+    self.News_Tag.hidden = YES;
     // 阅读数
     self.News_ReadNum = [HLSLable LabelWithFont:12 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLDetailColor WithFatherView:self.contentView];
     self.News_ReadNum.text = @"阅读 999";

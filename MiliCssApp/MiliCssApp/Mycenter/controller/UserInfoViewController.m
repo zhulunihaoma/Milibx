@@ -42,10 +42,12 @@
     // Do any additional setup after loading the view.
 }
 -(void)RequestData{
-    //    self.HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     [self showMLhud];
     [MLMyRequest PostgetMerchantInfoWithcustomerCode:[HLSPersonalInfoTool getmerchantCode] Success:^(NSDictionary *dic) {
-   
+        if (self.noNetView) {
+            [self.noNetView removeFromSuperview];
+            self.noNetView = nil;
+        }
         
 //        HLSLog(@"我的资料,%@",dic);
         
@@ -64,10 +66,26 @@
         
     } failure:^(NSError *error) {
         [self.HUD hideAnimated:YES];
-//        [self checkNonet];
+        [self checkNonet];
     }];
 }
 
+#pragma mark -- 无网络
+-(void)checkNonet{
+    if (!self.noNetView) {
+        [self setupNoNetView];
+    }
+    
+}
+//无网络的时候
+- (void)setupNoNetView {
+    self.noNetView = [[MLNoDataView alloc]initWithImageName:@"img_Load_1" text:@"" detailText:nil buttonTitle:@"  加载失败，点击页面重试"];
+    self.noNetView.y = 120;
+    self.noNetView.width = kSCREENSIZE.width;
+    self.noNetView.height = kSCREENSIZE.height - self.noNetView.y - 49;
+    [self.noNetView.button addTarget:self action:@selector(RequestData) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.noNetView];
+}
 
 -(void)setsetgement{
     if (self.titleView) {

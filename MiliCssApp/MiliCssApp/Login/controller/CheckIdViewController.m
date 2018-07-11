@@ -274,9 +274,30 @@
         return NO;
         
     }
+    if ([PhoneNum.text length] == 0) {
+        
+        [HLSLable lableWithText:@"手机号不能为空"];
+        
+        return NO;
+        
+    }
+    
+    
     if ([TestNum.text length] == 0) {
         
         [HLSLable lableWithText:@"验证码不能为空"];
+        
+        return NO;
+        
+    }
+    if (![HLSValidateCodeTool validateIDCardNumber:Idcard.text]) {
+        [HLSLable lableWithText:@"请输入正确身份证号码"];
+        
+        return NO;
+        
+    }
+    if (![HLSValidateCodeTool isValidateMobile:PhoneNum.text]) {
+        [HLSLable lableWithText:@"请输入正确手机号"];
         
         return NO;
         
@@ -290,12 +311,7 @@
     }
 
     
-    if (![HLSValidateCodeTool validateIDCardNumber:Idcard.text]) {
-        [HLSLable lableWithText:@"请输入正确身份证号码"];
-        
-        return NO;
-        
-    }
+   
     
     return YES;
 }

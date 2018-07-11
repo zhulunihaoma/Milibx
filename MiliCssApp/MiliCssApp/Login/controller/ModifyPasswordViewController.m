@@ -10,7 +10,7 @@
 #import "MLloginRequest.h"
 #import "MD5Tool.h"
 #import "HLSValidateCodeTool.h"
-@interface ModifyPasswordViewController ()
+@interface ModifyPasswordViewController ()<UITextFieldDelegate>
 
 {
     UITextField *NewPw;
@@ -64,6 +64,8 @@
     NewPw.placeholder = @"请输入新密码";
     [NewPwBgView addSubview:NewPw];
     NewPw.secureTextEntry = YES;
+    NewPw.clearsOnBeginEditing = NO;
+    NewPw.delegate = self;
     NewPw.x = 0;
     NewPw.y = 0;
     NewPw.width = SCREEN_WIDTH - 64-22;
@@ -96,6 +98,9 @@
     [self.view addSubview:MoreNewPwBgView];
     MoreNewPw = [[UITextField alloc]init];
     MoreNewPw.placeholder = @"再次输入新密码";
+    MoreNewPw.clearsOnBeginEditing = NO;
+    MoreNewPw.delegate = self;
+
     [MoreNewPwBgView addSubview:MoreNewPw];
     MoreNewPw.secureTextEntry = YES;
 
@@ -191,6 +196,7 @@
 
 -(void)changestatte:(UIButton *)sender{
     sender.selected = !sender.selected;
+    [self.view endEditing:YES];
 
     if (sender.selected) {
         if (sender.tag == 100) {
@@ -299,6 +305,14 @@
         }
     }
    
+}
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+    NSString *updatedString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    
+    textField.text = updatedString;
+    
+    return NO;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

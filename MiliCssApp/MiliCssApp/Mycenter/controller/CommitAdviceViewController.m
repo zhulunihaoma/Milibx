@@ -11,6 +11,7 @@
 #import "CollectActionSheet.h"
 #import "MLMyRequest.h"
 #import "HLSSelectImageTool.h"
+#import "HLSValidateCodeTool.h"
 //详情颜色
 #define MLHolderColor HLSColor(193, 193, 193)
 
@@ -32,6 +33,8 @@
 //    self.title = @"意见反馈";
     self.navigationView.hidden = YES;
     placestr = @"请简明扼要的描述你的问题，我们会详细为你做出解答。";
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(textViewEditChanged:) name:UITextViewTextDidChangeNotification object:nil];
+
     [self SetupSubViews];
 }
 -(void)SetupSubViews{
@@ -96,10 +99,10 @@
     adViceView.font = [UIFont systemFontOfSize:15];
     adViceView.textAlignment = NSTextAlignmentLeft;
     
-    
+   
     adViceView.layer.borderColor = MLNaviColor.CGColor;
     adViceView.layer.borderWidth = 0.5;
-    
+
     
     HLSPhotoView *photoView = [[HLSPhotoView alloc]init];
 //            photoView.backgroundColor = MLBGColor;
@@ -123,9 +126,9 @@
     [CommitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [CommitBtn sizeToFit];
     
-    CommitBtn.centerX = SCREEN_WIDTH/2;
-//    CommitBtn.y = photoView.bottom + 12;
-        CommitBtn.y = photoView.bottom + 30;
+    CommitBtn.x = 30;
+    CommitBtn.width = SCREEN_WIDTH - 60;
+    CommitBtn.y = photoView.bottom + 30;
 
     
 }
@@ -166,9 +169,15 @@
 - (void)textViewEditChanged:(NSNotification *)notification {
     UITextView *textField = (UITextView *)notification.object;
     
+   
+    
     NSInteger length = 200;
     NSString *toBeString = textField.text;
     NSArray *currentar = [UITextInputMode activeInputModes];
+    if ([HLSValidateCodeTool stringContainsEmoji:toBeString]) {
+        textField.text = [toBeString substringToIndex:[toBeString length]-2];
+        
+    }
     UITextInputMode *current = [currentar firstObject]; // 键盘输入模式
     if ([current.primaryLanguage isEqualToString:@"zh-Hans"]) { // 简体中文输入，包括简体拼音，健体五笔，简体手写
         UITextRange *selectedRange = [textField markedTextRange];
@@ -194,7 +203,6 @@
             [HLSLable lableWithText:@"最多不超过200个字"];
         }
     }
-    
     
 }
 #pragma mark - HLSPhotoViewDelegate
@@ -299,8 +307,9 @@
                                     [self.photoArr removeObjectAtIndex:self.currentTag-1 ];
                                     [self.photoArr insertObject:url atIndex:self.currentTag -1];
                                 }
-        
-                                AddPhotoView.photoArr = self.photoArr;
+                    AddPhotoView.photoArr = self.photoArr;
+
+
         
         
                 }else{
@@ -319,10 +328,17 @@
         [HLSLable lableWithText:@"至少输入5个字符"];
         return;
     }
- 
-    NSString *imgUrlA = AddPhotoView.photoArr[0];
+    if (_adViceView.text.length >200) {
+        [HLSLable lableWithText:@"最多输入200个字符"];
+        return;
+    }
+    NSString *imgUrlA = @"";
     NSString *imgUrlB = @"";
     NSString *imgUrlC = @"";
+    if (AddPhotoView.photoArr.count >0) {
+    imgUrlA = AddPhotoView.photoArr[0];
+    imgUrlB = @"";
+    imgUrlC = @"";
     if (AddPhotoView.photoArr.count > 1) {
         imgUrlB = AddPhotoView.photoArr[1];
 
@@ -331,13 +347,14 @@
         imgUrlC = AddPhotoView.photoArr[2];
 
     }
+     }
         [self showMLhud];
         [MLMyRequest PostsaveOpinionWithcontent:_adViceView.text imgUrlA:imgUrlA imgUrlB:imgUrlB imgUrlC:imgUrlC Success:^(NSDictionary *dic) {
         self.HUD.hidden = YES;
         if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
             [HLSLable lableWithText:@"提交成功，感谢您对米粒保险的支持！"];
             
-
+            [self.navigationController popViewControllerAnimated:YES];
                 }else{
                     [HLSLable lableWithText:[dic xyValueForKey:@"message"] inView:self.view];
         

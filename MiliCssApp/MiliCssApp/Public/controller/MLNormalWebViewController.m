@@ -14,11 +14,12 @@
 #import "PosterDetailViewController.h"
 #import "LoginViewController.h"
 #import <UShareUI/UShareUI.h>
-
+#import "JSONTool.h"
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height
-
+#import "MLNoDataView.h"
 @interface MLNormalWebViewController ()<WKNavigationDelegate, WKUIDelegate,WKScriptMessageHandler,UITextFieldDelegate>
+@property (nonatomic,strong) MLNoDataView *noNetView;
 
 @property (nonatomic, strong) WKWebView *wkWebView;
 @property (nonatomic, strong) WKWebViewConfiguration *wkConfig;
@@ -101,6 +102,10 @@
 #pragma mark - start load web
     
 - (void)startLoad {
+    if (self.noNetView) {
+        [self.noNetView removeFromSuperview];
+        self.noNetView = nil;
+    }
     NSString *urlString;
         if ([self.AllUrlStr length]>0) {
             urlString = self.AllUrlStr;
@@ -112,7 +117,10 @@
     HLSLog(@"^^^^^^url地址%@",urlString);
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
         request.timeoutInterval = 15.0f;
-        [self.wkWebView loadRequest:request];
+//    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://h5.qzone.qq.com/mqzone/index"]];
+    HLSLog(@"---wkrequest：%@",[JSONTool dictionaryToJson:[HLSPersonalInfoTool getCookies]]);
+//    [request addValue:[JSONTool dictionaryToJson:[HLSPersonalInfoTool getCookies]] forHTTPHeaderField:@"Cookie"];
+    [self.wkWebView loadRequest:request];
     }
     
 #pragma mark - 监听
@@ -172,21 +180,69 @@
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
         NSLog(@"加载完成");
         //加载完成后隐藏progressView
-        //    self.progressView.hidden = YES;
-    }
+            self.progressView.hidden = YES;
+    NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithURL:webView.URL completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
+            NSHTTPURLResponse *tmpresponse = (NSHTTPURLResponse*)response;
+        
+             NSLog(@"statusCode---:%ld", tmpresponse.statusCode);
+        if (tmpresponse.statusCode == 502) {
+
+        }
+            }];
+    
+    [dataTask resume];
+  
+    
+    
+}
     
     //加载失败
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
         NSLog(@"加载失败");
         //加载失败同样需要隐藏progressView
         self.progressView.hidden = YES;
-    }
+//    if (!self.noNetView) {
+//        [self setupNoNetView];
+//    }
+    
+    
+}
+//无网络的时候
+- (void)setupNoNetView {
+    self.noNetView = [[MLNoDataView alloc]initWithImageName:@"img_Load_1" text:@"" detailText:nil buttonTitle:@"  加载失败，点击页面重试"];
+    self.noNetView.y = NaviHeight;
+    self.noNetView.width = kSCREENSIZE.width;
+    self.noNetView.height = kSCREENSIZE.height - self.noNetView.y - 49;
+    [self.noNetView.button addTarget:self action:@selector(startLoad) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.noNetView];
+
+}
+
     
     //页面跳转
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
         //允许页面跳转
         NSLog(@"%@",navigationAction.request.URL);
-        decisionHandler(WKNavigationActionPolicyAllow);
+    NSURL *url = navigationAction.request.URL;
+    NSString *scheme = [url scheme];
+    UIApplication *app = [UIApplication sharedApplication];
+    WKNavigationActionPolicy actionPolicy = WKNavigationActionPolicyAllow;
+    
+    if ([scheme isEqualToString:@"tel"]) {
+        if ([app canOpenURL:url]) {
+            CGFloat version = [[[UIDevice currentDevice]systemVersion]floatValue];
+            if (version >= 10.0) {
+                /// 大于等于10.0系统使用此openURL方法
+                [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
+            } else {
+                [[UIApplication sharedApplication] openURL:url];
+            }
+        }
+    }
+    /* 这句话一定要实现 不然会异常 */
+    decisionHandler(actionPolicy);
+//    decisionHandler(WKNavigationActionPolicyAllow);
 }
     
     
@@ -228,6 +284,7 @@
         [self.textField resignFirstResponder];
         return YES;
 }
+
 
 //实现js调用ios的handle委托
 - (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message {
@@ -275,7 +332,7 @@
 //    [HLSLable lableWithText:@"111分享"];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     [param setValue:_newsmodel.articleTitle forKey:@"Title"];
-    [param setValue:_newsmodel.content forKey:@"descr"];
+    [param setValue:@"让保障无处不在" forKey:@"descr"];
     [param setValue:_newsmodel.imgSmallUrl forKey:@"thumImage"];
     [param setValue:[NSString stringWithFormat:@"%@%@",RequestWebUrl,self.UrlStr] forKey:@"webpageUrl"];
 

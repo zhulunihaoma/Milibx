@@ -18,6 +18,7 @@
 #import "UIImage+GIF.h"
 #import "HKNewsBannerView.h"
 #import "LoginViewController.h"
+#import "NewsModel.h"
 @interface HomeViewController ()
 {
     NSMutableDictionary *DataDic;
@@ -25,14 +26,14 @@
 
     UIView *v;
     HKNewsBannerView *mynewsView;
+    BOOL IsarticleList;
 }
 @end
 
 @implementation HomeViewController
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    DataDic = [NSMutableDictionary new];
-    MyDic = [NSMutableDictionary new];
+   
 
 }
 - (void)viewDidLoad {
@@ -40,9 +41,11 @@
 
     self.navigationView.hidden = YES;
     self.title = @"首页";
+    DataDic = [NSMutableDictionary new];
+    MyDic = [NSMutableDictionary new];
     [self setupSubViews];
     [self isLogin];
-
+    IsarticleList = NO;
 
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(homerefresh:) name:@"home" object:nil];
     // Do any additional setup after loading the view.
@@ -77,10 +80,24 @@
         [self.HUD hideAnimated:YES];
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
-        MyDic = dic;
+        MyDic = [NSMutableDictionary dictionaryWithDictionary:dic];
+        
         if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
             
+            
+            
             DataDic = [dic xyValueForKey:@"result"];
+            
+            if ([[DataDic allKeys] containsObject:@"articleList"]) {
+                if ([[DataDic xyValueForKey:@"articleList"] count] > 0) {
+                    IsarticleList = YES;
+                }else{
+                    IsarticleList = NO;
+                }
+            }else{
+                IsarticleList = NO;
+            }
+            
             
             [self.tableView reloadData];
            
@@ -102,7 +119,7 @@
     self.tableView.y = -StatueBarHeight;
     self.tableView.width = SCREEN_WIDTH;
     self.tableView.backgroundColor = MLBGColor;
-    //[self.tableView registerClass:[RequestTextFieldCell class] forCellReuseIdentifier:@"cell"];
+    [self.tableView registerClass:[Home_TopTableViewCell class] forCellReuseIdentifier:@"cell"];
     self.tableView.height = SCREEN_HEIGHT-49+StatueBarHeight;
     self.tableView.showsVerticalScrollIndicator = NO;
     [self.tableView registerClass:[Home_PromoteTableViewCell class] forCellReuseIdentifier:@"Cell2"];
@@ -116,8 +133,7 @@
     
     NSArray *MLnewsArr = [DataDic xyValueForKey:@"articleList"];
     
-    if (MLnewsArr !=@"") {
-        
+    
         
         NSMutableArray *newArr = [NSMutableArray new];
         for (int i = 0; i <MLnewsArr.count; i++) {
@@ -162,21 +178,40 @@
 //        if (!newsView) {
             
             
-         HKNewsBannerView *newsView = [[HKNewsBannerView alloc] initWithFrame:CGRectMake(92, 20, 180, 35)];
+         HKNewsBannerView *newsView = [[HKNewsBannerView alloc] initWithFrame:CGRectMake(92, 20, SCREEN_WIDTH-200, 35)];
             if (newArr.count>0) {
-                NSArray *newsArr = @[[newArr[0] xyValueForKey:@"title"],[newArr[1] xyValueForKey:@"title"]];
-                newsView.newsArray = newsArr;
-                newsView.imageArray = @[@"img_home_militt_2",@"img_home_militt_2",];
+                if (newArr.count>1) {
+                    NSArray *newsArr = @[[NSString stringWithFormat:@" %@",[newArr[0] xyValueForKey:@"title"]],[NSString stringWithFormat:@" %@",[newArr[1] xyValueForKey:@"title"]]];
+                    newsView.newsArray = newsArr;
+                    newsView.imageArray = @[@"img_home_militt_2",@"img_home_militt_2",];
+                }else{
+                    NSArray *newsArr = @[[NSString stringWithFormat:@" %@",[newArr[0] xyValueForKey:@"title"]],[NSString stringWithFormat:@" %@",[newArr[0] xyValueForKey:@"title"]]];
+                    newsView.newsArray = newsArr;
+                    newsView.imageArray = @[@"img_home_militt_2",@"img_home_militt_2",];
+                }
+                
+               
             }
             //    newsView.backgroundColor = [UIColor lightGrayColor];
             newsView.newsColor = [UIColor blackColor];
             newsView.clickNewsOperationBlock = ^(NSInteger tapIndex){
                 MLDebugLog;
                 NSLog(@"点击了消息%zd", tapIndex);
-                //        self.tabBarController.selectedIndex = 1;
-                
-                [GetUnderController getvcwithtarget:self].tabBarController.selectedIndex = 1;
-                
+               
+                MLNormalWebViewController *avc = [[MLNormalWebViewController alloc]init];
+                NewsModel *model;
+                if (newArr.count>1) {
+                    model = [NewsModel mj_objectWithKeyValues:MLnewsArr[tapIndex]];
+
+                }else{
+                    model = [NewsModel mj_objectWithKeyValues:MLnewsArr[0]];
+
+                }
+                avc.UrlStr = [NSString stringWithFormat:@"/discover/detail?id=%@",model.articleId];
+                avc.TypeStr = @"1";
+                avc.newsmodel = model;
+                model.readNo  = [NSString stringWithFormat:@"%ld",[model.readNo integerValue]+1];
+                [self.navigationController pushViewController:avc animated:YES];
             };
             [v addSubview:newsView];
             [v layoutIfNeeded];
@@ -193,10 +228,6 @@
         GoseeBtn.x = v.width - 19 - GoseeBtn.width;
         GoseeBtn.centerY = v.height/2;
         [GoseeBtn addTarget:self action:@selector(gonews) forControlEvents:UIControlEventTouchUpInside];
-    }
-    //    GoseeBtn.sd_layout
-    //    .rightSpaceToView(v, 19)
-    //    .centerYEqualToView(v);
     
 }
 /**
@@ -221,7 +252,16 @@
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
-    return 5;
+    if ([[DataDic allKeys] containsObject:@"articleList"]) {
+        if ([[DataDic xyValueForKey:@"articleList"] count] > 0) {
+            return 5;
+
+        }else{
+            return 4;
+        }
+    }else{
+        return 4;
+    }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 0.001;
@@ -261,12 +301,18 @@
             
             if ([[MyDic xyValueForKey:@"message"] length]>0) {
                 HLSLog(@"---首页%@",[DataDic xyValueForKey:@"productList"]);
-                if ([[DataDic xyValueForKey:@"productList"] count] > 1) {
-                    return  315;
-
+                if ([[DataDic allKeys] containsObject:@"productList"]) {
+                    if ([[DataDic xyValueForKey:@"productList"] count] > 1) {
+                        return  315;
+                        
+                    }else{
+                        return  315-130;
+                    }
                 }else{
                     return  315-130;
+
                 }
+                
             }else{
                 return  315-130;
             }
@@ -274,10 +320,17 @@
 
             break;
         case 3:
-            return  75;
+            if (IsarticleList) {
+                return  75;
+                
+            }else{
+                return  105;
+                
+            }
             break;
         case 4:
             return  105;
+
             break;
         default:
             return  0;
@@ -292,12 +345,16 @@
     
     if (indexPath.section == 0) {
         // 定义唯一标识
-        static NSString *CellIdentifier = @"Cell0";
         // 通过唯一标识创建cell实例
-        Home_TopTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+   
+        static NSString *identifier = @"cell";
+        Home_TopTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (!cell) {
-            cell = [[Home_TopTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+            cell = [[Home_TopTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
         }
+        cell = [[Home_TopTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+
+        
         cell.DataDic = DataDic;
         return cell;
     }
@@ -316,14 +373,14 @@
         // 定义唯一标识
         static NSString *CellIdentifier = @"Cell2";
         // 通过唯一标识创建cell实例
-        Home_PromoteTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (!cell) {
-            cell = [[Home_PromoteTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-        }
+        Home_PromoteTableViewCell *cell = [[Home_PromoteTableViewCell alloc]init];
         cell.DataDic = DataDic;
         return cell;
     }
     if (indexPath.section == 3) {
+        if (IsarticleList) {
+            
+    
         // 定义唯一标识
         static NSString *CellIdentifier = @"Cell3";
         // 通过唯一标识创建cell实例
@@ -333,17 +390,24 @@
         if (!cell) {
             cell = [[Home_NewsTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         }
-//        cell.DataDic = DataDic;
-        if (!v) {
+        
             [v removeFromSuperview];
-            
             [self makeBroadcasts:DataDic In:cell.contentView];
-        }else{
             [mynewsView startRolling];
-
-        }
+            
         
         return cell;
+        }else{
+            // 定义唯一标识
+            static NSString *CellIdentifier = @"Cell4";
+            // 通过唯一标识创建cell实例
+            Home_AdvantageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (!cell) {
+                cell = [[Home_AdvantageTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+            }
+            
+            return cell;
+        }
     }
     if (indexPath.section == 4) {
         // 定义唯一标识

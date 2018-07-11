@@ -59,16 +59,17 @@
     
 }
 - (void)setPhotoArr:(NSMutableArray *)photoArr {
+    
     _photoArr = photoArr;
     for (UIButton *btn in self.photoBtnArr) {
         [btn removeFromSuperview];
-    
+
     }
     for (UIButton *btn in self.closeBtnArr) {
         [btn removeFromSuperview];
-        
+
     }
-    
+
     [self.photoBtnArr removeAllObjects];
     for (int i = 0; i < photoArr.count; i++) {
         NSString *imageUrl = photoArr[i];
@@ -78,15 +79,16 @@
         UIButton *btn = [[UIButton alloc]init];
         btn.clipsToBounds = YES;
         btn.tag = i + 1;
-        
-        
-        [btn sd_setImageWithURL:URLWith(imageUrl) forState:UIControlStateNormal placeholderImage:HolderWith(@"img_loading_small")];
-        HLSLog(@"----循环图片:%@",imageUrl);
+
+
+        [btn sd_setImageWithURL:[NSURL URLWithString:imageUrl] forState:UIControlStateNormal placeholderImage:HolderWith(@"img_loading_small")];
+
+
         btn.contentMode = UIViewContentModeScaleAspectFill;
         [btn addTarget:self action:@selector(clickPhoto:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:btn];
         [self.photoBtnArr addObject:btn];
-        
+
         if (photoArr.count > 0) {
 
 //        红色的叉号
@@ -105,6 +107,7 @@
         }
 
     }
+
 }
 
 /**
@@ -135,23 +138,23 @@
         btn.height = btn.width;
         btn.x = i * (10 + btn.width);
     }
+    
+    
+ 
+    [self.lable sizeToFit];
+    self.lable.y = self.height + 5;
+    
+ 
     [UIView animateWithDuration:0.3 animations:^{
-        self.addPhotoBtn.x = self.photoBtnArr.count * (10 + self.addPhotoBtn.width);
+        self.addPhotoBtn.x = self.photoBtnArr.count * (self.addPhotoBtn.width + 10);
         self.lable.x = 0;
     }];
-    self.lable.height = 30;
-
-    self.lable.y = self.addPhotoBtn.height + 10;
-    self.lable.width = self.width-self.addPhotoBtn.width-10;
-    self.lable.numberOfLines = 0;
-    
-//
-//    if (self.photoBtnArr.count > 0) {
-//        self.lable.hidden = YES;
-//    }else {
-//        self.lable.hidden = NO;
-//    }
     if (self.photoBtnArr.count > 2) {
+        self.lable.hidden = YES;
+    }else {
+        self.lable.hidden = NO;
+    }
+    if (self.photoBtnArr.count > _maxNum-1) {
         self.addPhotoBtn.hidden = YES;
         
     }else {

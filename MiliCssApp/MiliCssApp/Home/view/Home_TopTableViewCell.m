@@ -157,12 +157,12 @@ TittleImgView.sd_layout
     
     
     
-    UILabel *ToolsTittle = [HLSLable LabelWithFont:16 WithTextalignment:NSTextAlignmentLeft WithTextColor:[UIColor whiteColor] WithFatherView:Top_BgImg];
+    UILabel *ToolsTittle = [HLSLable LabelWithFont:Fit6(16) WithTextalignment:NSTextAlignmentLeft WithTextColor:[UIColor whiteColor] WithFatherView:Top_BgImg];
     ToolsTittle.text = @"嘿嘿，你已被这个星球最温暖的保障锁定～";
     ToolsTittle.sd_layout
     .leftSpaceToView(Top_BgImg, 28)
     .topSpaceToView(Top_BgImg, 26+NaviHeight)
-    .widthIs(170)
+    .widthIs(140)
     .autoHeightRatio(0);
     
     
@@ -171,14 +171,11 @@ TittleImgView.sd_layout
     BannerView.pageControlAliment =  SDCycleScrollViewPageContolAlimentCenter;
     BannerView.layer.cornerRadius = 8;
     BannerView.layer.masksToBounds = YES;
-
+    BannerView.backgroundColor = [UIColor whiteColor];
         BannerView.currentPageDotColor = MLNaviColor;
 
     BannerView.imageURLStringsGroup = @[
-                                        @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528796505753&di=4ef5f2dff1f19b336fbd3d1b36314a15&imgtype=0&src=http%3A%2F%2Fwww.fun99.cn%2Fuploads%2Fallimg%2Fc180604%2F152P9155025C0-11Z5.jpg",
-                                        @"https://pics.sc.chinaz.com/files/pic/pic9/201806/zzpic12257.jpg",
-                                        @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1527485581800&di=7bd2c03c1fa5b8c496a8c6092e84bef0&imgtype=0&src=http%3A%2F%2Fi.shangc.net%2F2018%2F0526%2F20180526091117619.jpg",
-                                        @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488778259383&di=c5ccc270675a567e1d70c52886b95f24&imgtype=0&src=http%3A%2F%2Fpic.58pic.com%2F58pic%2F16%2F50%2F51%2F50Y58PICp4P_1024.jpg"];
+                                        @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528796505753&di=4ef5f2dff1f19b336fbd3d1b36314a15&imgtype=0&src=http%3A%2F%2Fwww.fun99.cn%2Fuploads%2Fallimg%2Fc180604%2F152P9155025C0-11Z5.jpg",];
     
     
     [Top_BgImg addSubview:BannerView];
@@ -244,6 +241,10 @@ TittleImgView.sd_layout
     }
     
     if(sender.tag==1){//下级管理
+        if ([[HLSPersonalInfoTool merchantLevel] integerValue] >4) {
+            [HLSLable lableWithText:@"抱歉，您暂时没有该权限"];
+            return;
+        }
         MLNormalWebViewController *vc = [MLNormalWebViewController new];
         vc.TittleStr = @"下级管理";
         vc.UrlStr = @"/opena/list";

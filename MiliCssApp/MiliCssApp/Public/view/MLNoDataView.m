@@ -14,7 +14,13 @@
     self = [super init];
     if (self) {
         
-        CGFloat y = 114;
+        CGFloat y ;
+        if (iPhone6||iPhone5) {
+            y = 50;
+        }else{
+            y = 100;
+
+        }
         
         UIImageView *imageView = [[UIImageView alloc]init];
         imageView.image = [UIImage imageNamed:imageName];

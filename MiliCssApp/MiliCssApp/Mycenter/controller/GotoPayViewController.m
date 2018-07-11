@@ -23,9 +23,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"去支付";
+    self.title = @"等待支付";
     HLSLog(@"---支付orderid%@",self.OrderId);
-    
+//    self.OrderId = @"18071011224910000002";
     //支付信息返回通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alipayresult:) name:@"alipayResult" object:nil];
     
@@ -123,8 +123,8 @@
     TopView.sd_layout
     .leftSpaceToView(self.view, 9)
     .topSpaceToView(self.view, NaviHeight+18)
-    .rightSpaceToView(self.view, 9)
-    .heightIs(229);
+    .rightSpaceToView(self.view, 9);
+
 //    倒计时iocn
     UIImageView *TimeIcon = [[UIImageView alloc]init];
     [TopView addSubview:TimeIcon];
@@ -161,7 +161,7 @@
     .topSpaceToView(LineImg, 17)
     .leftSpaceToView(TopView, 21);
     
-    [ProNameLab setSingleLineAutoResizeWithMaxWidth:(250)];
+    [ProNameLab setSingleLineAutoResizeWithMaxWidth:(SCREEN_WIDTH - 165)];
     
     ProNameLab.text = [DataDic xyValueForKey:@"productName"];
     // 订单号
@@ -174,15 +174,16 @@
     [OrderNameLab setSingleLineAutoResizeWithMaxWidth:(250)];
     
     OrderNameLab.text = [NSString stringWithFormat:@"订单号：%@",[DataDic xyValueForKey:@"orderCode"]];
-    
+    [TopView setupAutoHeightWithBottomView:OrderNameLab bottomMargin:10];
+
 //    价格
-    UILabel *Price1 = [HLSLable LabelWithFont:24 WithTextalignment:NSTextAlignmentLeft WithTextColor:HLSColor(255, 123, 6) WithFatherView:TopView];
+    UILabel *Price1 = [HLSLable LabelWithFont:Fit6(24) WithTextalignment:NSTextAlignmentRight WithTextColor:HLSColor(255, 123, 6) WithFatherView:TopView];
     Price1.sd_layout
     .heightIs(24)
     .topSpaceToView(LineImg, 28)
     .rightSpaceToView(TopView, 21);
     
-    [Price1 setSingleLineAutoResizeWithMaxWidth:(100)];
+    [Price1 setSingleLineAutoResizeWithMaxWidth:(145)];
     
     Price1.text = [NSString stringWithFormat:@"¥%@",[DataDic xyValueForKey:@"policyAmount"]];
     

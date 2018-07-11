@@ -10,7 +10,8 @@
 #import "MD5Tool.h"
 #import "MLloginRequest.h"
 #import "HLSValidateCodeTool.h"
-@interface ChangeMyPSWViewController ()
+#import "LoginViewController.h"
+@interface ChangeMyPSWViewController ()<UITextFieldDelegate>
 {
     UITextField *OldPw;
 
@@ -67,7 +68,8 @@
     OldPw = [[UITextField alloc]init];
     OldPw.placeholder = @"请输入原密码";
     [OldPwBgView addSubview:OldPw];
-    
+    OldPw.clearsOnBeginEditing = NO;
+    OldPw.delegate = self;
     OldPw.x = 0;
     OldPw.y = 0;
     OldPw.width = SCREEN_WIDTH - 64-22;
@@ -103,7 +105,9 @@
     NewPw = [[UITextField alloc]init];
     NewPw.placeholder = @"请输入新密码";
     [NewPwBgView addSubview:NewPw];
-    
+    NewPw.clearsOnBeginEditing = NO;
+    NewPw.delegate = self;
+
     NewPw.x = 0;
     NewPw.y = 0;
     NewPw.width = SCREEN_WIDTH - 64-22;
@@ -142,6 +146,9 @@
     [self.view addSubview:MoreNewPwBgView];
     MoreNewPw = [[UITextField alloc]init];
     MoreNewPw.placeholder = @"请输入新密码";
+    MoreNewPw.clearsOnBeginEditing = NO;
+    MoreNewPw.delegate = self;
+
     [MoreNewPwBgView addSubview:MoreNewPw];
     
     MoreNewPw.x = 0;
@@ -227,6 +234,8 @@
     
 }
 -(void)changestatte_old:(UIButton *)sender{
+    [self.view endEditing:YES];
+
     sender.selected = !sender.selected;
     if (sender.selected) {
         OldPw.secureTextEntry = NO;
@@ -236,6 +245,8 @@
     }
 }
 -(void)changestatte_new:(UIButton *)sender{
+    [self.view endEditing:YES];
+
     sender.selected = !sender.selected;
     if (sender.selected) {
         NewPw.secureTextEntry = NO;
@@ -245,6 +256,8 @@
     }
 }
 -(void)changestatte_morenew:(UIButton *)sender{
+    [self.view endEditing:YES];
+
     sender.selected = !sender.selected;
     if (sender.selected) {
         MoreNewPw.secureTextEntry = NO;
@@ -303,8 +316,17 @@
         
         if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
             [HLSLable lableWithText:@"修改成功"];
-            [self.navigationController popViewControllerAnimated:YES];
-
+            
+            LoginViewController *lvc = [[LoginViewController alloc]init];
+            UINavigationController *navi = [[UINavigationController alloc]initWithRootViewController:lvc];
+            navi.navigationBarHidden = YES;
+            //        [self.delegate relogin];
+            [self presentViewController:navi animated:YES completion:^{
+                [self.navigationController popToRootViewControllerAnimated:YES];
+                self.tabBarController.selectedIndex = 0;
+                
+            }];
+            
         }else{
             [HLSLable lableWithText:[dic xyValueForKey:@"message"]];
         }
@@ -330,6 +352,15 @@
         }
     }
     
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+    NSString *updatedString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    
+    textField.text = updatedString;
+    
+    return NO;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

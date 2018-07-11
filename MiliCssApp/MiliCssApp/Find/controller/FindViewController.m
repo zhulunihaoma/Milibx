@@ -45,7 +45,10 @@
     
         HLSLog(@"发现,%@",dic);
         [self.HUD hideAnimated:YES];
-
+        if (self.noNetView) {
+            [self.noNetView removeFromSuperview];
+            self.noNetView = nil;
+        }
         if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
             
            DicTittleArr =  [[dic xyValueForKey:@"result"] xyValueForKey:@"columnList"];
