@@ -18,16 +18,16 @@ typedef NS_ENUM(NSInteger, UserType){
 
 + (BOOL)isLogin;
 
-+ (NSString *)getUid; //用户的id uid
-+ (NSString *)getToken; //用户的token
++ (NSString *)getCookies; //用户的cookies
++ (NSString *)getWAPSESSIONID; //用户的WAPSESSIONID
++ (NSString *)getmerchantCode; //用户的merchantCode
 
-+ (NSString *)getPhoneNum; 
++ (NSString *)getUserinfo;
 
-+ (NSString *)getUserType;
++ (NSString *)getdeviceId;
++ (NSString *)merchantLevel;
++ (NSString *)merchantNature;
 
-+ (NSString *)getCompanyId;
-+ (NSInteger)getLevel;//获取用户等级
-+ (NSString *)getqid;
 
 
 

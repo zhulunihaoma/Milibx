@@ -8,12 +8,14 @@
 
 #import "PublicViewController.h"
 #import "MJRefresh.h"
-//#import "MJGIFHeader.h"
-//#import "MJGIFFooter.h"
+
+#import "MLNoDataView.h"
 
 @interface PublicTableViewController : PublicViewController <UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic,strong) UITableView *tableView;
+@property (nonatomic,strong) MLNoDataView *noDataView;
+@property (nonatomic,strong) MLNoDataView *noNetView;
 /**
  *  初始化tableView
  *
@@ -33,4 +35,5 @@
  *  上拉加载
  */
 - (void)footerRefresh;
+
 @end

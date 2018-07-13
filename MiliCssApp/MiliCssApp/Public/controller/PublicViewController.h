@@ -15,8 +15,10 @@
 @property (nonatomic,strong) CustomNavigation *navigationView;
 
 @property (nonatomic, strong) MBProgressHUD *HUD;
-
+-(void)showMLhud;
 - (void)back;
+- (void)close;
+
 - (void)clickRightBtn;
 
 @end

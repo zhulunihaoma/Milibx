@@ -7,7 +7,7 @@
 //
 
 #import "HLSLable.h"
-
+#import "LoginViewController.h"
 @implementation HLSLable
 
 - (id)initWithFrame:(CGRect)frame
@@ -18,21 +18,49 @@
     }
     return self;
 }
-- (instancetype)initWithText:(NSString *)text font:(UIFont *)font textColor:(UIColor *)textColor {
-    self = [super init];
-    if (self) {
-        self.text = text;
-        self.font = font;
-        self.textColor = textColor;
-        [self sizeToFit];
-    }
-    return self;
-}
+
 + (void)lableWithText:(NSString *)text {
-    
-    //    CGRect rect = [text boundingRectWithSize:CGSizeMake(300, 20) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil];
+    if ([text isEqualToString:@"10016020"]) {
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"您的账号已经在其他地方登录，为了保证您的账户安全，请您重新登录。" preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+            
+            LoginViewController *lvc = [[LoginViewController alloc]init];
+            UINavigationController *nvc = [[UINavigationController alloc]initWithRootViewController:lvc];
+            nvc.navigationBarHidden = YES;
+            [[GetUnderController getCurrentVC] presentViewController:nvc animated:YES completion:nil];
+
+        }];
+        
+        
+        
+        [alert addAction:action];
+        
+        [mUserDefaults removeObjectForKey:KUserInfoDic];
+        [mUserDefaults setObject:@"1" forKey:@"isTag"];
+        [mUserDefaults synchronize];
+        
+        [[GetUnderController getCurrentVC] presentViewController:alert animated:YES completion:nil];
+        
+     
+        return;
+    }
+    if ([text isEqualToString:@"10013333"]) {
+        
+        LoginViewController *lvc = [[LoginViewController alloc]init];
+        UINavigationController *nvc = [[UINavigationController alloc]initWithRootViewController:lvc];
+        nvc.navigationBarHidden = YES;
+        [[GetUnderController getCurrentVC] presentViewController:nvc animated:YES completion:nil];
+
+        [mUserDefaults removeObjectForKey:KUserInfoDic];
+        [mUserDefaults setObject:@"1" forKey:@"isTag"];
+        [mUserDefaults synchronize];
+        
+        return;
+    }
     HLSLable *lable = [[HLSLable alloc]init];
-    //    lable.frame = CGRectMake((kSCREENSIZE.width - rect.size.width)/2, kSCREENSIZE.height - 100, rect.size.width, 20);
     
     lable.alpha = 0;
     lable.textAlignment = NSTextAlignmentCenter;
@@ -144,6 +172,19 @@
         
     });
     
+}
+
++(UILabel *)LabelWithFont:(NSInteger)font WithTextalignment:(NSTextAlignment)Alignment WithTextColor:(UIColor *)textColor WithFatherView:(UIView*)fview{
+    UILabel *lab = [[UILabel alloc]init];
+    lab.textAlignment = Alignment;
+    lab.font = [UIFont systemFontOfSize:font];
+    lab.textColor = textColor;
+    
+    if (fview != nil) {
+        [fview addSubview:lab];
+    }
+    
+    return lab;
 }
 
 

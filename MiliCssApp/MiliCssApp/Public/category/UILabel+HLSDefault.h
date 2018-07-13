@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface UILabel (HLSDefault)
+
+
 /**
  *  设置全属性Label，文字，字体，颜色，格式,可加入父试图
  *

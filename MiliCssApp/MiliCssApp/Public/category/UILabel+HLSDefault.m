@@ -9,6 +9,7 @@
 #import "UILabel+HLSDefault.h"
 
 @implementation UILabel (HLSDefault)
+
 +(UILabel *)LabelWithText:(NSString *)str WithFont:(NSInteger)font WithTextalignment:(NSTextAlignment)Alignment WithTextColor:(UIColor *)textColor WithFatherView:(UIView*)fview{
 
    UILabel *lab = [[UILabel alloc]init];

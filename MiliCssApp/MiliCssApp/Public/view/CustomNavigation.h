@@ -8,15 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-#define StatueBarHeight 20
-#define NaviHeight 64
-#define NaviLeftPadding 10
+
 @interface CustomNavigation : UIView
 
 /**
  *  navi左边按钮
  */
 @property (nonatomic,strong) UIButton * leftBtn;
+/**
+ *  navi左边关闭按钮
+ */
+@property (nonatomic,strong) UIButton * leftCloseBtn;
 /**
  *  navi右边按钮
  */
@@ -29,5 +31,7 @@
  *  最下面的线
  */
 @property (nonatomic,strong) UIImageView * lineImageView;
+@property (nonatomic,strong) UIImageView *backimg;
+
 
 @end

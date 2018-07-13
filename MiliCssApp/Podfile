@@ -13,6 +13,15 @@ target 'MiliCssApp' do
 	pod 'AFNetworking'
 	pod 'SDWebImage'
 	pod 'IQKeyboardManager'
+	pod 'SDCycleScrollView'
+ 	pod 'SDAutoLayout'
+	pod 'UMCCommon'
+    	pod 'UMCSecurityPlugins'
+	pod 'UMCShare/UI'
+	pod 'UMCShare/Social/WeChat'
+	pod 'UMCShare/Social/QQ'
+	pod 'JPush'
+	pod 'AliPay'
   target 'MiliCssAppTests' do
     inherit! :search_paths
     # Pods for testing

@@ -14,41 +14,37 @@
 
 + (BOOL)isLogin
 {
-    if ([self getToken].length >0) {
-        return YES;
+    return YES;
 
-    }else{
-        return NO;
-    }
 }
 
-+ (NSString *)getToken{
-    return DEF_PERSISTENT_GET_OBJECT(@"token");
++ (NSString *)getCookies{
+    return [[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"cookies"];
 }
-+ (NSString *)getUid
++ (NSString *)getWAPSESSIONID{
+    return [[[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"cookies"] xyValueForKey:@"WAPSESSIONID"];
+
+//    return [[DEF_PERSISTENT_GET_OBJECT(@"userinfo") xyValueForKey:@"cookies"] xyValueForKey:@"WAPSESSIONID"];
+}
++ (NSString *)getmerchantCode{//用户的merchantCode
+    return [[[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"user"] xyValueForKey:@"customerCode"];
+
+}
+
++ (NSString *)getUserinfo
 {
-    return [[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"uid"];
+    return [[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"user"];
 }
-+ (NSString *)getPhoneNum{
-    return [[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"mobile"];
-
-
++ (NSString *)merchantLevel{
+    return [[[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"user"] xyValueForKey:@"merchantLevel"];
+}
++ (NSString *)merchantNature{
+    return [[[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"user"] xyValueForKey:@"merchantNature"];
 }
 
-+ (NSString *)getUserType
-{
-    return [[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"userType"];
-}
-+ (NSString *)getCompanyId {
-    return [[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"companyId"];
-}
-+ (NSInteger )getLevel{//获取用户等级
-    return [[[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"level"] integerValue];
-}
-+ (NSString *)getqid{
-    return [[mUserDefaults objectForKey:KUserInfoDic] xyValueForKey:@"qid"];
-
-
++ (NSString *)getdeviceId{
+    NSString *deviceUUID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    return deviceUUID;
 }
 
 /**

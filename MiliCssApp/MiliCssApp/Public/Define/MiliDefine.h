@@ -8,7 +8,26 @@
 
 #ifndef MiliDefine_h
 #define MiliDefine_h
+
+#define StatueBarHeight [[UIApplication sharedApplication] statusBarFrame].size.height
+#define NaviHeight StatueBarHeight+44
+#define NaviLeftPadding 10
+#define TabBarHeight ([[UIApplication sharedApplication] statusBarFrame].size.height>20?83:49)
+
+
+//默认图
+#define DefaultHolder [UIImage imageNamed:@"img_auxiliary_default"]
+
+#define HolderWith(name) [UIImage imageNamed:name]
+//获取URL
+#define URLWith(str) [NSURL URLWithString:[NSString stringWithFormat:@"%@",str]]
+
+//字体
+#define TextFontSize(a) [UIFont systemFontOfSize:(a)]
 //获得RGB颜色
+//RGB
+#define COLORWithRGB(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
+
 #define HLSColor(r, g, b)\
 [UIColor colorWithRed:r / 255.0 green:g / 255.0 blue:b / 255.0 alpha:1.0]
 
@@ -17,11 +36,15 @@
 /**
  * HLSColor(250, 250, 250)导航灰
  */
-#define MLNaviColor HLSColor(250, 250, 250)
+#define MLNaviColor HLSColor(75, 220, 69)
 /**
- * HLSColor(250, 250, 250)导航灰
+ * HLSColor(250, 250, 250)全局颜色
  */
-#define MLBGColor HLSColor(250, 250, 250)
+#define MLBGColor HLSColor(237, 242, 238)
+//标题颜色
+#define MLTittleColor HLSColor(34, 34, 34)
+//详情颜色
+#define MLDetailColor HLSColor(158, 158, 158)
 
 //获取屏幕宽高
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
@@ -31,7 +54,7 @@
 #define iPhone5 kSCREENSIZE.width == 320
 #define iPhone6 kSCREENSIZE.width == 375
 #define iPhone6plus kSCREENSIZE.width == 414
-#define Fit6(a) a*(ScreenWidth/375)
+#define Fit6(a) a*(SCREEN_WIDTH/375)
 
 
 //token
@@ -40,6 +63,8 @@
 //版本号
 #define kVersions @"versions"
 #define CurrentVersions [mUserDefaults objectForKey:kVersions]//版本号
+//请求成功状态码
+#define SuccessCode 10018888
 
 //获取用户信息
 #define mUserDefaults [NSUserDefaults standardUserDefaults]
@@ -76,5 +101,21 @@ NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];               
 #define HLSLog(...)                                                             \
 {}
 #endif
+
+#define MLDebugLog       NSLog(@"%s,%d",__func__,__LINE__);
+
+//简单的以AlertView显示提示信息
+#define mAlertView(msg)                                                        \
+UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"      \
+message:msg                  \
+delegate:nil                  \
+cancelButtonTitle:@"确定"            \
+otherButtonTitles:nil];                \
+[alert show];
+
+//CurrentWindow
+#define CurrentWindow [[[[UIApplication sharedApplication] keyWindow] subviews] lastObject]
+//
+#define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
 
 #endif /* MiliDefine_h */
