@@ -23,19 +23,19 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0F8-7a-Rdh">
-                        <rect key="frame" x="8" y="8" width="34" height="31"/>
+                        <rect key="frame" x="20" y="20" width="10" height="7"/>
                     </imageView>
                 </subviews>
             </view>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="Wp3-CH-NTb" secondAttribute="trailing" constant="5" id="1lz-XP-TfA"/>
                 <constraint firstItem="Wp3-CH-NTb" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="2nb-3N-1nz"/>
-                <constraint firstItem="0F8-7a-Rdh" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="7ij-oX-Pat"/>
-                <constraint firstAttribute="trailing" secondItem="0F8-7a-Rdh" secondAttribute="trailing" constant="8" id="8Ml-wh-m4d"/>
+                <constraint firstItem="0F8-7a-Rdh" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="20" id="7ij-oX-Pat"/>
+                <constraint firstAttribute="trailing" secondItem="0F8-7a-Rdh" secondAttribute="trailing" constant="20" id="8Ml-wh-m4d"/>
                 <constraint firstItem="Wp3-CH-NTb" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="Uyi-qH-KpZ"/>
-                <constraint firstItem="0F8-7a-Rdh" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="8" id="bZV-6P-W3U"/>
+                <constraint firstItem="0F8-7a-Rdh" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="20" id="bZV-6P-W3U"/>
                 <constraint firstAttribute="bottom" secondItem="Wp3-CH-NTb" secondAttribute="bottom" constant="5" id="e5V-3W-V4A"/>
-                <constraint firstAttribute="bottom" secondItem="0F8-7a-Rdh" secondAttribute="bottom" constant="8" id="yxf-5C-CYR"/>
+                <constraint firstAttribute="bottom" secondItem="0F8-7a-Rdh" secondAttribute="bottom" constant="20" id="yxf-5C-CYR"/>
             </constraints>
             <size key="customSize" width="50" height="47"/>
             <connections>

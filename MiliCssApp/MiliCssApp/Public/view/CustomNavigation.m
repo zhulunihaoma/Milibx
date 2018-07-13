@@ -65,7 +65,7 @@
     [self.backimg addSubview:self.rightBtn = rightBtn];
     
     UILabel *titleLabel = [[UILabel alloc]init];
-    titleLabel.font = [UIFont systemFontOfSize:19];
+    titleLabel.font = [UIFont systemFontOfSize:17];
     titleLabel.textColor = HLSOneColor(255);
     titleLabel.textAlignment = NSTextAlignmentCenter;
     titleLabel.y = StatueBarHeight;

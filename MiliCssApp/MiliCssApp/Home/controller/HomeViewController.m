@@ -34,6 +34,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
    
+    [mynewsView startRolling];
 
 }
 - (void)viewDidLoad {
@@ -177,8 +178,14 @@
         
 //        if (!newsView) {
             
-            
+//            WithFrame:CGRectMake(92, 20, SCREEN_WIDTH-200, 35)
          HKNewsBannerView *newsView = [[HKNewsBannerView alloc] initWithFrame:CGRectMake(92, 20, SCREEN_WIDTH-200, 35)];
+//    [v addSubview:newsView];
+//    newsView.sd_layout
+//    .leftSpaceToView(titleImg, 20)
+//    .topSpaceToView(v, 20)
+//    .rightSpaceToView(self, 110)
+//    .heightIs(35);
             if (newArr.count>0) {
                 if (newArr.count>1) {
                     NSArray *newsArr = @[[NSString stringWithFormat:@" %@",[newArr[0] xyValueForKey:@"title"]],[NSString stringWithFormat:@" %@",[newArr[1] xyValueForKey:@"title"]]];
@@ -292,7 +299,7 @@
     
     switch (indexPath.section) {
         case 0:
-            return  302+NaviHeight;
+            return  Fit6(302)+NaviHeight;
             break;
         case 1:
             return  160;
@@ -324,12 +331,12 @@
                 return  75;
                 
             }else{
-                return  105;
-                
+                return  Fit6(105);
+
             }
             break;
         case 4:
-            return  105;
+            return  Fit6(105);
 
             break;
         default:
@@ -391,9 +398,12 @@
             cell = [[Home_NewsTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         }
         
-            [v removeFromSuperview];
-            [self makeBroadcasts:DataDic In:cell.contentView];
-            [mynewsView startRolling];
+//            if (!v) {
+                [v removeFromSuperview];
+                [self makeBroadcasts:DataDic In:cell.contentView];
+                [mynewsView startRolling];
+//            }
+           
             
         
         return cell;

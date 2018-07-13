@@ -38,7 +38,7 @@
     NSArray *titles = @[@"业绩报表",@"下级管理",@"海报"];
     NSArray *pics = @[@"ico_home_1",@"ico_home_2",@"ico_home_3"];
 
-    [self makeEqualWidthBtnNum:3 Names:titles Imgs:pics inView:self LRpadding:40 viewPadding:57 y:203+NaviHeight titlefont:13  titleColor:MLTittleColor withtag:0];
+    [self makeEqualWidthBtnNum:3 Names:titles Imgs:pics inView:self LRpadding:40 viewPadding:57 y:Fit6(203)+NaviHeight titlefont:13  titleColor:MLTittleColor withtag:0];
     
     
     
@@ -138,7 +138,7 @@
 //    Top_BgImg.image = [UIImage imageNamed:@"launchimg"];
     Top_BgImg.x = 0;
     Top_BgImg.y = 0;
-    Top_BgImg.height = 196+NaviHeight;
+    Top_BgImg.height = Fit6(196)+NaviHeight;
     Top_BgImg.width = SCREEN_WIDTH;
     Top_BgImg.userInteractionEnabled = YES;
     [self addSubview:Top_BgImg];
@@ -167,7 +167,7 @@ TittleImgView.sd_layout
     
     
     BannerView = [[SDCycleScrollView alloc]init];
-    BannerView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(10, 88+NaviHeight,SCREEN_WIDTH-20,100) delegate:self placeholderImage:[UIImage imageNamed:@""]];
+    BannerView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(10, Fit6(88)+NaviHeight,SCREEN_WIDTH-20,Fit6(100)) delegate:self placeholderImage:[UIImage imageNamed:@""]];
     BannerView.pageControlAliment =  SDCycleScrollViewPageContolAlimentCenter;
     BannerView.layer.cornerRadius = 8;
     BannerView.layer.masksToBounds = YES;

@@ -28,5 +28,10 @@
 
 @property (nonatomic,assign) BOOL hideAddPhoto;
 @property (nonatomic,assign) NSInteger maxNum;
+@property (nonatomic,strong) UIButton *Btn1;
+@property (nonatomic,strong) UIButton *Btn2;
+@property (nonatomic,strong) UIButton *Btn3;
+@property (nonatomic,strong) UIButton *Btn4;
+
 
 @end

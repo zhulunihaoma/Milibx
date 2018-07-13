@@ -57,7 +57,7 @@
     self.News_ReadNum.sd_layout
     .leftSpaceToView(self.News_Tag, 12)
     .centerYEqualToView(self.News_Tag)
-    .widthIs(72)
+    .widthIs(96)
     .heightIs(23);
     
 }

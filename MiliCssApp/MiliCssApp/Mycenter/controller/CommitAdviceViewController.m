@@ -12,6 +12,8 @@
 #import "MLMyRequest.h"
 #import "HLSSelectImageTool.h"
 #import "HLSValidateCodeTool.h"
+#import "UIButton+WebCache.h"
+
 //详情颜色
 #define MLHolderColor HLSColor(193, 193, 193)
 
@@ -23,6 +25,8 @@
 }
 @property(nonatomic,strong)UITextView *adViceView;
 @property (nonatomic,strong) NSMutableArray *photoArr;
+@property (nonatomic,strong) NSMutableArray *photoDataArr;
+
 @property (nonatomic,assign) NSInteger currentTag;
 @end
 
@@ -32,6 +36,8 @@
     [super viewDidLoad];
 //    self.title = @"意见反馈";
     self.navigationView.hidden = YES;
+    _photoDataArr = [NSMutableArray new];
+    _photoArr = [NSMutableArray new];
     placestr = @"请简明扼要的描述你的问题，我们会详细为你做出解答。";
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(textViewEditChanged:) name:UITextViewTextDidChangeNotification object:nil];
 
@@ -111,6 +117,7 @@
     photoView.y = 195+NaviHeight;
     photoView.width = SCREEN_WIDTH-20;
     photoView.height = 90+20;
+    photoView.maxNum = 3;
     photoView.lable.text = @"最多添加三张图片";
 //    photoView.lable.textColor = HLSColor(102, 102, 102);
     //        photoView.lable.backgroundColor = HLSGreenColor;
@@ -224,8 +231,11 @@
 }
 
 -(void)Deletephoto:(HLSPhotoView *)photoView clickIndex:(NSInteger)index{
+    [self.photoDataArr removeObjectAtIndex:index - 1];
     [self.photoArr removeObjectAtIndex:index - 1];
-    AddPhotoView.photoArr = self.photoArr;
+
+    AddPhotoView.photoArr = self.photoDataArr;
+    
     
 }
 #pragma mark - UIActionSheetDelegate
@@ -234,20 +244,20 @@
     ipc.delegate=self;
     ipc.allowsEditing = YES;
     if (index == 1) {//从手机相册中选则
-        self.photoArr = AddPhotoView.photoArr;
+        self.photoDataArr = AddPhotoView.photoArr;
         [ipc setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
         [self presentViewController:ipc animated:YES completion:nil];
     }else if (index == 2){//拍照
         [ipc setSourceType:UIImagePickerControllerSourceTypeCamera];
-        self.photoArr = AddPhotoView.photoArr;
+        self.photoDataArr = AddPhotoView.photoArr;
         
         [self presentViewController:ipc animated:YES completion:nil];
     }else if (index == 3) {//删除
-        [self.photoArr removeObjectAtIndex:self.currentTag - 1];
-        AddPhotoView.photoArr = self.photoArr;
+        [self.photoDataArr removeObjectAtIndex:self.currentTag - 1];
+        AddPhotoView.photoArr = self.photoDataArr;
     }
 }
--(void)ShowImgview:(NSString *)Imgstr{
+-(void)ShowImgview:(UIImage *)Img{
     
     ImgviewBg = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     ImgviewBg.backgroundColor = COLORWithRGB(0, 0, 0, 0.5);
@@ -256,7 +266,7 @@
     [self.view bringSubviewToFront:ImgviewBg];
     UIImageView *BigImg = [[UIImageView alloc]init];
     [ImgviewBg addSubview:BigImg];
-    [BigImg sd_setImageWithURL:URLWith(Imgstr) placeholderImage:HolderWith(@"img_loading.png")];
+    [BigImg setImage:Img];
     BigImg.sd_layout
     .centerXEqualToView(ImgviewBg)
     .topSpaceToView(ImgviewBg, 98)
@@ -282,6 +292,7 @@
 //选完图片后调用
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     UIImage *image= [info objectForKey:@"UIImagePickerControllerEditedImage"];
+    [_photoDataArr addObject:image];
     NSString *imageData = [HLSSelectImageTool ToBasestrWithImage:image];
     HLSLog(@"base64---%@",imageData);
         [self showMLhud];
@@ -301,20 +312,22 @@
         
         
                                 NSString *url = Currentimg;
+//                                    NSString *url = imageData;
+
                                 if (self.currentTag == 0) {
                                     [self.photoArr addObject:url];
                                 }else {
                                     [self.photoArr removeObjectAtIndex:self.currentTag-1 ];
                                     [self.photoArr insertObject:url atIndex:self.currentTag -1];
                                 }
-                    AddPhotoView.photoArr = self.photoArr;
+                    AddPhotoView.photoArr = self.photoDataArr;
 
 
-        
         
                 }else{
                     [HLSLable lableWithText:[dic xyValueForKey:@"message"]];
                 }
+                                   
     } failure:^(NSError *error) {
         [self.HUD hideAnimated:YES];
 
@@ -322,6 +335,14 @@
  
     
     [self dismissViewControllerAnimated:YES completion:Nil];
+}
+-(void)downloadImage{
+                                       
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+
+    });
+    
 }
 -(void)commitadvice{
     if (_adViceView.text.length < 5 || [_adViceView.text isEqualToString:placestr]) {
@@ -335,16 +356,16 @@
     NSString *imgUrlA = @"";
     NSString *imgUrlB = @"";
     NSString *imgUrlC = @"";
-    if (AddPhotoView.photoArr.count >0) {
-    imgUrlA = AddPhotoView.photoArr[0];
+    if (self.photoArr.count >0) {
+    imgUrlA = self.photoArr[0];
     imgUrlB = @"";
     imgUrlC = @"";
-    if (AddPhotoView.photoArr.count > 1) {
-        imgUrlB = AddPhotoView.photoArr[1];
+    if (self.photoArr.count > 1) {
+        imgUrlB = self.photoArr[1];
 
     }
-    if (AddPhotoView.photoArr.count > 2) {
-        imgUrlC = AddPhotoView.photoArr[2];
+    if (self.photoArr.count > 2) {
+        imgUrlC = self.photoArr[2];
 
     }
      }

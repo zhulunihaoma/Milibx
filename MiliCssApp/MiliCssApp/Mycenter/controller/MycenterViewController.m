@@ -28,11 +28,29 @@
 -(void)setupSubviews{
     [self MycenterView];
     [self.view addSubview:MycenterView];
-    MycenterView.sd_layout
-    .leftSpaceToView(self.view, 0)
-    .rightSpaceToView(self.view, 0)
-    .topSpaceToView(self.view, -StatueBarHeight)
-    .bottomSpaceToView(self.view, TabBarHeight);
+    CGFloat tabBarHeight = self.tabBarController.tabBar.frame.size.height;
+    int naheight = (int)StatueBarHeight;
+    NSInteger tabley;
+    tabley = - naheight;
+
+//    if (iPhone5) {
+//        tabley = - naheight;
+//    }else{
+//        tabley = 0;
+//    }
+    
+//    MycenterView.backgroundColor = [UIColor redColor];
+    MycenterView.x = 0;
+    MycenterView.y = tabley;
+    MycenterView.width = SCREEN_WIDTH;
+    MycenterView.height = SCREEN_HEIGHT-tabBarHeight;
+
+
+//    MycenterView.sd_layout
+//    .leftSpaceToView(self.view, 0)
+//    .rightSpaceToView(self.view, 0)
+//    .topSpaceToView(self.view, 0)
+//    .bottomSpaceToView(self.view, TabBarHeight);
 }
 -(UIView *)MycenterView{
     if (!MycenterView) {

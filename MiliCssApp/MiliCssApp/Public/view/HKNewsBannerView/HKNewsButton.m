@@ -15,14 +15,16 @@
         self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         self.titleEdgeInsets = UIEdgeInsetsMake(0, -12, 20, 0);
         self.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-        if (iPhone5 || iPhone6) {
-            self.titleLabel.sd_layout
-            .widthIs(Fit6(SCREEN_WIDTH - 220));
-
-        }else{
-            self.titleLabel.sd_layout
-            .widthIs(SCREEN_WIDTH - 80);
-        }
+//        if (iPhone5 || iPhone6) {
+//            self.titleLabel.sd_layout
+//            .widthIs(Fit6(SCREEN_WIDTH - 220));
+//
+//        }else{
+//            self.titleLabel.sd_layout
+//            .widthIs(SCREEN_WIDTH - 80);
+//        }
+        self.titleLabel.sd_layout
+         .widthIs(SCREEN_WIDTH - 200);
         self.titleLabel.font = TextFontSize(14);
         self.backgroundColor = [UIColor whiteColor];
         self.imageEdgeInsets = UIEdgeInsetsMake(20, 0, 0, 120);
@@ -36,7 +38,7 @@
         _deslab.sd_layout
         .topSpaceToView(self, 20)
         .leftSpaceToView(self, 15)
-        .widthIs(100)
+        .widthIs(SCREEN_WIDTH-230)
         .heightIs(17);
     }
     

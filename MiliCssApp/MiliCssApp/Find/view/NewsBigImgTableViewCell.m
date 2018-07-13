@@ -47,8 +47,14 @@ self.News_img.sd_layout
        self.News_ReadNum.sd_layout
         .leftSpaceToView(self.contentView, 15);
     }
-    self.News_ReadNum.text = [NSString stringWithFormat:@"阅读数 %@",Model.readNo];
-
+    NSString *readno;
+    if ([Model.readNo integerValue] >999) {
+        readno = @"999+";
+    }else{
+        readno = Model.readNo;
+    }
+    self.News_ReadNum.text = [NSString stringWithFormat:@"阅读数 %@",readno];
+    
 
 }
 - (void)awakeFromNib {

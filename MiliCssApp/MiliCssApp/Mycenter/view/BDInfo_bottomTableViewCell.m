@@ -74,7 +74,7 @@
 //        HLSLog(@"---每个地区的保费%.2f",[[arr[i] xyValueForKey:@"areaFee"] floatValue]);
         manyBtn.textAlignment = NSTextAlignmentLeft;
         if (i == 0) {
-            manyBtn.text = [NSString stringWithFormat:@"%@:%.2f%@",@"默认保费",[[_ProDic xyValueForKey:@"defaultFee"]  floatValue],@"%"];
+            manyBtn.text = [NSString stringWithFormat:@"%@:%.2f%@",@"默认推广费",[[_ProDic xyValueForKey:@"defaultFee"]  floatValue],@"%"];
         }else{
             manyBtn.text = [NSString stringWithFormat:@"%@:%.2f%@",[arr[i-1] xyValueForKey:@"areaName"],[[arr[i-1] xyValueForKey:@"areaFee"] floatValue],@"%"];
 
@@ -87,22 +87,22 @@
         [self addSubview:manyBtn];
         manyBtn.layer.cornerRadius = 3;
         HLSLog(@"这里是。。。%f",Fit6(80));
-        manyBtn.width = (SCREEN_WIDTH-Fit6(40))/3;
+//        manyBtn.width = (SCREEN_WIDTH-Fit6(40))/3;
         manyBtn.textColor = MLDetailColor;
         manyBtn.backgroundColor = [UIColor whiteColor];
-//        if (lastbtn.right+6+manyBtn.width+10>SCREEN_WIDTH-10) {
-        if(i%3 ==0 && i !=0){
-            manyBtn.y = lastbtn.bottom+10;
+        if (lastbtn.right+6+manyBtn.width+10>SCREEN_WIDTH-10) {
+//        if(i%3 ==0 && i !=0){
+            manyBtn.y = lastbtn.bottom+5;
             manyBtn.x = Fit6(20);
             
         }else{
             if ( i == 0) {
                 manyBtn.x = Fit6(20);
                 if (_index == 0) {
-                    manyBtn.y = 56;
+                    manyBtn.y = Fit6(42);
 
                 }else{
-                    manyBtn.y = 77;
+                    manyBtn.y =Fit6(62);
 
                 }
                 

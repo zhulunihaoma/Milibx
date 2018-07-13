@@ -122,9 +122,13 @@
     
 #pragma --aaaa
 //     NSArray  *array = [str componentsSeparatedByString:@","];
-    self.buttonsArray[0].deslab.text = [currentDisplayNews[0] componentsSeparatedByString:@","][1];
-    self.buttonsArray[1].deslab.text = [currentDisplayNews[1] componentsSeparatedByString:@","][1];
-    self.buttonsArray[2].deslab.text = [currentDisplayNews[2] componentsSeparatedByString:@","][1];
+    self.buttonsArray[0].deslab.text = [NSString stringWithFormat:@"%@热度",[currentDisplayNews[0] componentsSeparatedByString:@","][1]];
+    
+    
+    self.buttonsArray[1].deslab.text = [NSString stringWithFormat:@"%@热度",[currentDisplayNews[1] componentsSeparatedByString:@","][1]];
+    self.buttonsArray[2].deslab.text = [NSString stringWithFormat:@"%@热度",[currentDisplayNews[2] componentsSeparatedByString:@","][1]];
+     
+    
 
 //    [self.buttonsArray[0] setTitle:currentDisplayNews[0] forState:UIControlStateNormal];
 //    [self.buttonsArray[1] setTitle:currentDisplayNews[1] forState:UIControlStateNormal];

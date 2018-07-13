@@ -64,7 +64,7 @@
     [BgView addSubview:_titlelab];
     _titlelab.textAlignment = NSTextAlignmentLeft;
     _titlelab.sd_layout
-    .leftSpaceToView(BgView, 32)
+    .leftSpaceToView(BgView, 35)
     .widthIs(100)
     .heightIs(20)
     .centerYEqualToView(BgView);

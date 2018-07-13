@@ -8,7 +8,7 @@
 
 #import "HLSPhotoView.h"
 #import "UIButton+WebCache.h"
-
+#import "UIButton+AFNetworking.h"
 @interface HLSPhotoView ()
 
 
@@ -50,6 +50,8 @@
     UIButton *addPhotoBtn = [[UIButton alloc]init];
     [addPhotoBtn setImage:[UIImage imageNamed:@"btn_feedback_photoadd"] forState:UIControlStateNormal];
     [addPhotoBtn addTarget:self action:@selector(clickPhoto:) forControlEvents:UIControlEventTouchUpInside];
+//    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(clickPhoto:)];
+//    [addPhotoBtn addGestureRecognizer:tap];
     [self addSubview:self.addPhotoBtn = addPhotoBtn];
     
     UILabel *label = [[UILabel alloc]init];
@@ -72,20 +74,37 @@
 
     [self.photoBtnArr removeAllObjects];
     for (int i = 0; i < photoArr.count; i++) {
-        NSString *imageUrl = photoArr[i];
-        if (imageUrl.length == 0) {
-            continue;
-        }
+//        NSString *imageUrl = photoArr[i];
+//        if (imageUrl.length == 0) {
+//            continue;
+//        }
         UIButton *btn = [[UIButton alloc]init];
         btn.clipsToBounds = YES;
         btn.tag = i + 1;
+        if (i == 0) {
+            _Btn1 = btn;
+            
+        }
+        if (i == 1) {
+            _Btn2 = btn;
+            
+        }
+        if (i == 2) {
+            _Btn3 = btn;
+            
+        }
+        
+//[btn sd_setImageWithURL:[NSURL URLWithString:imageUrl] forState:UIControlStateNormal placeholderImage:HolderWith(@"img_loading_small")];
+//        [btn sd_setBackgroundImageWithURL:[NSURL URLWithString:imageUrl] forState:UIControlStateNormal placeholderImage:HolderWith(@"img_loading_small")];
 
-
-        [btn sd_setImageWithURL:[NSURL URLWithString:imageUrl] forState:UIControlStateNormal placeholderImage:HolderWith(@"img_loading_small")];
-
-
+//        [btn setImageForState:UIControlStateNormal withURL:[NSURL URLWithString:imageUrl] placeholderImage:HolderWith(@"img_loading_small")];
+        
+//        [btn sd_setImageWithURL:[NSURL URLWithString:imageUrl] forState:UIControlStateNormal placeholderImage:HolderWith(@"img_loading_small")];
+        [btn setImage:photoArr[i] forState:UIControlStateNormal];
+//        [btn setImage:[UIImage imageNamed:@"btn_feedback_photoadd"] forState:UIControlStateNormal];
         btn.contentMode = UIViewContentModeScaleAspectFill;
         [btn addTarget:self action:@selector(clickPhoto:) forControlEvents:UIControlEventTouchUpInside];
+        
         [self addSubview:btn];
         [self.photoBtnArr addObject:btn];
 
@@ -115,6 +134,8 @@
  */
 - (void)clickPhoto:(UIButton *)btn {
     if ([self.delegate respondsToSelector:@selector(photoView:clickIndex:)]) {
+//        vc.Posterindex = tap.view.tag-1000;
+
         [self.delegate photoView:self clickIndex:btn.tag];
     }
 }
@@ -164,5 +185,14 @@
     if (self.hideAddPhoto) {
         self.addPhotoBtn.hidden = YES;
     }
+}
+
+- (UIImage *)dataURL2Image: (NSString *) imgSrc
+{
+    NSURL *url = [NSURL URLWithString: imgSrc];
+    NSData *data = [NSData dataWithContentsOfURL: url];
+    UIImage *image = [UIImage imageWithData: data];
+    
+    return image;
 }
 @end

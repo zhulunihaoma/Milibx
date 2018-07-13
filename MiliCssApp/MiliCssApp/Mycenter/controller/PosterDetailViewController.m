@@ -39,6 +39,10 @@
     [MLMyRequest PostposterListWithproductCode:self.productCode merchantCode:[HLSPersonalInfoTool getmerchantCode] pageIndex:nil pageSize:nil Success:^(NSDictionary *dic) {
         [self.HUD hideAnimated:YES];
         HLSLog(@"---海报详情:%@",dic);
+        if (self.noDataView) {
+            [self.noDataView removeFromSuperview];
+            self.noDataView = nil;
+        }
         if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
 
             
@@ -46,13 +50,20 @@
                 [HLSLable lableWithText:@"暂无数据"];
                 return ;
             }
-          
-            DataDic = [[[dic xyValueForKey:@"result"] xyValueForKey:@"productList"][0]  xyValueForKey:@"posterList"];
-
-            ProductName = [[[dic xyValueForKey:@"result"] xyValueForKey:@"productList"][0]  xyValueForKey:@"productName"];
-
-            [self SetupSubViews];
-
+            if ([[[dic xyValueForKey:@"result"] xyValueForKey:@"productList"] count]>0) {
+                DataDic = [[[dic xyValueForKey:@"result"] xyValueForKey:@"productList"][0]  xyValueForKey:@"posterList"];
+                
+                ProductName = [[[dic xyValueForKey:@"result"] xyValueForKey:@"productList"][0]  xyValueForKey:@"productName"];
+                
+                [self SetupSubViews];
+            }else{
+                if (!self.noDataView) {
+                    [self setupNoDataView];
+                }
+                
+                
+            }
+            
             
         }else{
             [HLSLable lableWithText:[dic xyValueForKey:@"message"]];
@@ -63,7 +74,19 @@
     }];
     
 }
-
+/**
+ *  无数据View
+ */
+-(void)setupNoDataView{
+    self.title = @"海报";
+    self.noDataView = [[MLNoDataView alloc]initWithImageName:@"img_Load_3" text:@"海报陆续上架中，敬请期待" detailText:nil buttonTitle:nil];
+    self.noDataView.y = NaviHeight;
+    self.noDataView.width = SCREEN_WIDTH;
+    self.noDataView.height = SCREEN_HEIGHT - 64;
+    [self.view addSubview:self.noDataView];
+    
+    
+}
 -(void)SetupSubViews{
     bgimg = [[UIImageView alloc]init];
     NSString *SourceName;
@@ -114,7 +137,7 @@
     UILabel *PosterName = [HLSLable LabelWithFont:17 WithTextalignment:NSTextAlignmentCenter WithTextColor:MLTittleColor WithFatherView:bgimg];
     PosterName.sd_layout
     .heightIs(14)
-    .topSpaceToView(bgimg, Fit6(510)+StatueBarHeight)
+    .topSpaceToView(bgimg, Fit6(500)+StatueBarHeight)
     .centerXEqualToView(bgimg);
     [PosterName setSingleLineAutoResizeWithMaxWidth:(SCREEN_WIDTH)];
     
@@ -128,39 +151,48 @@
     CGFloat btnhieght;
 
     CGFloat btn_y;
-    if (iPhone6||iPhone5) {
-        if (StatueBarHeight == 44) {
-            btn_y = Fit6(550+StatueBarHeight);
-            btnhieght = Fit6(47);
-
-        }else{
-            btn_y = Fit6(475+StatueBarHeight);
-            btnhieght = Fit6(47);
-            btnWidth = (screenWidth - 90)/2;
-        }
-        
-    }else{
-        btn_y = Fit6(595+StatueBarHeight);
-        btnWidth = 155;
-
-        btnhieght = 47;
-    }
+//    if (iPhone6||iPhone5) {
+//        if (StatueBarHeight == 44) {
+//            btn_y = Fit6(550+StatueBarHeight);
+//            btnhieght = Fit6(47);
+//
+//        }else{
+//            btn_y = Fit6(475+StatueBarHeight);
+//            btnhieght = 47;
+//            btnWidth = (screenWidth - 70)/2;
+//        }
+//
+//    }else{
+//
+//    }
+    btn_y = (Fit6(550)+StatueBarHeight);
+    btnWidth = 155;
     
+    btnhieght = 47;
     CGFloat margin_x = (screenWidth-btnWidth)/2;
-    UIButton *btn = [[UIButton alloc]initWithFrame:(CGRect){23,btn_y,btnWidth,btnhieght}];
-    [btn setImage:[UIImage imageNamed:@"btn_poster_download_andriod"] forState:UIControlStateNormal];
+    UIButton *btn = [[UIButton alloc]initWithFrame:(CGRect){18,btn_y,btnWidth,btnhieght}];
+    [btn setBackgroundImage:[UIImage imageNamed:@"btn_poster_download_andriod"] forState:UIControlStateNormal];
 //    btn.alpha = 0.8;
     [btn setTitle:@"下载" forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    btn.titleLabel.font = TextFontSize(16);
     [self.view addSubview:btn];
-//    [btn sizeToFit];
+    [btn sizeToFit];
 
     [btn addTarget:self action:@selector(DownloadImg) forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *btn1 = [[UIButton alloc]initWithFrame:(CGRect){screenWidth-23-btnWidth,btn_y,btnWidth,btnhieght}];
+    UIButton *btn1 = [[UIButton alloc]init];
+    
 //    [btn1 setTitle:@"分享" forState:UIControlStateNormal];
-    [btn1 setImage:[UIImage imageNamed:@"btn_poster_enjoy"] forState:UIControlStateNormal];
-//    [btn1 sizeToFit];
+    [btn1 setBackgroundImage:[UIImage imageNamed:@"btn_poster_enjoy_andriod"] forState:UIControlStateNormal];
+    [btn1 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    btn1.titleLabel.font = TextFontSize(16);
+    [btn1 setTitle:@"分享" forState:UIControlStateNormal];
+
+    [btn1 sizeToFit];
+    btn1.x = screenWidth -btn1.width - 18;
+    btn1.y = btn_y;
+//    WithFrame:(CGRect){screenWidth-23,btn_y,btnWidth,btnhieght}
 
     btn1.alpha = 0.8;
     [self.view addSubview:btn1];
@@ -223,7 +255,7 @@
     SCAdView *adView = [[SCAdView alloc] initWithBuilder:^(SCAdViewBuilder *builder) {
         builder.adArray = arrayFromService;
         builder.viewFrame = (CGRect){20,9+NaviHeight,SCREEN_WIDTH-40,Fit6(434)};
-        builder.adItemSize = (CGSize){Fit6(SCREEN_WIDTH-110),Fit6(390)};
+        builder.adItemSize = (CGSize){Fit6(SCREEN_WIDTH-110),Fit6(360)};
         builder.minimumLineSpacing = 0;
         builder.secondaryItemMinAlpha = 0.6;
         builder.threeDimensionalScale = 1.11;

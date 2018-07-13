@@ -120,7 +120,7 @@
             .bottomSpaceToView(Pro_BgImg, 5)
             .widthIs(170)
             .heightIs(90);
-            [right_img sd_setImageWithURL:URLWith([proarr[i] xyValueForKey:@"imgUrl"]) placeholderImage:HolderWith(@"img_loading_big")];
+            [right_img sd_setImageWithURL:URLWith([proarr[i] xyValueForKey:@"imgUrl"]) placeholderImage:HolderWith(@"")];
 
             
 
@@ -164,9 +164,9 @@
         Pro_count.text = [NSString stringWithFormat:@"共%ld款计划\U0000e94d",count.count];
         //跳转到产品列表
             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(goJihuaList:)];
-            Pro_count.tag = 1000+i;
-        [Pro_count addGestureRecognizer:tap];
-        Pro_count.userInteractionEnabled = YES;
+            Pro_BgImg.tag = 1000+i;
+        [Pro_BgImg addGestureRecognizer:tap];
+        Pro_BgImg.userInteractionEnabled = YES;
             
         Pro_count.sd_layout
         .leftSpaceToView(Pro_BgImg, 25)

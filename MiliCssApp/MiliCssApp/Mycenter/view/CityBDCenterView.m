@@ -163,10 +163,12 @@
         tableView.dataSource = self;
         tableView.delegate = self;
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        //tableView.tableFooterView = [[UIView alloc]init];
-        tableView.backgroundColor = MLBGColor;
+        tableView.tableFooterView = [[UIView alloc]init];
+        tableView.backgroundColor = MLBGColor ;
+        tableView.showsVerticalScrollIndicator = NO;
         self.listTableView = tableView;
-       
+
+
  
     }
     

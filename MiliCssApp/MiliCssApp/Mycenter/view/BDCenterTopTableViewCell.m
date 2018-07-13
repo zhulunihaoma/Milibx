@@ -13,7 +13,8 @@
 #import "UserInfoViewController.h"
 #import "MLNormalWebViewController.h"
 #import "PosterViewController.h"
-
+#import "UIImage+GIF.h"
+#import "FLAnimatedImage.h"
 @implementation BDCenterTopTableViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -37,6 +38,7 @@
     MytopView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 382+NaviHeight);
     [BgView addSubview:MytopView];
     MytopView.backgroundColor = MLBGColor;
+//        MytopView.backgroundColor = [UIColor greenColor];
 
     
     UIImageView *bgimg = [[UIImageView alloc]init];
@@ -107,8 +109,28 @@
     
     
     
-    UIImageView *Headimg = [[UIImageView alloc]init];
-    Headimg.image = [UIImage imageNamed:@"img_me_tx_default"];
+//    UIImageView *Headimg = [[UIImageView alloc]init];
+    
+    
+    FLAnimatedImageView *Headimg = [[FLAnimatedImageView alloc]init];
+
+    NSString *SourceName;
+    
+    SourceName  = @"headpic";
+    
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:SourceName ofType:@"gif"];
+    
+    NSData *gifData = [NSData dataWithContentsOfFile:filePath];
+//    Top_BgImg.backgroundColor = [UIColor clearColor];
+
+    
+    
+    FLAnimatedImage *image = [FLAnimatedImage animatedImageWithGIFData:gifData];
+    
+    Headimg.animatedImage = image;
+    
+    
+//    Headimg.image = [UIImage imageNamed:@"img_me_tx_default"];
     [headbgView addSubview:Headimg];
     Headimg.sd_layout
     .topEqualToView(headbgView)
@@ -221,11 +243,11 @@
     NSArray *titles = @[@"业绩报表",@"下级管理",@"海报"];
     NSArray *pics = @[@"btn_me_function_1",@"btn_me_function_2",@"btn_me_function_3"];
     
-    [self makeEqualWidthBtnNum:3 Names:titles Imgs:pics inView:topview LRpadding:40 viewPadding:57 y:25 titlefont:12  titleColor:MLTittleColor withtag:0];
+    [self makeEqualWidthBtnNum:3 Names:titles Imgs:pics inView:topview LRpadding:32 viewPadding:80 y:25 titlefont:12  titleColor:MLTittleColor withtag:0];
     NSArray *TitlesBttom = @[@"我的订单",@"轻松理赔",@""];
     NSArray *PicsBttom = @[@"btn_me_function_4",@"btn_me_function_5",@""];
     
-    [self makeEqualWidthBtnNum:3 Names:TitlesBttom Imgs:PicsBttom inView:topview LRpadding:40 viewPadding:57 y:120 titlefont:12  titleColor:MLTittleColor withtag:3];
+    [self makeEqualWidthBtnNum:3 Names:TitlesBttom Imgs:PicsBttom inView:topview LRpadding:32 viewPadding:80 y:120 titlefont:12  titleColor:MLTittleColor withtag:3];
 }
 -(void)makeEqualWidthBtnNum:(NSInteger)num Names:(NSArray *)names Imgs:(NSArray *)imgs inView:(UIView *)containerView LRpadding:(CGFloat)LRpadding viewPadding :(CGFloat)viewPadding y:(CGFloat)y titlefont:(NSInteger)font titleColor:(UIColor *)color withtag:(NSInteger)tag
 {

@@ -38,9 +38,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"登录";
-    [APServiceTool setTag];
     [mUserDefaults removeObjectForKey:KUserInfoDic];
     [mUserDefaults setObject:@"1" forKey:@"isTag"];
+    [APServiceTool setTag];
+
     [mUserDefaults synchronize];
     self.navigationView.backgroundColor = [UIColor whiteColor];
     [self setupviews];

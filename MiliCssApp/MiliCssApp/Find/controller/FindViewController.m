@@ -30,6 +30,8 @@
     self.navigationView.lineImageView.hidden = YES;
     self.navigationView.height = NaviHeight+43;
     self.title = @"发现";
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changetab:) name:@"milisay" object:nil];
+
     categoryArr = [NSMutableArray new];
    self.navigationView.backimg.size = CGSizeMake(SCREEN_WIDTH, NaviHeight+43);
 
@@ -37,6 +39,11 @@
    DicTittleArr = [NSMutableArray new];
     [self RequestData];
     // Do any additional setup after loading the view.
+}
+-(void)changetab:(NSNotification *)notification{
+    
+    self.titleView.selectIndex = 2;
+    
 }
 -(void)RequestData{
     //    self.HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
@@ -157,6 +164,15 @@
 
     
 }
+-(void)dealloc{
+    
+    
+    [[NSNotificationCenter defaultCenter]removeObserver:self
+                                                   name:@"milisay"
+                                                 object:nil];
+    
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

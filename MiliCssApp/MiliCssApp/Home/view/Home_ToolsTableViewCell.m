@@ -110,6 +110,8 @@
 //点击攻略
 -(void)tapMyOrder{
       [GetUnderController getvcwithtarget:self].tabBarController.selectedIndex = 1;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"milisay" object:self];
+
 }
 -(void)initscrollView{
   

@@ -22,22 +22,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MiliCssApp/Find/controller/FindViewController.m"
-            timestampString = "553000594.142123"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "77"
-            endingLineNumber = "77"
-            landmarkName = "-setsetgement"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -58,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MiliCssApp/Public/view/HKNewsBannerView/HKNewsBannerView.m"
-            timestampString = "552900129.4761651"
+            timestampString = "553093366.501691"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "237"
-            endingLineNumber = "237"
+            startingLineNumber = "241"
+            endingLineNumber = "241"
             landmarkName = "-reloadBannerWithNews:images:"
             landmarkType = "7">
          </BreakpointContent>
@@ -90,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MiliCssApp/Home/controller/HomeViewController.m"
-            timestampString = "553000594.142332"
+            timestampString = "553093366.50179"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "353"
-            endingLineNumber = "353"
+            startingLineNumber = "360"
+            endingLineNumber = "360"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -106,7 +90,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MiliCssApp/Mycenter/view/PosterListTableViewCell.m"
-            timestampString = "553000594.142414"
+            timestampString = "553003161.223851"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "44"
@@ -121,14 +105,46 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MiliCssApp/Mycenter/controller/PosterDetailViewController.m"
-            timestampString = "553000594.142471"
+            filePath = "MiliCssApp/Mycenter/controller/CommitAdviceViewController.m"
+            timestampString = "553063198.995555"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "255"
-            endingLineNumber = "255"
-            landmarkName = "-play"
+            startingLineNumber = "373"
+            endingLineNumber = "373"
+            landmarkName = "-commitadvice"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[CommitAdviceViewController commitadvice]"
+                  moduleName = "MiliCssApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhulu/Documents/git%E6%96%87%E4%BB%B6/Milibx/MiliCssApp/MiliCssApp/Mycenter/controller/CommitAdviceViewController.m"
+                  timestampString = "553093366.646414"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "373"
+                  endingLineNumber = "373"
+                  offsetFromSymbolStart = "1129">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__42-[CommitAdviceViewController commitadvice]_block_invoke"
+                  moduleName = "MiliCssApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhulu/Documents/git%E6%96%87%E4%BB%B6/Milibx/MiliCssApp/MiliCssApp/Mycenter/controller/CommitAdviceViewController.m"
+                  timestampString = "553093366.649776"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "373"
+                  endingLineNumber = "373"
+                  offsetFromSymbolStart = "19">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

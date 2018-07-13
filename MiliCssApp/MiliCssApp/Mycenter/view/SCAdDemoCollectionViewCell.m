@@ -26,13 +26,26 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+//    _showImage.contentMode = UIViewContentModeCenter;
     [_showImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self);
+//        make.edges.equalTo(self);
+//        make.edges.mas_offset(UIEdgeInsetsMake(20, 20, 20, 20));
+        make.left.mas_equalTo(self.bgView).offset(20);
+        make.right.mas_equalTo(self.bgView).offset(20);
+        make.top.mas_equalTo(self.bgView).offset(20);
+        make.bottom.mas_equalTo(self.bgView).offset(20);
+
+       
     }];
-    _showImage.layer.masksToBounds = YES;
-    _showImage.layer.cornerRadius = 8;
-    _showImage.layer.borderColor = [UIColor whiteColor].CGColor;
-    _showImage.layer.borderWidth = 10;
+//    _showImage.sd_layout
+//    .topSpaceToView(self, 10)
+//    .leftSpaceToView(self, 10)
+//    .bottomSpaceToView(self, 10)
+//    .rightSpaceToView(self, 10);
+    self.bgView.layer.masksToBounds = YES;
+    self.bgView.layer.cornerRadius = 8;
+    self.bgView.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.bgView.layer.borderWidth = 10;
     self.bgView.layer.masksToBounds = YES;
     self.bgView.layer.cornerRadius = 8;
     self.bgView.layer.shadowColor = [UIColor lightGrayColor].CGColor;

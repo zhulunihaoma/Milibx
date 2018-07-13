@@ -111,6 +111,8 @@
 		6DDC3F4320C62B4D00CFF2C4 /* MKJOverLayLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDC3F3B20C62B4D00CFF2C4 /* MKJOverLayLayout.m */; };
 		6DDC3F4820C62B5E00CFF2C4 /* NSArray+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDC3F4520C62B5E00CFF2C4 /* NSArray+Extension.m */; };
 		6DDC3F4920C62B5E00CFF2C4 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDC3F4620C62B5E00CFF2C4 /* UIView+Extension.m */; };
+		6DDE348D20F746BC00A8E8A9 /* fire.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DDE348C20F746BC00A8E8A9 /* fire.png */; };
+		6DDE348F20F7486B00A8E8A9 /* headpic.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6DDE348E20F7486B00A8E8A9 /* headpic.gif */; };
 		6DE6081B20F4B0B9007E2EFD /* x_bj_home.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6DE6081A20F4B0B9007E2EFD /* x_bj_home.gif */; };
 		6DE6081D20F4B0CE007E2EFD /* bj_home.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6DE6081C20F4B0CD007E2EFD /* bj_home.gif */; };
 		6DE6082520F6132B007E2EFD /* HLSPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE6082320F6132A007E2EFD /* HLSPhotoView.m */; };
@@ -372,6 +374,8 @@
 		6DDC3F4520C62B5E00CFF2C4 /* NSArray+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Extension.m"; sourceTree = "<group>"; };
 		6DDC3F4620C62B5E00CFF2C4 /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
 		6DDC3F4720C62B5E00CFF2C4 /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
+		6DDE348C20F746BC00A8E8A9 /* fire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fire.png; sourceTree = "<group>"; };
+		6DDE348E20F7486B00A8E8A9 /* headpic.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = headpic.gif; sourceTree = "<group>"; };
 		6DE6081A20F4B0B9007E2EFD /* x_bj_home.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = x_bj_home.gif; sourceTree = "<group>"; };
 		6DE6081C20F4B0CD007E2EFD /* bj_home.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = bj_home.gif; sourceTree = "<group>"; };
 		6DE6082320F6132A007E2EFD /* HLSPhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLSPhotoView.m; sourceTree = "<group>"; };
@@ -1051,9 +1055,11 @@
 			isa = PBXGroup;
 			children = (
 				6D0FE8A820CF765700917CE8 /* ml_loading.gif */,
+				6DDE348E20F7486B00A8E8A9 /* headpic.gif */,
 				6DE6081A20F4B0B9007E2EFD /* x_bj_home.gif */,
 				6DE6081C20F4B0CD007E2EFD /* bj_home.gif */,
 				6D5C646120B6F4B800DF2B1D /* login.gif */,
+				6DDE348C20F746BC00A8E8A9 /* fire.png */,
 				6DC212E120D105B8005ED2C2 /* refresh.gif */,
 			);
 			path = Login;
@@ -1312,6 +1318,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6DDE348D20F746BC00A8E8A9 /* fire.png in Resources */,
 				6DAF019E20BCEF1800B42252 /* iconfont.ttf in Resources */,
 				6D0FE8A920CF765700917CE8 /* ml_loading.gif in Resources */,
 				6DDC3F3E20C62B4D00CFF2C4 /* MKJCollectionViewCell.xib in Resources */,
@@ -1322,6 +1329,7 @@
 				6DE6081B20F4B0B9007E2EFD /* x_bj_home.gif in Resources */,
 				6219CA0D20633A6400CE242C /* LaunchScreen.storyboard in Resources */,
 				6219CA0A20633A6400CE242C /* Assets.xcassets in Resources */,
+				6DDE348F20F7486B00A8E8A9 /* headpic.gif in Resources */,
 				6219CA0820633A6400CE242C /* Main.storyboard in Resources */,
 				6DE6081D20F4B0CE007E2EFD /* bj_home.gif in Resources */,
 			);
@@ -1792,8 +1800,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MiliCssApp/MiliCssApp.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Chao Ge (F35HDJ466H)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chao Ge (F35HDJ466H)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Nanjing drop spring Mdt InfoTech Ltd (94N82K9RBG)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Nanjing drop spring Mdt InfoTech Ltd (94N82K9RBG)";
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_ACTIVITY_MODE = "";
 				"DEBUG_ACTIVITY_MODE[arch=*]" = default;
@@ -1808,8 +1816,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.miliapp.www;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3b0db4af-288b-4888-97f4-30f9a1ed3126";
-				PROVISIONING_PROFILE_SPECIFIER = zhumiliapp_develop;
+				PROVISIONING_PROFILE = "421e86c9-6830-47e0-9ab3-8cb18c12629a";
+				PROVISIONING_PROFILE_SPECIFIER = miliapp_production;
 				SWIFT_OBJC_BRIDGING_HEADER = "MiliCssApp/Public/tool/MiliCssApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -1825,8 +1833,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MiliCssApp/MiliCssApp.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Chao Ge (F35HDJ466H)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chao Ge (F35HDJ466H)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Nanjing drop spring Mdt InfoTech Ltd (94N82K9RBG)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Nanjing drop spring Mdt InfoTech Ltd (94N82K9RBG)";
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_ACTIVITY_MODE = "";
 				DEFINES_MODULE = YES;
@@ -1840,8 +1848,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.miliapp.www;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3b0db4af-288b-4888-97f4-30f9a1ed3126";
-				PROVISIONING_PROFILE_SPECIFIER = zhumiliapp_develop;
+				PROVISIONING_PROFILE = "421e86c9-6830-47e0-9ab3-8cb18c12629a";
+				PROVISIONING_PROFILE_SPECIFIER = miliapp_production;
 				SWIFT_OBJC_BRIDGING_HEADER = "MiliCssApp/Public/tool/MiliCssApp-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
