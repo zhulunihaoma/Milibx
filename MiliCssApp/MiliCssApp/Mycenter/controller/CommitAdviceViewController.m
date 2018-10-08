@@ -34,8 +34,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    self.title = @"意见反馈";
-    self.navigationView.hidden = YES;
+    self.title = @"意见反馈";
+//    self.navigationView.hidden = YES;
     _photoDataArr = [NSMutableArray new];
     _photoArr = [NSMutableArray new];
     placestr = @"请简明扼要的描述你的问题，我们会详细为你做出解答。";
@@ -47,45 +47,44 @@
     UIImageView *bgimg = [[UIImageView alloc]init];
     NSString *SourceName;
     
-    if (NaviHeight == 64) {
-        SourceName  = @"bj_feedback";
-    }else{
-        SourceName  = @"x_bj_feedback";
-        
-    }
+   
     
     
     bgimg.image = [UIImage imageNamed:SourceName];
     [self.view addSubview:bgimg];
     bgimg.userInteractionEnabled = YES;
-    [bgimg mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
-    }];
+    bgimg.sd_layout
+    .heightIs(325)
+    .topSpaceToView(self.view, NaviHeight)
+    .leftEqualToView(self.view)
+    .rightEqualToView(self.view);
+    bgimg.backgroundColor = [UIColor whiteColor];
     
-    // 名称
-    UILabel *TittleLab = [HLSLable LabelWithFont:17 WithTextalignment:NSTextAlignmentCenter WithTextColor:[UIColor whiteColor] WithFatherView:bgimg];
-    TittleLab.sd_layout
-    .heightIs(17)
-    .topSpaceToView(bgimg, StatueBarHeight+12)
-    .centerXEqualToView(bgimg);
-    [TittleLab setSingleLineAutoResizeWithMaxWidth:(200)];
     
-    TittleLab.text = @"意见反馈";
-    
-//    返回按钮
-    
-    UIButton *leftBtn = [[UIButton alloc]init];
-    [leftBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
-    [leftBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateHighlighted];
-    leftBtn.y = StatueBarHeight;
-    leftBtn.width = NaviHeight - StatueBarHeight;
-    leftBtn.height = NaviHeight - StatueBarHeight;
-    leftBtn.x = NaviLeftPadding;
-    leftBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    leftBtn.contentMode = UIViewContentModeCenter;
-    [leftBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-
-    [bgimg addSubview:leftBtn];
+//    // 名称
+//    UILabel *TittleLab = [HLSLable LabelWithFont:17 WithTextalignment:NSTextAlignmentCenter WithTextColor:[UIColor whiteColor] WithFatherView:bgimg];
+//    TittleLab.sd_layout
+//    .heightIs(17)
+//    .topSpaceToView(bgimg, StatueBarHeight+12)
+//    .centerXEqualToView(bgimg);
+//    [TittleLab setSingleLineAutoResizeWithMaxWidth:(200)];
+//
+//    TittleLab.text = @"意见反馈";
+//
+////    返回按钮
+//
+//    UIButton *leftBtn = [[UIButton alloc]init];
+//    [leftBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+//    [leftBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateHighlighted];
+//    leftBtn.y = StatueBarHeight;
+//    leftBtn.width = NaviHeight - StatueBarHeight;
+//    leftBtn.height = NaviHeight - StatueBarHeight;
+//    leftBtn.x = NaviLeftPadding;
+//    leftBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+//    leftBtn.contentMode = UIViewContentModeCenter;
+//    [leftBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+//
+//    [bgimg addSubview:leftBtn];
     
 // 意见反馈输入框
     //创建textfield
@@ -99,7 +98,7 @@
 //        make.top.mas_equalTo(@(25+NaviHeight));
 //        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH-60, 137));
 //    }];
-    adViceView.frame = CGRectMake(30, 47+NaviHeight, SCREEN_WIDTH-60, 137);
+    adViceView.frame = CGRectMake(30, 28, SCREEN_WIDTH-60, 137);
     adViceView.text = @"请简明扼要的描述你的问题，我们会详细为你做出解答。";
     adViceView.textColor = MLHolderColor;
     adViceView.font = [UIFont systemFontOfSize:15];
@@ -114,7 +113,7 @@
 //            photoView.backgroundColor = MLBGColor;
     photoView.delegate = self;
     photoView.x = 30;
-    photoView.y = 195+NaviHeight;
+    photoView.y = adViceView.bottom+10;
     photoView.width = SCREEN_WIDTH-20;
     photoView.height = 90+20;
     photoView.maxNum = 3;
@@ -127,7 +126,7 @@
     
     UIButton *CommitBtn = [[UIButton alloc]init];
     [CommitBtn addTarget:self action:@selector(commitadvice) forControlEvents:UIControlEventTouchUpInside];
-    [bgimg addSubview:CommitBtn];
+    [self.view addSubview:CommitBtn];
     [CommitBtn setBackgroundImage:[UIImage imageNamed:@"btn_login"] forState:UIControlStateNormal];
     [CommitBtn setTitle:@"提交" forState:UIControlStateNormal];
     [CommitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -135,7 +134,7 @@
     
     CommitBtn.x = 30;
     CommitBtn.width = SCREEN_WIDTH - 60;
-    CommitBtn.y = photoView.bottom + 30;
+    CommitBtn.y = NaviHeight+325+37;
 
     
 }

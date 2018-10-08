@@ -43,7 +43,7 @@
         [self.tableView reloadData];
     }else{
         if ([[HLSPersonalInfoTool merchantNature] integerValue] == 1) {//个人
-            keyarr = @[@"性质",@"代理人名称：",@"身份证号码：",@"手机号码："];
+            keyarr = @[@"性质：",@"代理人名称：",@"身份证号码：",@"手机号码："];
             valuearr = @[@"个人",[self.UserinfoDic xyValueForKey:@"linker"],[self.UserinfoDic xyValueForKey:@"idCardNo"],[self.UserinfoDic xyValueForKey:@"mobilePhone"]];
             
             for (int i = 0; i < keyarr.count ; i++) {
@@ -76,14 +76,14 @@
 -(void)setupSubviews{
     [self setupTableViewWithStyle:UITableViewStyleGrouped];
     
-    self.tableView.x = 9;
+    self.tableView.x = 0;
     self.tableView.y = 0;
-    self.tableView.width = SCREEN_WIDTH-18;
+    self.tableView.width = SCREEN_WIDTH;
     
     CGFloat tabBarHeight = self.tabBarController.tabBar.frame.size.height;
     int naheight = (int)NaviHeight;
-    self.tableView.height = SCREEN_HEIGHT-naheight;
-    
+    self.tableView.height = 410;
+    self.tableView.backgroundColor = [UIColor whiteColor];
     
     self.tableView.estimatedRowHeight = 0;
     self.tableView.estimatedSectionHeaderHeight = 0;
@@ -105,7 +105,7 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if (section == 0) {
-        return 15;
+        return 0.001;
     }else{
         return 8;
     }
@@ -125,16 +125,13 @@
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 50;
+    return 54;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UserinfoBaseInfoCell *cell = [[UserinfoBaseInfoCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
-//    cell.Model = dataArr[indexPath.section];
     cell.textLabel.text = keyarr[indexPath.row];
     cell.detailTextLabel.text = [InfoArr[indexPath.row] xyValueForKey:keyarr[indexPath.row]];
-    if (indexPath.row == InfoArr.count-1) {
-        cell.separatorImageView.hidden = YES;
-    }
+
     return cell;
     
     
@@ -146,24 +143,24 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
-        if (indexPath.row == 0) {
-            
-            UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:cell.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(8, 8)];
-            CAShapeLayer *maskLayer = [[CAShapeLayer alloc]init];
-            //设置大小
-            maskLayer.frame = cell.bounds;
-            //设置图形样子
-            maskLayer.path = maskPath.CGPath;
-            cell.layer.mask = maskLayer;
-        }else if (indexPath.row == [InfoArr count]-1) {
-            UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:cell.bounds byRoundingCorners:UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii:CGSizeMake(8, 8)];
-            CAShapeLayer *maskLayer = [[CAShapeLayer alloc]init];
-            //设置大小
-            maskLayer.frame = cell.bounds;
-            //设置图形样子
-            maskLayer.path = maskPath.CGPath;
-            cell.layer.mask = maskLayer;
-        }
+//        if (indexPath.row == 0) {
+//
+//            UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:cell.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(8, 8)];
+//            CAShapeLayer *maskLayer = [[CAShapeLayer alloc]init];
+//            //设置大小
+//            maskLayer.frame = cell.bounds;
+//            //设置图形样子
+//            maskLayer.path = maskPath.CGPath;
+//            cell.layer.mask = maskLayer;
+//        }else if (indexPath.row == [InfoArr count]-1) {
+//            UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:cell.bounds byRoundingCorners:UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii:CGSizeMake(8, 8)];
+//            CAShapeLayer *maskLayer = [[CAShapeLayer alloc]init];
+//            //设置大小
+//            maskLayer.frame = cell.bounds;
+//            //设置图形样子
+//            maskLayer.path = maskPath.CGPath;
+//            cell.layer.mask = maskLayer;
+//        }
 
 }
 

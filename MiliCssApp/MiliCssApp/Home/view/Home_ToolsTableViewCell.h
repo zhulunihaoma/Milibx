@@ -9,5 +9,7 @@
 #import "HLSBaseCell.h"
 
 @interface Home_ToolsTableViewCell : HLSBaseCell
-
+@property(nonatomic,strong)NSDictionary *dataDic;
+@property(nonatomic,strong)UILabel *ordernum;
 @end
+

@@ -55,8 +55,11 @@
     
 - (void)viewDidLoad {
         [super viewDidLoad];
-        [self.navigationView.leftCloseBtn setHidden:NO];
+  
+//        [self.navigationView.leftCloseBtn setHidden:NO];
         [self.navigationView.lineImageView setHidden:YES];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(gohome:) name:@"gohome" object:nil];
+
 
     if ([_TypeStr integerValue] == 1) {
         self.navigationView.rightBtn.hidden = NO;
@@ -86,7 +89,16 @@
 
         [self startLoad];
     }
+-(void)gohome:(NSNotification *)notification{
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),dispatch_get_main_queue(), ^{
+        
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        self.tabBarController.selectedIndex = 0;
 
+    });
+    
+}
 - (void)setupToolView {
         UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, kScreenHeight - 40, kScreenWidth, 40)];
         [self.view addSubview:toolBar];
@@ -118,7 +130,7 @@
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
         request.timeoutInterval = 15.0f;
 //    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://h5.qzone.qq.com/mqzone/index"]];
-    HLSLog(@"---wkrequest：%@",[JSONTool dictionaryToJson:[HLSPersonalInfoTool getCookies]]);
+//    HLSLog(@"---wkrequest：%@",[JSONTool dictionaryToJson:[HLSPersonalInfoTool getCookies]]);
 //    [request addValue:[JSONTool dictionaryToJson:[HLSPersonalInfoTool getCookies]] forHTTPHeaderField:@"Cookie"];
     [self.wkWebView loadRequest:request];
     }
@@ -304,8 +316,9 @@
         [self AppgotoShare:message.body];
     }
     if ([message.name isEqualToString:@"AppgotoLogin"]) {
-        NSLog(@"方法名为:%@",message.name);
-        [self AppgotoLogin];
+        NSLog(@"方法名为:---%@%@",message.name,message.body);
+        
+        [self AppgotoLogin:message.body];
     }
     
 }
@@ -317,14 +330,28 @@
     [self.navigationController pushViewController:gvc animated:YES];
 }
 -(void)AppgotoPosterList:(NSString *)productCode{
+    [self checklogin];
+
     PosterDetailViewController *pvc = [[PosterDetailViewController alloc]init];
     pvc.productCode = productCode;
     [self.navigationController pushViewController:pvc animated:YES];
 }
 
--(void)AppgotoLogin{
-    LoginViewController *lvc = [[LoginViewController alloc]init];
-    [self presentViewController:lvc animated:YES completion:nil];
+-(void)AppgotoLogin:(NSDictionary *)typedic{
+if ([[typedic xyValueForKey:@"type"] integerValue] == 0) {
+            
+        
+    [self checklogin];
+        
+    }else{
+        LoginViewController *lvc = [[LoginViewController alloc]init];
+        lvc.isgohome = 1;
+
+        [self presentViewController:lvc animated:YES completion:^{
+
+        }];
+    }
+    
 }
 //点击右侧按钮分享新闻
 - (void)clickRightBtn {
@@ -344,15 +371,20 @@
 
 -(void)AppgotoShare:(NSMutableDictionary *)ShareInfo{
     HLSLog(@"---点击产品推广分享的信息%@",ShareInfo);
-    
+    [self checklogin];
+
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     [param setValue:[ShareInfo xyValueForKey:@"title"] forKey:@"Title"];
     [param setValue:[ShareInfo xyValueForKey:@"features"] forKey:@"descr"];
     [param setValue:[ShareInfo xyValueForKey:@"image"] forKey:@"thumImage"];
     [param setValue:[ShareInfo xyValueForKey:@"url"] forKey:@"webpageUrl"];
-    [self Sharehandle:param];
+    if ([HLSPersonalInfoTool getCookies]) {
+        [self Sharehandle:param];
+
+    }
 }
 -(void)Sharehandle:(NSMutableDictionary *)ShareInfo{
+
     [UMSocialUIManager setPreDefinePlatforms:@[@(UMSocialPlatformType_QQ),@(UMSocialPlatformType_WechatSession),@(UMSocialPlatformType_WechatTimeLine)]];
     [UMSocialUIManager showShareMenuViewInWindowWithPlatformSelectionBlock:^(UMSocialPlatformType platformType, NSDictionary *userInfo) {
         // 根据获取的platformType确定所选平台进行下一步操作
@@ -395,14 +427,59 @@
  
 }
 /*
+ *通用的弹出登录方法
+ */
+-(void)checklogin{
+    
+    if (![HLSPersonalInfoTool getCookies]) {
+        
+   
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"登录后即可进行推广此产品。" preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        
+        LoginViewController *lvc = [[LoginViewController alloc]init];
+        lvc.isgohome = 1;
+        UINavigationController *nvc = [[UINavigationController alloc]initWithRootViewController:lvc];
+        nvc.navigationBarHidden = YES;
+        [[GetUnderController getCurrentVC] presentViewController:nvc animated:YES completion:^{
+            
+
+        }];
+        
+    }];
+    UIAlertAction *cancelaction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    
+    
+    [alert addAction:cancelaction];
+    
+    
+    [alert addAction:action];
+    
+    [mUserDefaults removeObjectForKey:KUserInfoDic];
+    [mUserDefaults setObject:@"1" forKey:@"isTag"];
+    [mUserDefaults synchronize];
+    
+    [[GetUnderController getCurrentVC] presentViewController:alert animated:YES completion:nil];
+    }else{
+        return;
+    }
+}
+/*
  *6.在dealloc中取消监听
  */
 
 - (void)dealloc {
     [self.wkWebView removeObserver:self forKeyPath:@"estimatedProgress"];
     [self.wkWebView removeObserver:self forKeyPath:@"title"];
-    
+    [[NSNotificationCenter defaultCenter]removeObserver:self
+                                                   name:@"gohome"
+                                                 object:nil];
 }
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

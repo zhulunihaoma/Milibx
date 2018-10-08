@@ -173,9 +173,9 @@
 -(void)setupSubViews{
     [self setupTableViewWithStyle:UITableViewStyleGrouped];
     
-    self.tableView.x = 9;
+    self.tableView.x = 0;
     self.tableView.y = NaviHeight;
-    self.tableView.width = SCREEN_WIDTH-18;
+    self.tableView.width = SCREEN_WIDTH;
 
     CGFloat tabBarHeight = self.tabBarController.tabBar.frame.size.height;
     int naheight = (int)NaviHeight;
@@ -199,7 +199,7 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if (section == 0) {
-        return 15;
+        return 0.001;
     }else{
         return 8;
     }
@@ -219,7 +219,7 @@
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 80;
+    return 95;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     MessageListTableViewCell *cell = [[MessageListTableViewCell alloc]init];

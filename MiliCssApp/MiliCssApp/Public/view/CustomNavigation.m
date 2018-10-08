@@ -20,7 +20,7 @@
     return self;
 }
 - (void)setupSubviews {
-    UIImageView *backimg = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"bj_find"]];
+    UIImageView *backimg = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"bj_discover"]];
     backimg.x= 0 ;
     backimg.y = 0;
     backimg.size = CGSizeMake(SCREEN_WIDTH, NaviHeight);

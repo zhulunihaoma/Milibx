@@ -12,7 +12,7 @@
 #import <UMShare/UMShare.h>
 #import "JPUSHService.h"
 #import <AlipaySDK/AlipaySDK.h>
-
+#import "LeadViewController.h"
 // iOS10注册APNs所需头文件
 #ifdef NSFoundationVersionNumber_iOS_9_x_Max
 #import <UserNotifications/UserNotifications.h>
@@ -28,10 +28,28 @@
     // Override point for customization after application launch.
     [TBCityIconFont setFontName:@"iconfont"];
 
-    MiliTabbarViewController *tvc = [[MiliTabbarViewController alloc]init];
-    UINavigationController *nvc = [[UINavigationController alloc]initWithRootViewController:tvc];
-    nvc.navigationBarHidden = YES;
-    self.window.rootViewController = nvc;
+    
+    //判断版本号是否一致，NO时需重新加载引导页
+    if ([HLSHelp isTheSameToCurrentVersion]) {
+        
+//        MainTabBarViewController * mainTab = [[MainTabBarViewController alloc]init];
+//        UINavigationController * nvc = [[UINavigationController alloc]initWithRootViewController:mainTab];
+//        nvc.navigationBarHidden = YES;
+//
+//        self.window.rootViewController = nvc;
+//
+        MiliTabbarViewController *tvc = [[MiliTabbarViewController alloc]init];
+        UINavigationController *nvc = [[UINavigationController alloc]initWithRootViewController:tvc];
+        nvc.navigationBarHidden = YES;
+        self.window.rootViewController = nvc;
+        
+    }else{
+        LeadViewController *lvc = [[LeadViewController alloc]init];
+        lvc.navigationController.navigationBarHidden = YES;
+        self.window.rootViewController = lvc;
+    }
+    
+    
     // 以下仅列出U-Share初始化部分
     // U-Share 平台设置
     [self configUSharePlatforms];

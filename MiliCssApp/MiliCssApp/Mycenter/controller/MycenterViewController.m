@@ -8,7 +8,6 @@
 
 #import "MycenterViewController.h"
 #import "CityBDCenterView.h"
-
 @interface MycenterViewController ()
 {
     CityBDCenterView *MycenterView;
@@ -16,11 +15,14 @@
 @end
 
 @implementation MycenterViewController
-
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationView.hidden = YES;
-
  
     [self setupSubviews];
     // Do any additional setup after loading the view.

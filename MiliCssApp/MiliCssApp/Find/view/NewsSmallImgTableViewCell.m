@@ -22,20 +22,28 @@
 -(void)buildview{
 
     self.News_img.sd_layout
-    .topSpaceToView(self.contentView, 20)
-    .bottomSpaceToView(self.contentView, 20)
-    .rightSpaceToView(self.contentView, 17)
-    .widthIs(100);
+    .topSpaceToView(self.contentView, 18)
+    .bottomSpaceToView(self.contentView, 18)
+    .leftSpaceToView(self.contentView, 13)
+    .widthIs(125);
     
     self.News_Tittle.sd_layout
     .topSpaceToView(self.contentView, 20)
-    .leftSpaceToView(self.contentView, 18)
+    .leftSpaceToView(self.News_img, 24)
     .widthIs(SCREEN_WIDTH-182)
     .maxHeightIs(40)
     .autoHeightRatio(0);
     
 
     self.News_Tittle.numberOfLines = 2;
+    self.News_Tag.sd_layout
+    .leftSpaceToView(self.News_img, 24)
+    .bottomSpaceToView(self.contentView, 15)
+    .widthIs(72)
+    .heightIs(23);
+//
+   
+   
     
 }
 -(void)setModel:(NewsModel *)Model{
@@ -50,7 +58,8 @@
         
     }else{
         self.News_ReadNum.sd_layout
-        .leftSpaceToView(self.contentView, 15);
+        .leftSpaceToView(self.News_img, 24);
+     
     }
     NSString *readno;
     if ([Model.readNo integerValue] >999) {
@@ -58,7 +67,7 @@
     }else{
         readno = Model.readNo;
     }
-    self.News_ReadNum.text = [NSString stringWithFormat:@"阅读数 %@",readno];
+    self.News_ReadNum.text = [NSString stringWithFormat:@"阅读 %@",readno];
     
     
 }

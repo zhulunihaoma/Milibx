@@ -9,5 +9,5 @@
 #import "PublicTableViewController.h"
 
 @interface ChangeMyPSWViewController : PublicTableViewController
-
+@property(nonatomic,assign)NSInteger type;
 @end

@@ -104,6 +104,7 @@
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/json", @"text/javascript",@"text/html",@"text/plain", nil];
     [ manager.requestSerializer setValue:@"json" forHTTPHeaderField:@"dataType"];
     
+    HLSLog(@"cokie--:%@",[HLSPersonalInfoTool getCookies]);
     if ([HLSPersonalInfoTool getCookies]) {
         [manager.requestSerializer setValue:[JSONTool dictionaryToJson:[HLSPersonalInfoTool getCookies]]  forHTTPHeaderField:@"cookies"];
             HLSLog(@"----AF返回%@",[JSONTool dictionaryToJson:[HLSPersonalInfoTool getCookies]] );

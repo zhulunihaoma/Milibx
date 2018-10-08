@@ -21,11 +21,11 @@
 }
 -(void)setup{
 
-self.News_img.sd_layout
+    self.News_img.sd_layout
     .topSpaceToView(self.contentView, 13)
     .leftSpaceToView(self.contentView, 13)
     .rightSpaceToView(self.contentView, 13)
-    .heightIs(116);
+    .heightIs(165);
     
     self.News_Tittle.sd_layout
     .topSpaceToView(self.News_img, 13)
@@ -53,7 +53,7 @@ self.News_img.sd_layout
     }else{
         readno = Model.readNo;
     }
-    self.News_ReadNum.text = [NSString stringWithFormat:@"阅读数 %@",readno];
+    self.News_ReadNum.text = [NSString stringWithFormat:@"阅读 %@",readno];
     
 
 }

@@ -8,5 +8,5 @@
 
 #import "PublicTableViewController.h"
 @interface LoginViewController : PublicTableViewController
-
+@property(nonatomic,assign)NSInteger isgohome;
 @end

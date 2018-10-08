@@ -7,8 +7,7 @@
 //
 
 #import "UsercenterViewController.h"
-#import "WalletCenterViewController.h"
-#import "LoginViewController.h"
+//#import "LoginViewController.h"
 #import "ChangeMyPSWViewController.h"
 #import "MLMyRequest.h"
 #import "APServiceTool.h"
@@ -16,6 +15,8 @@
 {
     UIView *MycenterView;
     UILabel *QingChuNum;
+    UILabel *versionlab;
+
 }
 @end
 
@@ -37,14 +38,13 @@
         MycenterView = [[UIView alloc]init];
         MycenterView.backgroundColor = [UIColor whiteColor];
         [self.view addSubview:MycenterView];
-        MycenterView.layer.cornerRadius = 8;
-        MycenterView.layer.masksToBounds = YES;
+
         
         MycenterView.sd_layout
-        .leftSpaceToView(self.view, 9)
-        .rightSpaceToView(self.view, 9)
+        .leftSpaceToView(self.view, 0)
+        .rightSpaceToView(self.view, 0)
         .topSpaceToView(self.view, NaviHeight+12)
-        .heightIs(204);
+        .heightIs(255);
         
         
 //     修改密码cell
@@ -229,6 +229,70 @@
         arrow2.centerY = 25;
         arrow2.x = SCREEN_WIDTH - 28- arrow2.width;
 
+        
+        UIView *hline3 = [UIView new];
+        hline3.backgroundColor = MLBGColor;
+        [MycenterView addSubview:hline3];
+        hline3.sd_layout
+        .topSpaceToView(MycenterView, 202)
+        .leftSpaceToView(MycenterView, 30)
+        .rightSpaceToView(MycenterView, 0)
+        .heightIs(1);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        // 版本更新
+        UIView *Checkversionview = [UIView new];
+        Checkversionview.backgroundColor = [UIColor whiteColor];
+        [MycenterView addSubview:Checkversionview];
+        Checkversionview.sd_layout
+        .topSpaceToView(MycenterView, 203)
+        .leftSpaceToView(MycenterView, 0)
+        .rightSpaceToView(MycenterView, 0)
+        .heightIs(50);
+        
+        //    跳转到修改密码
+        UITapGestureRecognizer * tapCheckversionview = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(Checkversion:)];
+        [Checkversionview addGestureRecognizer:tapCheckversionview];
+        
+        
+        
+        UILabel *Checkversion = [HLSLable LabelWithFont:17 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLTittleColor WithFatherView:Checkversionview];
+        Checkversion.text = @"版本更新";
+        Checkversion.sd_layout
+        .centerYIs(25)
+        .leftSpaceToView(Checkversionview, 30)
+        .heightIs(17);
+        [Checkversion setSingleLineAutoResizeWithMaxWidth:(120)];
+        
+        NSDictionary * dict = [NSBundle mainBundle].infoDictionary;
+        NSString * version = [dict valueForKey:@"CFBundleShortVersionString"];
+        // 10.2MB
+        versionlab= [HLSLable LabelWithFont:12 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLDetailColor WithFatherView:Checkversionview];
+        versionlab.text = [NSString stringWithFormat:@"%@",version];//@"10.2MB";
+        versionlab.sd_layout
+        .centerYIs(25)
+        .rightSpaceToView(arrowQingChu, 10)
+        .heightIs(17);
+        [versionlab setSingleLineAutoResizeWithMaxWidth:(120)];
+        
+        //        箭头2
+        UIImageView *arrow3 = [[UIImageView alloc]init];
+        arrow3.image = [UIImage imageNamed:@"btn_arrow"];
+        [Checkversionview addSubview:arrow3];
+        [arrow3 sizeToFit];
+        arrow3.centerY = 25;
+        arrow3.x = SCREEN_WIDTH - 28- arrow3.width;
+        
+        
         UIButton *ExitBtn = [[UIButton alloc]init];
         [self.view addSubview:ExitBtn];
         [ExitBtn setBackgroundImage:[UIImage imageNamed:@"btn_set"] forState:UIControlStateNormal];
@@ -236,7 +300,7 @@
         ExitBtn.width = SCREEN_WIDTH-14;
         ExitBtn.height = 65;
         ExitBtn.x = 7;
-        ExitBtn.y = 241+NaviHeight;
+        ExitBtn.y = 292+NaviHeight;
        
       
         [ExitBtn setTitle:@"退出登录" forState:UIControlStateNormal];
@@ -249,13 +313,13 @@
         
 //        底部信息
         UILabel *bottom3 = [HLSLable LabelWithFont:12 WithTextalignment:NSTextAlignmentCenter WithTextColor:MLNaviColor WithFatherView:self.view];
-        NSDictionary * dict = [NSBundle mainBundle].infoDictionary;
-        NSString * version = [dict valueForKey:@"CFBundleShortVersionString"];
-        bottom3.text = [NSString stringWithFormat:@"当前版本号：%@",version] ;
+//        NSDictionary * dict = [NSBundle mainBundle].infoDictionary;
+//        NSString * version = [dict valueForKey:@"CFBundleShortVersionString"];
+//        bottom3.text = [NSString stringWithFormat:@"当前版本号：%@",version] ;
         bottom3.sd_layout
         .centerYIs(SCREEN_HEIGHT - 85)
         .centerXEqualToView(self.view)
-        .heightIs(12);
+        .heightIs(0);
         [bottom3 setSingleLineAutoResizeWithMaxWidth:(120)];
         
         
@@ -324,7 +388,12 @@
     
     
 }
+//检查更新
+-(void)Checkversion:(UITapGestureRecognizer *)tap{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/cn/app/%E7%B1%B3%E7%B2%92%E4%BF%9D%E9%99%A9/id1234817710?mt=8"]];
 
+    
+}
 
 
 -(void)exit{
@@ -361,18 +430,19 @@
         
         [APServiceTool setTag];
         //刷新个人中心
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadperson" object:self];
-        
-        
-        LoginViewController *lvc = [[LoginViewController alloc]init];
-        UINavigationController *navi = [[UINavigationController alloc]initWithRootViewController:lvc];
-        navi.navigationBarHidden = YES;
-        //        [self.delegate relogin];
-        [self presentViewController:navi animated:YES completion:^{
-            [self.navigationController popToRootViewControllerAnimated:YES];
-            self.tabBarController.selectedIndex = 0;
-            
-        }];
+//        [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadperson" object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"home" object:self];
+        self.tabBarController.selectedIndex = 0;
+
+        [self.navigationController popToRootViewControllerAnimated:YES];
+//        LoginViewController *lvc = [[LoginViewController alloc]init];
+//        UINavigationController *navi = [[UINavigationController alloc]initWithRootViewController:lvc];
+//        navi.navigationBarHidden = YES;
+//        //        [self.delegate relogin];
+//        [self presentViewController:navi animated:YES completion:^{
+//
+//
+//        }];
         
         
         

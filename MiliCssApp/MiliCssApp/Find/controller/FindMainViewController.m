@@ -107,9 +107,9 @@
 -(void)setupSubViews{
     [self setupTableViewWithStyle:UITableViewStyleGrouped];
     
-    self.tableView.x = 8;
+    self.tableView.x = 0;
     self.tableView.y = 0;
-    self.tableView.width = SCREEN_WIDTH-16;
+    self.tableView.width = SCREEN_WIDTH;
     self.tableView.backgroundColor = MLBGColor;
     //[self.tableView registerClass:[RequestTextFieldCell class] forCellReuseIdentifier:@"cell"];
     CGFloat tabBarHeight = self.tabBarController.tabBar.frame.size.height;
@@ -194,18 +194,18 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return 1;
+    return dataArr.count;
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
-    return dataArr.count;
+    return 1;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 0.001;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 10;
+    return 0.001;
     
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -223,11 +223,11 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
 
-    if (indexPath.section %3 == 0) {
-        return  208;
+    if (indexPath.row %5 == 0) {
+        return  255;
 
     }else{
-        return  115;
+        return  110;
 
     }
     
@@ -235,15 +235,28 @@
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    if (indexPath.section %3 == 0) {
+    if (indexPath.row %5 == 0) {
         // 定义唯一标识
         static NSString *CellIdentifier = @"Cellsbig";
         // 通过唯一标识创建cell实例
      
         NewsBigImgTableViewCell *cell = [[NewsBigImgTableViewCell alloc]init];
 
-        cell.Model = dataArr[indexPath.section];
-        
+        cell.Model = dataArr[indexPath.row];
+        NSMutableArray *readarr;
+        NewsModel *newmodel = dataArr[indexPath.row];
+        if (DEF_PERSISTENT_GET_OBJECT(@"readarr")) {
+            readarr =  [NSMutableArray arrayWithArray:DEF_PERSISTENT_GET_OBJECT(@"readarr")];
+            
+            
+            for (int i = 0; i < readarr.count; i++) {
+                HLSLog(@"---这cell的的articleId%@",newmodel.articleId);
+                
+                if ([newmodel.articleId isEqualToString:readarr[i]]) {
+                    cell.News_Tittle.textColor = HLSOneColor(185);
+                }
+            }
+        }
         return cell;
     }
    
@@ -252,20 +265,53 @@
     // 通过唯一标识创建cell实例
         NewsSmallImgTableViewCell *cell = [[NewsSmallImgTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
    
-    cell.Model = dataArr[indexPath.section];
+    cell.Model = dataArr[indexPath.row];
+    NSMutableArray *readarr;
+    NewsModel *newmodel = dataArr[indexPath.row];
+    if (DEF_PERSISTENT_GET_OBJECT(@"readarr")) {
+        readarr =  [NSMutableArray arrayWithArray:DEF_PERSISTENT_GET_OBJECT(@"readarr")];
+       
+        
+        for (int i = 0; i < readarr.count; i++) {
+            HLSLog(@"---这cell的的articleId%@",newmodel.articleId);
 
+            if ([newmodel.articleId isEqualToString:readarr[i]]) {
+                cell.News_Tittle.textColor = HLSOneColor(185);
+            }
+        }
+    }
     return cell;
     
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     MLNormalWebViewController *avc = [[MLNormalWebViewController alloc]init];
-    NewsModel *model = dataArr[indexPath.section];
+    NewsModel *model = dataArr[indexPath.row];
     avc.UrlStr = [NSString stringWithFormat:@"/discover/detail?id=%@",model.articleId];
     avc.TypeStr = @"1";
     avc.newsmodel = model;
     model.readNo  = [NSString stringWithFormat:@"%ld",[model.readNo integerValue]+1];
-    [dataArr setObject:model atIndexedSubscript:indexPath.section];
+    [dataArr setObject:model atIndexedSubscript:indexPath.row];
     [self.tableView reloadData];
+    NSMutableArray *readarr;
+
+    if (DEF_PERSISTENT_GET_OBJECT(@"readarr")) {
+      readarr =  [NSMutableArray arrayWithArray:DEF_PERSISTENT_GET_OBJECT(@"readarr")];
+
+    }else{
+        readarr = [NSMutableArray new];
+        DEF_PERSISTENT_SET_OBJECT(readarr, @"readarr");
+
+    }
+//    for (NSString *item in readarr) {
+//        if (![readarr containsObject:item]) {
+//            [readarr addObject:item];
+//        }
+//    }
+    readarr =  [NSMutableArray arrayWithArray:[readarr valueForKeyPath:@"@distinctUnionOfObjects.self"]];
+
+    [readarr addObject:model.articleId];
+    DEF_PERSISTENT_SET_OBJECT(readarr, @"readarr");
+    HLSLog(@"---这里是保存本地的阅读articleId%@",readarr);
     [[GetUnderController getvcwithtarget:self].navigationController pushViewController:avc animated:YES];
 
 }

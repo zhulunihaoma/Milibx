@@ -26,7 +26,6 @@
         
         UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             
-            
             LoginViewController *lvc = [[LoginViewController alloc]init];
             UINavigationController *nvc = [[UINavigationController alloc]initWithRootViewController:lvc];
             nvc.navigationBarHidden = YES;

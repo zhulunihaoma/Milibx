@@ -163,7 +163,7 @@
     
  
     [self.lable sizeToFit];
-    self.lable.y = self.height + 5;
+    self.lable.y = self.height + 0;
     
  
     [UIView animateWithDuration:0.3 animations:^{

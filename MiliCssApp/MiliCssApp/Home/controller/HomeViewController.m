@@ -41,6 +41,8 @@
     [super viewDidLoad];
 
     self.navigationView.hidden = YES;
+    self.view.backgroundColor = MLBGColor;
+
     self.title = @"首页";
     DataDic = [NSMutableDictionary new];
     MyDic = [NSMutableDictionary new];
@@ -49,20 +51,31 @@
     IsarticleList = NO;
 
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(homerefresh:) name:@"home" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(gotomy:) name:@"gotomy" object:nil];
+
     // Do any additional setup after loading the view.
 }
 -(void)isLogin{
-    if (![HLSPersonalInfoTool getCookies]) {
+    [self RequestData];
 
-        LoginViewController *lvc = [[LoginViewController alloc]init];
-        UINavigationController *nvc = [[UINavigationController alloc]initWithRootViewController:lvc];
-        nvc.navigationBarHidden = YES;
-        [self presentViewController:nvc animated:YES completion:nil];
+//    if (![HLSPersonalInfoTool getCookies]) {
+//
+//        LoginViewController *lvc = [[LoginViewController alloc]init];
+//        UINavigationController *nvc = [[UINavigationController alloc]initWithRootViewController:lvc];
+//        nvc.navigationBarHidden = YES;
+//        [self presentViewController:nvc animated:YES completion:nil];
+//
+    
+//    }else{
+//        [self RequestData];
+//
+//    }
+}
+-(void)gotomy:(NSNotification *)notification{
+    
+    self.tabBarController.selectedIndex = 2; 
 
-    }else{
-        [self RequestData];
-
-    }
+    
 }
 -(void)homerefresh:(NSNotification *)notification{
 
@@ -75,7 +88,7 @@
 }
 -(void)RequestData{
 //    self.HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    [self showMLhud];
+//    [self showMLhud];
     [MLhomeRequest PostmainSuccess:^(NSDictionary *dic) {
         HLSLog(@"首页数据,%@",dic);
         [self.HUD hideAnimated:YES];
@@ -275,11 +288,12 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    if (section == 4) {
-        return 0.01;
+    if (section == 0) {
+        return 8;
 
     }
-    return 8;
+    return 0.01;
+
 
 
 }
@@ -302,7 +316,7 @@
             return  Fit6(302)+NaviHeight;
             break;
         case 1:
-            return  160;
+            return  170;
             break;
         case 2:
             
@@ -336,7 +350,7 @@
             }
             break;
         case 4:
-            return  Fit6(105);
+            return  Fit6(92);
 
             break;
         default:
@@ -373,6 +387,7 @@
         if (!cell) {
             cell = [[Home_ToolsTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         }
+        cell.dataDic = DataDic;
         
         return cell;
     }
@@ -397,7 +412,8 @@
         if (!cell) {
             cell = [[Home_NewsTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         }
-        
+            cell.separatorImageView.hidden = YES;
+
 //            if (!v) {
                 [v removeFromSuperview];
                 [self makeBroadcasts:DataDic In:cell.contentView];
@@ -425,9 +441,11 @@
         // 通过唯一标识创建cell实例
         Home_AdvantageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (!cell) {
-            cell = [[Home_AdvantageTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+            cell = [[Home_AdvantageTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
-        
+        cell.contentView.backgroundColor = MLBGColor;
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+
         return cell;
     }
     
@@ -439,13 +457,20 @@
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
-    
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+
     return cell;
     
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    ComDetailViewController *cvc = [[ComDetailViewController alloc]init];
-//    [self.navigationController pushViewController:cvc animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+
+    if (indexPath.section == 4) {
+        MLNormalWebViewController *avc = [[MLNormalWebViewController alloc]init];
+        avc.UrlStr = @"/about";
+        [[GetUnderController getvcwithtarget:self].navigationController pushViewController:avc animated:YES];
+    }
+    
 }
 -(void)gonews{
     self.tabBarController.selectedIndex = 1;
@@ -457,6 +482,9 @@
     
     [[NSNotificationCenter defaultCenter]removeObserver:self
                                                    name:@"home"
+                                                 object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self
+                                                   name:@"gotomy"
                                                  object:nil];
     
 }

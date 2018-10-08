@@ -48,7 +48,9 @@
     [self.navigationView addSubview:self.navigationView.leftBtn];
     [self.navigationView bringSubviewToFront:self.navigationView.leftBtn];
 
-    
+    if (_type == 1) {
+        self.navigationView.leftBtn.hidden = YES;
+    }
     
     [self setupviews];
     
@@ -316,7 +318,9 @@
         
         if ([[dic xyValueForKey:@"code"] integerValue] == SuccessCode) {
             [HLSLable lableWithText:@"修改成功"];
-            
+            if (_type == 1) {
+                [self.navigationController popViewControllerAnimated:YES];
+            }else{
             LoginViewController *lvc = [[LoginViewController alloc]init];
             UINavigationController *navi = [[UINavigationController alloc]initWithRootViewController:lvc];
             navi.navigationBarHidden = YES;
@@ -326,6 +330,7 @@
                 self.tabBarController.selectedIndex = 0;
                 
             }];
+        }
             
         }else{
             [HLSLable lableWithText:[dic xyValueForKey:@"message"]];

@@ -15,5 +15,6 @@
 @property(nonatomic,copy)NSString *selfPrmAmount;/**<净推广费>*/
 @property(nonatomic,copy)NSString *merchantName;/**<代理人名称>*/
 
+@property(nonatomic,copy)NSString *phone;/**<代理人phone>*/
 
 @end

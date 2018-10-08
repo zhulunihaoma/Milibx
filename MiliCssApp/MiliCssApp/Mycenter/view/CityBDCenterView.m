@@ -9,20 +9,20 @@
 #import "CityBDCenterView.h"
 #import "BDCenterTableViewCell.h"
 #import "BDCenterTopTableViewCell.h"
-#import "AchievementViewController.h"
-#import "CompmanaViewController.h"
-#import "PrimanaViewController.h"
 #import "UsercenterViewController.h"
 #import "CommitAdviceViewController.h"
 #import "GotoPayViewController.h"
 #import "MLMyRequest.h"
 #import "BDInfoModel.h"
+#import "MycenterCenterTableViewCell.h"
+#import "LoginViewController.h"
 @interface CityBDCenterView()<UITableViewDelegate,UITableViewDataSource>
 {
     NSMutableDictionary *Datadic;
     BDInfoModel *BDmodel;
     NSString *UnreadNum;
 }
+
 @property(nonatomic,strong)UITableView *listTableView;/**个人中心列表*/
 @property(nonatomic,strong)NSMutableArray *DataArr;/**个人中心列表*/
 
@@ -32,6 +32,7 @@
 -(instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
+  
         [self initSubviews];
         _DataArr = [NSMutableArray new];
         Datadic = [NSMutableDictionary new];
@@ -72,6 +73,8 @@
     
     
 }
+
+
 -(void)RequestUnreadNum{
     [MLMyRequest PostinfoUnReadSuccess:^(NSDictionary *dic) {
    
@@ -104,6 +107,11 @@
             [self.listTableView reloadData];
             [self.listTableView.mj_header endRefreshing];
 
+        }else{
+//            if (![HLSPersonalInfoTool getCookies]) {
+//
+//            [HLSLable lableWithText:[dic xyValueForKey:@"message"]];
+//            }
         }
     } failure:^(NSError *error) {
         [self.listTableView.mj_header endRefreshing];
@@ -184,7 +192,7 @@
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
-    return 5;
+    return 6;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
@@ -209,7 +217,9 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
-        return 382+NaviHeight;
+        return 246+NaviHeight;
+    }else if (indexPath.section == 1) {
+        return 220;
     }else{
      return 50;
     }
@@ -238,6 +248,18 @@
         }
         cell.Model = BDmodel;
         return cell;
+    }else if (indexPath.section == 1){
+        
+        // 定义唯一标识
+        static NSString *CellIdentifierCenter = @"CellCenter";
+        // 通过唯一标识创建cell实例
+        MycenterCenterTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifierCenter];
+        if (!cell) {
+            cell = [[MycenterCenterTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifierCenter];
+        }
+        
+//        cell.Model = BDmodel;
+        return cell;
     }else{
         // 定义唯一标识
         static NSString *CellIdentifier = @"Cell";
@@ -246,7 +268,7 @@
         if (!cell) {
             cell = [[BDCenterTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         }
-        cell.Model = _DataArr[indexPath.section-1];
+        cell.Model = _DataArr[indexPath.section-2];
         cell.Isdeseled = YES;
      
         return cell;
@@ -255,24 +277,24 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 1) {
+    if (indexPath.section == 2) {
         MLNormalWebViewController *avc = [[MLNormalWebViewController alloc]init];
         avc.UrlStr = @"/product/problem";
         [[GetUnderController getvcwithtarget:self].navigationController pushViewController:avc animated:YES];
     }
-    if (indexPath.section == 2) {
+    if (indexPath.section == 3) {
         MLNormalWebViewController *avc = [[MLNormalWebViewController alloc]init];
         NSDictionary * dict = [NSBundle mainBundle].infoDictionary;
         NSString *version = [dict valueForKey:@"CFBundleShortVersionString"];
         avc.UrlStr = [NSString stringWithFormat:@"/contactus/contactus?ver=%@",version];
         [[GetUnderController getvcwithtarget:self].navigationController pushViewController:avc animated:YES];
     }
-    if (indexPath.section == 3) {
+    if (indexPath.section == 4) {
         CommitAdviceViewController *avc = [[CommitAdviceViewController alloc]init];
         [[GetUnderController getvcwithtarget:self].navigationController pushViewController:avc animated:YES];
     }
     
-    if (indexPath.section == 4) {//测试支付界面
+    if (indexPath.section == 5) {//测试支付界面
 //        GotoPayViewController *avc = [[GotoPayViewController alloc]init];
 //        [[GetUnderController getvcwithtarget:self].navigationController pushViewController:avc animated:YES];
         MLNormalWebViewController *avc = [[MLNormalWebViewController alloc]init];

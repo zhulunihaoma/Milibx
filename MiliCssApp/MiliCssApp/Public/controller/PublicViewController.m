@@ -48,21 +48,24 @@
 
 }
 -(void)showMLhud{
-    self.HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    self.HUD.mode = MBProgressHUDModeCustomView;
-    self.HUD.backgroundColor = [UIColor clearColor];
-    UIImageView *logo_gif = [[UIImageView alloc]init];
-    NSString  *filePath = [[NSBundle bundleWithPath:[[NSBundle mainBundle] bundlePath]]pathForResource:@"ml_loading" ofType:@"gif"];
-    NSData  *imageData = [NSData dataWithContentsOfFile:filePath];
-    logo_gif.backgroundColor = [UIColor clearColor];
-    logo_gif.image = [UIImage sd_animatedGIFWithData:imageData];
-    
-    
-    self.HUD.customView = logo_gif;
-    self.HUD.customView.sd_layout
-    .widthIs(60)
-    .centerXEqualToView(self.HUD.bezelView)
-    .heightIs(60);
+    self.HUD = [MBProgressHUD showHUDAddedTo:self.view  animated:YES];
+    self.HUD.contentColor = [UIColor whiteColor];
+    self.HUD.detailsLabel.text = @"正在加载中";
+//    self.HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+//    self.HUD.mode = MBProgressHUDModeCustomView;
+//    self.HUD.backgroundColor = [UIColor clearColor];
+//    UIImageView *logo_gif = [[UIImageView alloc]init];
+//    NSString  *filePath = [[NSBundle bundleWithPath:[[NSBundle mainBundle] bundlePath]]pathForResource:@"ml_loading" ofType:@"gif"];
+//    NSData  *imageData = [NSData dataWithContentsOfFile:filePath];
+//    logo_gif.backgroundColor = [UIColor clearColor];
+//    logo_gif.image = [UIImage sd_animatedGIFWithData:imageData];
+//
+//
+//    self.HUD.customView = logo_gif;
+//    self.HUD.customView.sd_layout
+//    .widthIs(60)
+//    .centerXEqualToView(self.HUD.bezelView)
+//    .heightIs(60);
 }
 /**
  *  创建navi

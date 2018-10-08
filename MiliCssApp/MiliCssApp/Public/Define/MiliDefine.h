@@ -34,9 +34,14 @@
 #define HLSOneColor(v) [UIColor colorWithRed:v / 255.0 green:v / 255.0 blue:v / 255.0 alpha:1.0]
 #define HLSHexColor(rgbValue)                           [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 /**
- * HLSColor(250, 250, 250)导航灰
+ * HLSColor(250, 250, 250)导航绿色
  */
-#define MLNaviColor HLSColor(75, 220, 69)
+#define MLNaviColor HLSColor(35, 203, 107)
+/**
+ * HLSColor(250, 250, 250)标题背景
+ */
+#define MLTitleBGColor  COLORWithRGB(29, 190, 84,0.15)
+
 /**
  * HLSColor(250, 250, 250)全局颜色
  */
@@ -54,6 +59,9 @@
 #define iPhone5 kSCREENSIZE.width == 320
 #define iPhone6 kSCREENSIZE.width == 375
 #define iPhone6plus kSCREENSIZE.width == 414
+#define iPhonex ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
+
+
 #define Fit6(a) a*(SCREEN_WIDTH/375)
 
 

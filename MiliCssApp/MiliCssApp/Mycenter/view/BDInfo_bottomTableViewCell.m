@@ -70,14 +70,39 @@
     UILabel *lastbtn = nil;
     for (int i = 0; i <[arr count]+1; i ++) {
         UILabel *manyBtn =[[HLSLable alloc]init];
+        manyBtn.textColor = HLSColor(255, 78, 8);
+
 //        [manyBtn setTitle:ReArr[i] forState:UIControlStateNormal];
 //        HLSLog(@"---每个地区的保费%.2f",[[arr[i] xyValueForKey:@"areaFee"] floatValue]);
         manyBtn.textAlignment = NSTextAlignmentLeft;
         if (i == 0) {
-            manyBtn.text = [NSString stringWithFormat:@"%@:%.2f%@",@"默认推广费",[[_ProDic xyValueForKey:@"defaultFee"]  floatValue],@"%"];
-        }else{
-            manyBtn.text = [NSString stringWithFormat:@"%@:%.2f%@",[arr[i-1] xyValueForKey:@"areaName"],[[arr[i-1] xyValueForKey:@"areaFee"] floatValue],@"%"];
+            NSString *balance = [NSString stringWithFormat:@"%@:%.2f%@",@"默认推广费",[[_ProDic xyValueForKey:@"defaultFee"]  floatValue],@"%"];
+            
+            NSMutableAttributedString *aString =  [[NSMutableAttributedString alloc] initWithString: balance];
+            
+            
+            [aString addAttribute:NSForegroundColorAttributeName value:MLDetailColor range:[balance rangeOfString:@"默认推广费:"]];
+            
 
+            
+            manyBtn.attributedText= aString;
+            
+            
+        }else{
+//            manyBtn.text = [NSString stringWithFormat:@"%@:%.2f%@",[arr[i-1] xyValueForKey:@"areaName"],[[arr[i-1] xyValueForKey:@"areaFee"] floatValue],@"%"];
+            NSString *balance = [NSString stringWithFormat:@"%@:%.2f%@",[arr[i-1] xyValueForKey:@"areaName"],[[arr[i-1] xyValueForKey:@"areaFee"] floatValue],@"%"];
+
+            NSMutableAttributedString *aString =  [[NSMutableAttributedString alloc] initWithString: balance];
+            
+            
+            
+            
+            [aString addAttribute:NSForegroundColorAttributeName value:MLDetailColor range:[balance rangeOfString:[NSString stringWithFormat:@"%@:",[arr[i-1] xyValueForKey:@"areaName"]]]];
+            
+            
+            
+            
+            manyBtn.attributedText= aString;
         }
         [manyBtn sizeToFit];
         manyBtn.tag = 3000+i;
@@ -88,7 +113,6 @@
         manyBtn.layer.cornerRadius = 3;
         HLSLog(@"这里是。。。%f",Fit6(80));
 //        manyBtn.width = (SCREEN_WIDTH-Fit6(40))/3;
-        manyBtn.textColor = MLDetailColor;
         manyBtn.backgroundColor = [UIColor whiteColor];
         if (lastbtn.right+6+manyBtn.width+10>SCREEN_WIDTH-10) {
 //        if(i%3 ==0 && i !=0){

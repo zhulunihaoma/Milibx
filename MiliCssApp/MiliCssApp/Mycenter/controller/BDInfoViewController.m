@@ -39,9 +39,9 @@
 -(void)setupSubViews{
         [self setupTableViewWithStyle:UITableViewStyleGrouped];
 
-        self.tableView.x = 8;
+        self.tableView.x = 0;
         self.tableView.y = 0;
-        self.tableView.width = SCREEN_WIDTH-16;
+        self.tableView.width = SCREEN_WIDTH;
         self.tableView.backgroundColor = MLBGColor;
         //[self.tableView registerClass:[RequestTextFieldCell class] forCellReuseIdentifier:@"cell"];
         self.tableView.height = SCREEN_HEIGHT-64-50;
@@ -80,33 +80,26 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    
-    return 10;
+    if (section == 0) {
+        return 8;
+    }
+    return 0.01;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     if (section <2) {
         BDInfoHeaderView *view =[[BDInfoHeaderView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 51)];
         view.Tittlename = tittlearr[section];
-        
+        view.backgroundColor = [UIColor whiteColor];
+
         return view;
     }else{
         UILabel *lab = [HLSLable LabelWithFont:16 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLTittleColor WithFatherView:nil];
-        lab.width = SCREEN_WIDTH-16;
+        lab.width = SCREEN_WIDTH;
         lab.height = 51;
         lab.backgroundColor = [UIColor whiteColor];
         lab.text = [NSString stringWithFormat:@"    %@",[[self.UserinfoDic xyValueForKey:@"productFeeList"][section-2]xyValueForKey:@"productName"]];
         [lab setFont:[UIFont fontWithName:@"Helvetica-Bold" size:17]];
-        UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:lab.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(8, 8)];
-        
-        
-        
-        
-        CAShapeLayer *maskLayer = [[CAShapeLayer alloc]init];
-        //设置大小
-        maskLayer.frame = lab.bounds;
-        //设置图形样子
-        maskLayer.path = maskPath.CGPath;
-        lab.layer.mask = maskLayer;
+
         return lab;
         
     }
@@ -193,58 +186,6 @@
         return cell;
     }
     
-}
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (indexPath.section ==0) {
-//        UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:cell.bounds byRoundingCorners:UIRectCornerAllCorners cornerRadii:cell.bounds.size];
-        if (indexPath.row == 0) {
-
-        UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:cell.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(8, 8)];
-            CAShapeLayer *maskLayer = [[CAShapeLayer alloc]init];
-            //设置大小
-            maskLayer.frame = cell.bounds;
-            //设置图形样子
-            maskLayer.path = maskPath.CGPath;
-            cell.contentView.layer.mask = maskLayer;
-        }else if (indexPath.row == [[self.UserinfoDic xyValueForKey:@"cityList"] count]-1) {
-            UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:cell.bounds byRoundingCorners:UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii:CGSizeMake(8, 8)];
-              CAShapeLayer *maskLayer = [[CAShapeLayer alloc]init];
-              //设置大小
-              maskLayer.frame = cell.bounds;
-              //设置图形样子
-              maskLayer.path = maskPath.CGPath;
-              cell.contentView.layer.mask = maskLayer;
-        }
-        
-        if ([[self.UserinfoDic xyValueForKey:@"cityList"] count] == 1){
-            UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:cell.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight | UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii:CGSizeMake(8, 8)];
-            CAShapeLayer *maskLayer = [[CAShapeLayer alloc]init];
-            //设置大小
-            maskLayer.frame = cell.bounds;
-
-            //设置图形样子
-            maskLayer.path = maskPath.CGPath;
-            cell.contentView.layer.mask = maskLayer;
-        }
-       
-           
-    }
-    
-    if (indexPath.section > 1) {
-        if (indexPath.row == [[[self.UserinfoDic xyValueForKey:@"productFeeList"][indexPath.section -2] xyValueForKey:@"proxyList"] count]-1) {
-            UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:cell.bounds byRoundingCorners:UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii:CGSizeMake(8, 8)];
-            CAShapeLayer *maskLayer = [[CAShapeLayer alloc]init];
-            //设置大小
-            maskLayer.frame = cell.bounds;
-            //设置图形样子
-            maskLayer.path = maskPath.CGPath;
-            cell.layer.mask = maskLayer;
-        }
-    }
-    
-
-//
 }
 
 - (void)didReceiveMemoryWarning {

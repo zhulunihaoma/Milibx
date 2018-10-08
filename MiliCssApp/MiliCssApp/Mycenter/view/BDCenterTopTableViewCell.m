@@ -15,6 +15,7 @@
 #import "PosterViewController.h"
 #import "UIImage+GIF.h"
 #import "FLAnimatedImage.h"
+#import "LoginViewController.h"
 @implementation BDCenterTopTableViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -24,25 +25,34 @@
         [self setupViews];
         self.separatorImageView.hidden = YES;
         self.contentView.backgroundColor = MLBGColor;
+        _seebtn = [UIButton new];
+        _seebtn.selected = NO;
     }
     return self;
 }
 -(void)setupViews{
     UIView *BgView = [UIView new];
-    BgView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 382+NaviHeight);
+    BgView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 246+NaviHeight);
 
     [self.contentView addSubview:BgView];
     BgView.backgroundColor = MLBGColor;
     
     UIView *MytopView = [UIView new];
-    MytopView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 382+NaviHeight);
+    MytopView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 246+NaviHeight);
     [BgView addSubview:MytopView];
     MytopView.backgroundColor = MLBGColor;
 //        MytopView.backgroundColor = [UIColor greenColor];
 
     
     UIImageView *bgimg = [[UIImageView alloc]init];
-    bgimg.image = [UIImage imageNamed:@"bj_me"];
+    
+    if (NaviHeight == 64) {
+        bgimg.image = [UIImage imageNamed:@"bj_me"];
+
+    }else{
+        bgimg.image = [UIImage imageNamed:@"x_bj_me"];
+
+    }
     [MytopView addSubview:bgimg];
     bgimg.userInteractionEnabled = YES;
 
@@ -50,7 +60,7 @@
     .leftEqualToView(MytopView)
     .rightEqualToView(MytopView)
     .topEqualToView(MytopView)
-    .heightIs(228+NaviHeight);
+    .heightIs(246+NaviHeight);
     
 //    设置以及消息中心
     UIButton *AppSetBtn = [[UIButton alloc]init];
@@ -95,12 +105,23 @@
     
 //    背景图
     UIView *headbgView = [[UIView alloc]init];
+    headbgView.backgroundColor = COLORWithRGB(255, 255, 255, 0.24);
+//    headbgView.layer.cornerRadius = 21.5;
+//    headbgView.layer.masksToBounds = YES;
+   
     [bgimg addSubview:headbgView];
     headbgView.sd_layout
-    .topSpaceToView(MyTittle, 30)
+    .topSpaceToView(MyTittle, 23)
     .leftEqualToView(bgimg)
-    .widthIs(SCREEN_WIDTH)
-    .heightIs(50);
+    .widthIs(144)
+    .heightIs(43);
+    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:headbgView.bounds byRoundingCorners:UIRectCornerTopRight | UIRectCornerBottomRight cornerRadii:CGSizeMake(21.5, 21.5)];
+    CAShapeLayer *maskLayer = [[CAShapeLayer alloc]init];
+    //设置大小
+    maskLayer.frame = headbgView.bounds;
+    //设置图形样子
+    maskLayer.path = maskPath.CGPath;
+    headbgView.layer.mask = maskLayer;
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gouserinfo)];
     [headbgView addGestureRecognizer:tap];
     headbgView.userInteractionEnabled = YES;
@@ -133,196 +154,223 @@
 //    Headimg.image = [UIImage imageNamed:@"img_me_tx_default"];
     [headbgView addSubview:Headimg];
     Headimg.sd_layout
-    .topEqualToView(headbgView)
-    .leftSpaceToView(headbgView, 30)
-    .widthIs(50)
-    .heightIs(50);
+    .topSpaceToView(headbgView, 1.5)
+    .leftSpaceToView(headbgView, 9)
+    .widthIs(40)
+    .heightIs(40);
  
 
     
     // 昵称
-    UILabel *MyName = [HLSLable LabelWithFont:14 WithTextalignment:NSTextAlignmentLeft WithTextColor:[UIColor whiteColor] WithFatherView:headbgView];
+    UILabel *MyName = [HLSLable LabelWithFont:10 WithTextalignment:NSTextAlignmentLeft WithTextColor:[UIColor whiteColor] WithFatherView:headbgView];
     MyName.text = @"朱璐";
     MyName.sd_layout
-    .heightIs(16)
-    .centerYEqualToView(Headimg)
-    .leftSpaceToView(Headimg, 20);
+    .heightIs(10)
+    .topSpaceToView(headbgView, 10)
+    .leftSpaceToView(Headimg, 7);
     [MyName setSingleLineAutoResizeWithMaxWidth:(100)];
     _uname = MyName;
     
-//    向右侧箭头
-    UIImageView *arrow = [[UIImageView alloc]init];
-    [headbgView addSubview:arrow];
-    [arrow setImage:[UIImage imageNamed:@"button_arrow_right"]];
-    [arrow sizeToFit];
-    arrow.centerY = 25;
-    arrow.x = SCREEN_WIDTH - arrow.width - 28;
+    UILabel *MyPhone = [HLSLable LabelWithFont:10 WithTextalignment:NSTextAlignmentLeft WithTextColor:[UIColor whiteColor] WithFatherView:headbgView];
+    MyPhone.text = @"158***12321";
+    MyPhone.sd_layout
+    .heightIs(10)
+    .bottomSpaceToView(headbgView, 10)
+    .leftSpaceToView(Headimg, 7);
+    [MyPhone setSingleLineAutoResizeWithMaxWidth:(100)];
+    _MyPhone = MyPhone;
     
-//    保费总额
-    UILabel *PromoteCount = [HLSLable LabelWithFont:18 WithTextalignment:NSTextAlignmentCenter WithTextColor:[UIColor whiteColor] WithFatherView:bgimg];
-    PromoteCount.text = @"0.00";
-    PromoteCount.sd_layout
-    .heightIs(18)
-    .leftSpaceToView(bgimg, 18)
-    .widthIs(100)
-    .topSpaceToView(headbgView, 30);
-    _policyAmount = PromoteCount;
-//    [PromoteCount setSingleLineAutoResizeWithMaxWidth:(100)];
+////    向右侧箭头
+//    UIImageView *arrow = [[UIImageView alloc]init];
+//    [headbgView addSubview:arrow];
+//    [arrow setImage:[UIImage imageNamed:@"button_arrow_right"]];
+//    [arrow sizeToFit];
+//    arrow.centerY = 25;
+//    arrow.x = SCREEN_WIDTH - arrow.width - 28;
+//
     
-    
+    //    保费总额
+
     UILabel *PromoteTittle = [HLSLable LabelWithFont:12 WithTextalignment:NSTextAlignmentCenter WithTextColor:[UIColor whiteColor] WithFatherView:bgimg];
     PromoteTittle.text = @"保费总额(元)";
     PromoteTittle.sd_layout
     .heightIs(12)
-    .widthIs(100)
-    .leftSpaceToView(bgimg, 18)
-    .topSpaceToView(PromoteCount, 9);
-//    [PromoteTittle setSingleLineAutoResizeWithMaxWidth:(100)];
+    .leftSpaceToView(bgimg, (SCREEN_WIDTH/2)-50)
+    .topSpaceToView(headbgView, 20);
+        [PromoteTittle setSingleLineAutoResizeWithMaxWidth:(100)];
+    UIButton *passwordicon = [[UIButton alloc]init];
+    
+    passwordicon.backgroundColor = [UIColor clearColor];
+    [passwordicon setImage:[UIImage imageNamed:@"button_my_password_nodisplayt"] forState:UIControlStateSelected];
+    [passwordicon setImage:[UIImage imageNamed:@"button_my_password_displayt"] forState:UIControlStateNormal];
+    [bgimg addSubview:passwordicon];
+
+    passwordicon.sd_layout
+    .widthIs(25)
+    .heightIs(25)
+    .leftSpaceToView(PromoteTittle, 2)
+    .centerYEqualToView(PromoteTittle);
+    [passwordicon addTarget:self action:@selector(changestatte:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    
+    
+    UILabel *PromoteCount = [HLSLable LabelWithFont:36 WithTextalignment:NSTextAlignmentCenter WithTextColor:[UIColor whiteColor] WithFatherView:bgimg];
+    PromoteCount.text = @"0.00";
+    PromoteCount.sd_layout
+    .heightIs(36)
+    .centerXEqualToView(bgimg)
+    .widthIs(300)
+    .topSpaceToView(PromoteTittle, 13);
+    _policyAmount = PromoteCount;
+//    [PromoteCount setSingleLineAutoResizeWithMaxWidth:(100)];
+    
     
     
     
     //    保费
-    UILabel *BaoCount = [HLSLable LabelWithFont:18 WithTextalignment:NSTextAlignmentCenter WithTextColor:[UIColor whiteColor] WithFatherView:bgimg];
-    BaoCount.text = @"0.00";
-    BaoCount.sd_layout
-    .heightIs(18)
-    .centerXEqualToView(bgimg)
-    .widthIs(100)
-    .centerYEqualToView(PromoteCount);
-    _prmAmount = BaoCount;
-    //    [PromoteCount setSingleLineAutoResizeWithMaxWidth:(100)];
-    
     
     UILabel *BaoTittle = [HLSLable LabelWithFont:12 WithTextalignment:NSTextAlignmentCenter WithTextColor:[UIColor whiteColor] WithFatherView:bgimg];
     BaoTittle.text = @"总推广费(元)";
     BaoTittle.sd_layout
     .heightIs(12)
     .widthIs(100)
-    .centerXEqualToView(bgimg)
-    .topSpaceToView(BaoCount, 9);
+    .leftSpaceToView(bgimg, 60)
+    .topSpaceToView(PromoteCount, 35);
     //    [PromoteTittle setSingleLineAutoResizeWithMaxWidth:(100)];
     
+    UILabel *BaoCount = [HLSLable LabelWithFont:18 WithTextalignment:NSTextAlignmentCenter WithTextColor:[UIColor whiteColor] WithFatherView:bgimg];
+    BaoCount.text = @"0.00";
+    BaoCount.sd_layout
+    .heightIs(18)
+    .centerXEqualToView(BaoTittle)
+    .widthIs(100)
+    .topSpaceToView(BaoTittle, 10);
+    _prmAmount = BaoCount;
+    //    [PromoteCount setSingleLineAutoResizeWithMaxWidth:(100)];
+    
+ 
     
     
     //    余额
-    UILabel *YuCount = [HLSLable LabelWithFont:18 WithTextalignment:NSTextAlignmentCenter WithTextColor:[UIColor whiteColor] WithFatherView:bgimg];
-    YuCount.text = @"0.00";
-    YuCount.sd_layout
-    .heightIs(18)
-    .rightSpaceToView(bgimg, 18)
-    .widthIs(100)
-    .centerYEqualToView(PromoteCount);
-    _selfPrmAmount = YuCount;
-    //    [PromoteCount setSingleLineAutoResizeWithMaxWidth:(100)];
-    
-    
     UILabel *YuTittle = [HLSLable LabelWithFont:12 WithTextalignment:NSTextAlignmentCenter WithTextColor:[UIColor whiteColor] WithFatherView:bgimg];
     YuTittle.text = @"净推广费(元)";
     YuTittle.sd_layout
     .heightIs(12)
     .widthIs(100)
-    .rightSpaceToView(bgimg, 18)
-    .topSpaceToView(YuCount, 9);
+    .rightSpaceToView(bgimg, 60)
+    .topSpaceToView(PromoteCount, 35);
     //    [PromoteTittle setSingleLineAutoResizeWithMaxWidth:(100)];
     
     
+    UILabel *YuCount = [HLSLable LabelWithFont:18 WithTextalignment:NSTextAlignmentCenter WithTextColor:[UIColor whiteColor] WithFatherView:bgimg];
+    YuCount.text = @"0.00";
+    YuCount.sd_layout
+    .heightIs(18)
+    .centerXEqualToView(YuTittle)
+    .widthIs(100)
+    .topSpaceToView(BaoTittle, 10);
+    _selfPrmAmount = YuCount;
+    //    [PromoteCount setSingleLineAutoResizeWithMaxWidth:(100)];
+    
+   
     
     
-    UIView *topview = [[UIView alloc]init];
-    [MytopView addSubview:topview];
-    topview.sd_layout
-    .widthIs(SCREEN_WIDTH-18)
-    .leftSpaceToView(MytopView, 9)
-    .rightSpaceToView(MytopView, 9)
-    .heightIs(225)
-    .topSpaceToView(MytopView, 157+NaviHeight);
-    topview.layer.cornerRadius = 8;
-    topview.layer.masksToBounds = YES;
-    topview.backgroundColor = [UIColor whiteColor];
-
-    NSArray *titles = @[@"业绩报表",@"下级管理",@"海报"];
-    NSArray *pics = @[@"btn_me_function_1",@"btn_me_function_2",@"btn_me_function_3"];
     
-    [self makeEqualWidthBtnNum:3 Names:titles Imgs:pics inView:topview LRpadding:32 viewPadding:80 y:25 titlefont:12  titleColor:MLTittleColor withtag:0];
-    NSArray *TitlesBttom = @[@"我的订单",@"轻松理赔",@""];
-    NSArray *PicsBttom = @[@"btn_me_function_4",@"btn_me_function_5",@""];
-    
-    [self makeEqualWidthBtnNum:3 Names:TitlesBttom Imgs:PicsBttom inView:topview LRpadding:32 viewPadding:80 y:120 titlefont:12  titleColor:MLTittleColor withtag:3];
 }
--(void)makeEqualWidthBtnNum:(NSInteger)num Names:(NSArray *)names Imgs:(NSArray *)imgs inView:(UIView *)containerView LRpadding:(CGFloat)LRpadding viewPadding :(CGFloat)viewPadding y:(CGFloat)y titlefont:(NSInteger)font titleColor:(UIColor *)color withtag:(NSInteger)tag
-{
-    NSMutableArray *arr = [NSMutableArray new];
+-(void)changestatte:(UIButton *)sender{
+//    [self.view endEditing:YES];
     
-    for (int i = 0; i < num; i ++) {
-        UIButton *btn = [[UIButton alloc]init];
-        btn.userInteractionEnabled= YES;
-        btn.tag = tag+i;
-        [arr addObject:btn];
-        [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
-        
-        
+    sender.selected = !sender.selected;
+    _seebtn.selected = sender.selected;
+    if (sender.selected) {
+        self.policyAmount.text = @"*****";
+        self.prmAmount.text = @"***";
+        self.selfPrmAmount.text = @"***";
+
+    }else{
+        self.policyAmount.text = self.Model.policyAmount;
+        self.prmAmount.text = self.Model.prmAmount;
+        self.selfPrmAmount.text = self.Model.selfPrmAmount;
+
+
     }
     
-    //    NSArray *arrstr = @[@"品牌",@"品牌",@"品牌",@"品牌",@"啦啦啦啦啦",];
-    int i = 0;
-    
-    UIButton *lastView;
-    for (UIButton *view in arr) {
-        [containerView addSubview:view];
-        if (lastView) {
-            [view mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.mas_equalTo(lastView.mas_top);
-                make.left.equalTo(lastView.mas_right).offset(viewPadding);
-                make.width.equalTo(lastView);
-                make.height.mas_equalTo(lastView.mas_width);
-                
-            }];
-        }else
-        {
-            [view mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(containerView).offset(LRpadding);
-                make.top.mas_equalTo(y);
-                make.height.mas_equalTo(view.mas_width);
-            }];
-            
-        }
-        
-        view.layer.cornerRadius = view.height/2;
-        [view setImage:[UIImage imageNamed:imgs[i]] forState:UIControlStateNormal];
-        UILabel *lab = [UILabel new];
-        [containerView addSubview:lab];
-        lab.text = names[i];
-        lab.font = [UIFont systemFontOfSize:font];
-        lab.textColor = color;
-        [lab sizeToFit];
-        [lab mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.mas_equalTo(view.mas_centerX);
-            make.centerY.mas_equalTo(view.mas_centerY).offset(40);
-            
-        }];
-        lastView=view;
-        i++;
-        
-    }
-    [lastView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(containerView).offset(-LRpadding);
-    }];
 }
-
-
-
 -(void)setModel:(BDInfoModel *)Model{
     if (Model) {
-//        self.Model = Model;
-        _policyAmount.text = Model.policyAmount;
-        _prmAmount.text = Model.prmAmount;
-        _selfPrmAmount.text = Model.selfPrmAmount;
+        
+        _Model = Model;
+
+
         _uname.text = Model.merchantName;
+        _MyPhone.text = [Model.phone stringByReplacingCharactersInRange:NSMakeRange(3, 4)  withString:@"****"];
+        
+        if (_seebtn.selected) {
+            self.policyAmount.text = @"*****";
+            self.prmAmount.text = @"***";
+            self.selfPrmAmount.text = @"***";
+            
+        }else{
+                    _policyAmount.text = @"0.00";
+            [self setNumberTextOfLabel:self.policyAmount WithAnimationForValueContent:[Model.policyAmount floatValue]];
+            
+                    _prmAmount.text = @"0.00";
+            [self setNumberTextOfLabel:self.prmAmount WithAnimationForValueContent:[Model.prmAmount floatValue]];
+            
+                    _selfPrmAmount.text = @"0.00";
+            [self setNumberTextOfLabel:self.selfPrmAmount WithAnimationForValueContent:[Model.selfPrmAmount floatValue]];
+            
+        }
     }
     
 
 }
+#pragma mark --- 余额显示的动画----
+- (void)setNumberTextOfLabel:(UILabel *)label WithAnimationForValueContent:(CGFloat)value
+{
+    CGFloat lastValue = [label.text floatValue];
+    CGFloat delta = value - lastValue;
+    if (delta == 0) {
+        return;
+    }
+    
+    if (delta > 0) {
+        
+        CGFloat ratio = value / 30.0;
+        
+        NSDictionary *userInfo = @{@"label" : label,
+                                   @"value" : @(value),
+                                   @"ratio" : @(ratio)
+                                   };
+        _balanceLabelAnimationTimer = [NSTimer scheduledTimerWithTimeInterval:0.02 target:self selector:@selector(setupLabel:) userInfo:userInfo repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:_balanceLabelAnimationTimer forMode:NSRunLoopCommonModes];
+    }
+}
 
+- (void)setupLabel:(NSTimer *)timer
+{
+    NSDictionary *userInfo = timer.userInfo;
+    UILabel *label = userInfo[@"label"];
+    CGFloat value = [userInfo[@"value"] floatValue];
+    CGFloat ratio = [userInfo[@"ratio"] floatValue];
+    
+    static int flag = 1;
+    CGFloat lastValue = [label.text floatValue];
+    CGFloat randomDelta = (arc4random_uniform(2) + 1) * ratio;
+    CGFloat resValue = lastValue + randomDelta;
+    
+    if ((resValue >= value) || (flag == 50)) {
+        label.text = [NSString stringWithFormat:@"%.2f", value];
+        flag = 1;
+        [timer invalidate];
+        timer = nil;
+        return;
+    } else {
+        label.text = [NSString stringWithFormat:@"%.2f", resValue];
+    }
+    flag++;
+}
 -(void)goinfo:(UITapGestureRecognizer *)tap{
     BDInfoViewController *infovc = [[BDInfoViewController alloc]init];
     
@@ -337,10 +385,26 @@
 
 
 -(void)gouserinfo{
+    if (![HLSPersonalInfoTool getCookies]) {
+        
+        LoginViewController *lvc = [[LoginViewController alloc]init];
+        UINavigationController *nvc = [[UINavigationController alloc]initWithRootViewController:lvc];
+        nvc.navigationBarHidden = YES;
+        [[GetUnderController getvcwithtarget:self] presentViewController:nvc animated:YES completion:nil];
+        return;
+    }
     UserInfoViewController *uvc = [[UserInfoViewController alloc]init];
     [[GetUnderController getvcwithtarget:self].navigationController pushViewController:uvc animated:YES];
 }
 -(void)GoMessage{
+    if (![HLSPersonalInfoTool getCookies]) {
+        
+        LoginViewController *lvc = [[LoginViewController alloc]init];
+        UINavigationController *nvc = [[UINavigationController alloc]initWithRootViewController:lvc];
+        nvc.navigationBarHidden = YES;
+        [[GetUnderController getvcwithtarget:self] presentViewController:nvc animated:YES completion:nil];
+        return;
+    }
     MessagesListViewController *uvc = [[MessagesListViewController alloc]init];
     [[GetUnderController getvcwithtarget:self].navigationController pushViewController:uvc animated:YES];
 }
@@ -348,54 +412,6 @@
 -(void)GoSet{
     UsercenterViewController *uvc = [[UsercenterViewController alloc]init];
     [[GetUnderController getvcwithtarget:self].navigationController pushViewController:uvc animated:YES];
-}
-#pragma mark -- 中间入口点击方法
--(void)btnClick:(UIButton *)sender{
-    HLSLog(@"--%ld",sender.tag);
-    if(sender.tag==0){//业绩报表
-        MLNormalWebViewController *vc = [MLNormalWebViewController new];
-        vc.TittleStr = @"业绩报表";
-        vc.UrlStr = @"/perform/center";
-        [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
-
-    }
-    
-    if(sender.tag==1){//下级管理
-        if ([[HLSPersonalInfoTool merchantLevel] integerValue] >4) {
-            [HLSLable lableWithText:@"抱歉，您暂时没有该权限"];
-            return;
-        }
-        MLNormalWebViewController *vc = [MLNormalWebViewController new];
-        vc.TittleStr = @"下级管理";
-        vc.UrlStr = @"/opena/list";
-
-        [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
-        
-    }
-    if (sender.tag == 2) {//海报
-        PosterViewController *vc = [PosterViewController new];
-
-        [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
-
-    }
-    if(sender.tag==3){//我的订单
-        MLNormalWebViewController *vc = [MLNormalWebViewController new];
-        vc.TittleStr = @"我的订单";
-        vc.UrlStr = @"/order/agentOrder";
-
-        [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
-    }
-    if(sender.tag==4){//轻松理赔
-        MLNormalWebViewController *vc = [MLNormalWebViewController new];
-        vc.TittleStr = @"轻松理赔";
-        vc.UrlStr = @"/product/claim";
-
-        [[GetUnderController getvcwithtarget:self].navigationController pushViewController:vc animated:YES];
-    }
-    
-   
-    
-    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

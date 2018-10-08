@@ -319,19 +319,19 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 - (void)setupViews {
     UIColor *defaultColor = self.contentColor;
 
-//    MBBackgroundView *backgroundView = [[MBBackgroundView alloc] initWithFrame:self.bounds];
-//    backgroundView.style = MBProgressHUDBackgroundStyleSolidColor;
-//    backgroundView.backgroundColor = [UIColor clearColor];
-//    backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-//    backgroundView.alpha = 0.f;
-//    [self addSubview:backgroundView];
-//    _backgroundView = backgroundView;
+    MBBackgroundView *backgroundView = [[MBBackgroundView alloc] initWithFrame:self.bounds];
+    backgroundView.style = MBProgressHUDBackgroundStyleSolidColor;
+    backgroundView.backgroundColor = [UIColor clearColor];
+    backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    backgroundView.alpha = 0.f;
+    [self addSubview:backgroundView];
+    _backgroundView = backgroundView;
 
     MBBackgroundView *bezelView = [MBBackgroundView new];
     bezelView.translatesAutoresizingMaskIntoConstraints = NO;
     bezelView.layer.cornerRadius = 5.f;
 //    bezelView.alpha = 0.f;
-    bezelView.backgroundColor = [UIColor  colorWithRed:0 green:0 blue:0 alpha:0];
+    bezelView.backgroundColor = [UIColor  colorWithRed:0 green:0 blue:0 alpha:0.6];
     [self addSubview:bezelView];
     _bezelView = bezelView;
     [self updateBezelMotionEffects];
@@ -1494,3 +1494,4 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 @end
+

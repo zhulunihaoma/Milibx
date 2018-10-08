@@ -45,7 +45,7 @@
     _TittleLab = [HLSLable LabelWithFont:17 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLTittleColor WithFatherView:self];
     _TittleLab.sd_layout
     .heightIs(17)
-    .topSpaceToView(self, 20)
+    .topSpaceToView(self, 28)
     .leftSpaceToView(self.LeftImg, 11);
     [_TittleLab setSingleLineAutoResizeWithMaxWidth:(200)];
     
@@ -55,7 +55,7 @@
     _TimeLab = [HLSLable LabelWithFont:12 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLDetailColor WithFatherView:self];
     _TimeLab.sd_layout
     .heightIs(12)
-    .topSpaceToView(self, 23)
+    .topSpaceToView(self, 30)
     .rightSpaceToView(self, 13);
     [_TimeLab setSingleLineAutoResizeWithMaxWidth:(80)];
     

@@ -23,24 +23,18 @@
     return self;
 }
 -(void)setupViews{
-    UIImageView *TittleColor = [[UIImageView alloc] init];
-    TittleColor.backgroundColor = MLNaviColor;
-    [self addSubview:TittleColor];
-    TittleColor.sd_layout
-    .leftSpaceToView(self, 15)
-    .topSpaceToView(self, 20)
-    .heightIs(15)
-    .widthIs(4);
-    
-    UILabel *ToolsTittle = [HLSLable LabelWithFont:14 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLTittleColor WithFatherView:self];
+  
+    UILabel *ToolsTittle = [HLSLable LabelWithFont:16 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLTittleColor WithFatherView:self];
     [self addSubview:ToolsTittle];
     ToolsTittle.text = @"产品推广";
     ToolsTittle.sd_layout
-    .leftSpaceToView(TittleColor, 9)
+    .leftSpaceToView(self, 17)
     .topSpaceToView(self, 20)
     .heightIs(20);
     _ToolsTittle = ToolsTittle;
     [ToolsTittle setSingleLineAutoResizeWithMaxWidth:100];
+    [AddTittleBG AddTittleBGWithTittlelab:ToolsTittle];
+
     
 //    更多
     UILabel *MoreBtn = [HLSLable LabelWithFont:12 WithTextalignment:NSTextAlignmentRight WithTextColor:MLDetailColor WithFatherView:self];
@@ -72,7 +66,7 @@
     NSArray *proarr = [[NSArray alloc]init];
     proarr = [DataDic xyValueForKey:@"productList"];
     NSArray *labelarr = [[NSArray alloc]init];
-    labelarr = @[@"img_home_pruduct_1",@"img_home_pruduct_2"];
+    labelarr = @[@"bj_home_product_1",@"bj_home_product_2"];
     
     NSArray *Tagarr = [[NSArray alloc]init];
     Tagarr = @[@"img_home_label",@"img_home_label_2"];
@@ -118,8 +112,8 @@
         right_img.sd_layout
             .rightSpaceToView(Pro_BgImg, 5)
             .bottomSpaceToView(Pro_BgImg, 5)
-            .widthIs(170)
-            .heightIs(90);
+            .widthIs(171)
+            .heightIs(117);
             [right_img sd_setImageWithURL:URLWith([proarr[i] xyValueForKey:@"imgUrl"]) placeholderImage:HolderWith(@"")];
 
             
@@ -127,24 +121,25 @@
             
         //        tittle
         UILabel *Pro_Tittle = [HLSLable LabelWithFont:17 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLTittleColor WithFatherView:Pro_BgImg];
-        Pro_Tittle.text = [proarr[i] xyValueForKey:@"productName"];
+            Pro_Tittle.text = [proarr[i] xyValueForKey:@"productName"];
         Pro_Tittle.sd_layout
         .leftSpaceToView(Pro_BgImg, 25)
         .topSpaceToView(Pro_BgImg, 25)
         .heightIs(17);
+//        Pro_Tittle.numberOfLines = 2;
         [Pro_Tittle setSingleLineAutoResizeWithMaxWidth:260];
         
         //        标签
-        UIImageView *Pro_label = [[UIImageView alloc] initWithImage:[UIImage imageNamed:Tagarr[i]]];
-        [Pro_BgImg addSubview:Pro_label];
-        Pro_label.sd_layout
-        .leftSpaceToView(Pro_Tittle, 5)
-        .topSpaceToView(Pro_BgImg, 25)
-        .heightIs(11)
-        .widthIs(40);
+//        UIImageView *Pro_label = [[UIImageView alloc] initWithImage:[UIImage imageNamed:Tagarr[i]]];
+//        [Pro_BgImg addSubview:Pro_label];
+//        Pro_label.sd_layout
+//        .leftSpaceToView(Pro_Tittle, 5)
+//        .topSpaceToView(Pro_BgImg, 25)
+//        .heightIs(11)
+//        .widthIs(40);
         
         
-        //        des
+        //des
         UILabel *Pro_des = [HLSLable LabelWithFont:12 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLDetailColor WithFatherView:Pro_BgImg];
             Pro_des.text = [proarr[i] xyValueForKey:@"productFeature"];
         Pro_des.sd_layout

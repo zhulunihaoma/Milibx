@@ -19,10 +19,9 @@
         //        [self setupViews];
         self.backgroundColor = [UIColor whiteColor];
         self.backgroundColor = [UIColor whiteColor];
-        self.layer.cornerRadius = 8;
-        self.layer.masksToBounds = YES;
+       
         [self setupViews];
-        self.separatorImageView.hidden = YES;
+        self.separatorImageView.x = 13;
     }
     return self;
 }
@@ -30,18 +29,18 @@
 //   图片
     self.News_img  =[UIImageView new];
     self.News_img.backgroundColor = MLNaviColor;
+    self.News_img.layer.cornerRadius = 5;
+    self.News_img.layer.masksToBounds= YES;
     [self.contentView addSubview:self.News_img];
 // 标题
     self.News_Tittle = [HLSLable LabelWithFont:16 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLTittleColor WithFatherView:self.contentView];
     self.News_Tittle.text = @"银保监猜想：险企的大金融时代即将来临";
     
 //    标签
-    self.News_Tag = [HLSLable LabelWithFont:12 WithTextalignment:NSTextAlignmentCenter WithTextColor:MLNaviColor WithFatherView:self.contentView];
+    self.News_Tag = [HLSLable LabelWithFont:12 WithTextalignment:NSTextAlignmentCenter WithTextColor:HLSColor(93, 211, 131) WithFatherView:self.contentView];
     self.News_Tag.text = @"怎么买保险";
-    self.News_Tag.layer.borderColor = MLNaviColor.CGColor;
-    self.News_Tag.layer.borderWidth = 1;
-    self.News_Tag.layer.cornerRadius = 3;
-    self.News_Tag.layer.masksToBounds = YES;
+    self.News_Tag.layer.cornerRadius = 2;
+    self.News_Tag.backgroundColor = HLSColor(234, 250, 237);
     self.News_Tag.hidden = YES;
     // 阅读数
     self.News_ReadNum = [HLSLable LabelWithFont:12 WithTextalignment:NSTextAlignmentLeft WithTextColor:MLDetailColor WithFatherView:self.contentView];

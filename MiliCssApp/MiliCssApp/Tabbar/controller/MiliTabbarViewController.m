@@ -21,13 +21,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 49)];
-//    backView.backgroundColor = [UIColor greenColor];
+    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 79)];
+    backView.backgroundColor = [UIColor whiteColor];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"img_home_shadow"]];
     imageView.contentMode = UIViewContentModeScaleToFill;
     imageView.x = 0;
     imageView.y = 0;
     [imageView sizeToFit];
+    imageView.height = 1;
+    imageView.width = SCREEN_WIDTH;
+
     [backView addSubview:imageView];
     // 去除顶部横线
     [self.tabBar setClipsToBounds:YES];
@@ -76,48 +79,39 @@
     
 }
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
-    
+
+        if ([[viewController class] isSubclassOfClass:[MycenterViewController class]]) {
+
                 if (![HLSPersonalInfoTool getCookies]) {
-        
+
                     LoginViewController *lvc = [[LoginViewController alloc]init];
                     UINavigationController *nvc = [[UINavigationController alloc]initWithRootViewController:lvc];
                     nvc.navigationBarHidden = YES;
                     [self.viewControllers[0] presentViewController:nvc animated:YES completion:^{
-                        self.tabBarController.selectedIndex = 0;
                     }];
                     return NO;
                 }
-    
-    
-    
-    
-    
-    
-//    if ([[viewController class] isSubclassOfClass:[MycenterViewController class]]) {
-//        //        if (![[viewController class] isSubclassOfClass:[HLSSendCarViewController class]]) {
-//
-//        HLSLog(@"111:%@",TOKEN);
-//
-//        // 判断用户是否登陆
-//        if (![HLSPersonalInfoTool getCookies]) {
-//
-//            LoginViewController *lvc = [[LoginViewController alloc]init];
-//            UINavigationController *nvc = [[UINavigationController alloc]initWithRootViewController:lvc];
-//            nvc.navigationBarHidden = YES;
-//            [self.viewControllers[0] presentViewController:nvc animated:YES completion:^{
-//                self.tabBarController.selectedIndex = 0;
-//            }];
-//            return NO;
-//        }
-//
-//
-//        //        }
-//
-//
-//    }
-    return YES;
 }
 
+    return YES;
+}
+//- (BOOL)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(nonnull UIViewController *)viewController {
+//    if ([[viewController class] isSubclassOfClass:[MycenterViewController class]]) {
+//
+//                        if (![HLSPersonalInfoTool getCookies]) {
+//
+//                            LoginViewController *lvc = [[LoginViewController alloc]init];
+//                            lvc.isgohome = 2;
+//                            UINavigationController *nvc = [[UINavigationController alloc]initWithRootViewController:lvc];
+//                            nvc.navigationBarHidden = YES;
+//                            [self.viewControllers[0] presentViewController:nvc animated:YES completion:^{
+//
+//                            }];
+//                            return NO;
+//                        }
+//        }
+//    return YES;
+//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

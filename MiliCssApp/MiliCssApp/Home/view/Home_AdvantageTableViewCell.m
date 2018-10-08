@@ -15,21 +15,32 @@
     if (self) {
         //        [self setupViews];
         [self setupViews];
-        
+        self.contentView.backgroundColor = MLBGColor;
+
         self.separatorImageView.hidden = YES;
     }
     return self;
 }
 -(void)setupViews{
-    UIImageView *AdvantageImg = [UIImageView new];
-    AdvantageImg.image = [UIImage imageNamed:@"img_home_advantage"];
-    [AdvantageImg sizeToFit];
-    [self addSubview:AdvantageImg];
-    [AdvantageImg mas_makeConstraints:^(MASConstraintMaker *make) {
-     make.edges.equalTo(self);
+    UIView *contentView = [[UIView alloc]init];
+    [self.contentView addSubview:contentView];
+    [contentView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.edges.equalTo(self);
+        //        make.edges.mas_offset(UIEdgeInsetsMake(20, 20, 20, 20));
+        
         
     }];
+    contentView.backgroundColor =MLBGColor;
+
+    UIImageView *AdvantageImg = [UIImageView new];
+    AdvantageImg.image = [UIImage imageNamed:@"img_home_down"];
+    [AdvantageImg sizeToFit];
+    [contentView addSubview:AdvantageImg];
+    AdvantageImg.centerX = SCREEN_WIDTH/2;
+    AdvantageImg.y = 9;
+    self.contentView.userInteractionEnabled = NO;
 }
+
 
 - (void)awakeFromNib {
     [super awakeFromNib];

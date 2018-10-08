@@ -23,35 +23,16 @@
 }
 -(void)setupViews{
     
-    UIView *BBgView = [UIView new];
-    BBgView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 50);
-    [self.contentView addSubview:BBgView];
-    BBgView.backgroundColor = [UIColor redColor];
     
-    UIView *BgView = [UIView new];
-    BgView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 50);
-    BgView.layer.masksToBounds = YES;
-    BgView.layer.cornerRadius = 8;
-    [BBgView addSubview:BgView];
-    BBgView.backgroundColor = MLBGColor;
-    
-    
-    
-    UIView *topView = [UIView new];
-    topView.frame = CGRectMake(9, 0, SCREEN_WIDTH-18, 50);
-    [BgView addSubview:topView];
-    topView.backgroundColor = [UIColor whiteColor];
-    topView.layer.masksToBounds = YES;
-    topView.layer.cornerRadius = 8;
 
     //        self.layer.cornerRadius = 8;
 
     //图标
     _leftimg = [[UIImageView alloc]init];
-    [BgView addSubview:_leftimg];
+    [self.contentView addSubview:_leftimg];
     _leftimg.sd_layout
-    .rightSpaceToView(BgView, 24)
-    .centerYEqualToView(BgView)
+    .rightSpaceToView(self.contentView, 24)
+    .centerYEqualToView(self.contentView)
     .widthIs(28)
     .heightIs(28);
     _leftimg.image = [UIImage imageNamed:@"btn_arrow"];
@@ -61,13 +42,13 @@
     _titlelab.font = TextFontSize(16);
     _titlelab.textColor = MLTittleColor;
 
-    [BgView addSubview:_titlelab];
+    [self.contentView addSubview:_titlelab];
     _titlelab.textAlignment = NSTextAlignmentLeft;
     _titlelab.sd_layout
-    .leftSpaceToView(BgView, 35)
+    .leftSpaceToView(self.contentView, 35)
     .widthIs(100)
     .heightIs(20)
-    .centerYEqualToView(BgView);
+    .centerYEqualToView(self.contentView);
 }
 -(void)setModel:(NSDictionary *)model{
     _titlelab.text = model[@"tittle"];

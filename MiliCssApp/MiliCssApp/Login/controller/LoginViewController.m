@@ -43,10 +43,16 @@
     [APServiceTool setTag];
 
     [mUserDefaults synchronize];
+    
     self.navigationView.backgroundColor = [UIColor whiteColor];
     [self setupviews];
     self.navigationView.lineImageView.hidden = YES;
     self.navigationView.backimg.hidden = YES;
+    [self.navigationView.leftBtn setImage:[UIImage imageNamed:@"back-btn"] forState:UIControlStateNormal];
+    [self.navigationView.leftBtn setImage:[UIImage imageNamed:@"back-btn"] forState:UIControlStateHighlighted];
+    [self.navigationView addSubview:self.navigationView.leftBtn];
+    [self.navigationView bringSubviewToFront:self.navigationView.leftBtn];
+
     [self.navigationView addSubview:self.navigationView.titleLabel];
     [self.navigationView bringSubviewToFront:self.navigationView.titleLabel];
     self.navigationView.titleLabel.textColor = MLTittleColor;
@@ -74,7 +80,7 @@
 }
 -(void)initwebview{
     
-    self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 500, SCREEN_WIDTH, 100)];
+    self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 450+NaviHeight, SCREEN_WIDTH, 100)];
     self.webView.allowsBackForwardNavigationGestures = YES;
     [self.view addSubview:self.webView];
     self.webView.UIDelegate = self;
@@ -92,33 +98,18 @@
 
     UIImageView *logo_gif = [[UIImageView alloc]init];
     
-    NSString  *filePath = [[NSBundle bundleWithPath:[[NSBundle mainBundle] bundlePath]]pathForResource:@"login" ofType:@"gif"];
-    NSData  *imageData = [NSData dataWithContentsOfFile:filePath];
-    logo_gif.backgroundColor = [UIColor clearColor];
-    logo_gif.image = [UIImage sd_animatedGIFWithData:imageData];
+   
+    logo_gif.image = [UIImage imageNamed:@"login_logo"];
 
     
     [self.view addSubview:logo_gif];
-    player = logo_gif.layer;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.4 * NSEC_PER_SEC)),dispatch_get_main_queue(), ^{
-        
-        [self pauseLayer:player];
-        
-    });
+    
     logo_gif.sd_layout
-    .heightIs(22)
-    .widthIs(26)
-    .topSpaceToView(self.view, NaviHeight+63)
-    .leftSpaceToView(self.view, 30);
-//    标题
-    UILabel *title = [HLSLable LabelWithFont:24 WithTextalignment:NSTextAlignmentLeft WithTextColor:HLSOneColor(17) WithFatherView:self.view];
-    title.text = @"欢迎来到米粒保险";
-   
-    title.sd_layout
-    .centerYEqualToView(logo_gif)
-    .leftSpaceToView(logo_gif, 15)
-    .heightIs(24);
-    [title setSingleLineAutoResizeWithMaxWidth:(500)];
+    .heightIs(Fit6(133))
+    .widthIs(Fit6(133))
+    .topSpaceToView(self.view, NaviHeight+37)
+    .centerXEqualToView(self.view);
+
 
 //    用户名
     account = [[UITextField alloc]init];
@@ -128,7 +119,7 @@
     account.clearButtonMode= YES;
     [self.view addSubview:account];
     account.x = 32;
-    account.y = NaviHeight +146;
+    account.y = NaviHeight +203;
     account.width = SCREEN_WIDTH - 64;
     account.height = 50;
     [self setBorderWithView:account top:NO left:NO bottom:YES right:NO borderColor:HLSColor(229, 235, 232) borderWidth:1];
@@ -204,7 +195,7 @@
     [forgetps addGestureRecognizer:tap];
     forgetps.userInteractionEnabled = YES;
     forgetps.sd_layout
-    .topSpaceToView(self.view, NaviHeight+265)
+    .topSpaceToView(PswBgView, 15)
     .rightSpaceToView(self.view, 34)
     .heightIs(24);
     [forgetps setSingleLineAutoResizeWithMaxWidth:(100)];
@@ -292,6 +283,7 @@
     if (![self validateData]) {
         return;
     }
+
     [self showMLhud];
 
     [MLloginRequest PostLoginWithloginName:account.text WithPassword:[MD5Tool md5:password.text] token:nil Success:^(NSDictionary *dic) {
@@ -331,11 +323,10 @@
             [HLSLable lableWithText:@"登录成功！"];
             if ([[Myuserinfo xyValueForKey:@"fistLogin"] integerValue] == 0) {
                 
-            
             [self initwebview];
             }else{
                 ChangeMyPSWViewController *cvc = [[ChangeMyPSWViewController alloc]init];
-                
+                cvc.type = 1;//1 为第一次登陆
                 [self.navigationController pushViewController:cvc animated:YES];
             }
            
@@ -350,6 +341,7 @@
 }
 -(void)back{
     [self dismissViewControllerAnimated:YES completion:nil];
+
 }
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     //设置JS
@@ -360,7 +352,13 @@
     [webView evaluateJavaScript:inputValueJS completionHandler:^(id _Nullable response, NSError * _Nullable error) {
        
         [self back];
+        if (_isgohome == 1) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"gohome" object:self];
+            
+        }else{
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"gotomy" object:self];
 
+        }
         NSLog(@"---返回value: %@ error: %@", response, error);
     }];
 }

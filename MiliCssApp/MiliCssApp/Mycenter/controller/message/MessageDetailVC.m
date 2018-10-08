@@ -51,11 +51,11 @@
     UIView *BgView = [UIView new];
     BgView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:BgView];
-    BgView.layer.cornerRadius= 8;
-BgView.sd_layout
-    .leftSpaceToView(self.view, 9)
-    .topSpaceToView(self.navigationView, 15)
-    .widthIs(SCREEN_WIDTH-18);
+    BgView.sd_layout
+    .leftSpaceToView(self.view, 0)
+    .topSpaceToView(self.navigationView, 0)
+    .heightIs(498)
+    .widthIs(SCREEN_WIDTH);
     
 //   icon
     UIImageView *IconImg = [[UIImageView alloc]init];
@@ -164,7 +164,7 @@ BgView.sd_layout
         IconImg.image = [UIImage imageNamed:Typeimg];
         
     }
-    [BgView setupAutoHeightWithBottomView:LastLab bottomMargin:29];
+//    [BgView setupAutoHeightWithBottomView:LastLab bottomMargin:29];
 
 }
 - (void)didReceiveMemoryWarning {
